@@ -1,0 +1,52 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2>Форма оценки заявки</h2>
+
+<ul><b> Эксперт: </b> {{ scoreexpert.relation_exp_app.expert }}</ul>
+<ul><b> Заявка: </b> {{ scoreexpert.relation_exp_app.application }}</ul>
+<ul><b> Ссылка на документы заявки: </b> <a href="{{ scoreexpert.relation_exp_app.application.link_archiv }}" target="_blank">  {{ scoreexpert.relation_exp_app.application.link_archiv }}</a></ul>
+<ul><b> Ссылка на подробные критерии: </b> <a href="https://yadi.sk/i/TZFbK2hphOiesA" target="_blank"> https://yadi.sk/i/TZFbK2hphOiesA </a></ul>
+
+
+<form action="" method="post">
+    {% csrf_token %} {# {{ form.as_table }} class="fieldWrapper"#}
+    <p><b> Критерий №1 </b></p>
+    <ul>
+        <p> {{ form.score1.help_text }} </p>{{ form.score1.errors }}
+        <p><b> Оценка по первому критерию </b> {{ form.score1 }} </p>
+    </ul>
+    <p><b> Критерий №2 </b></p>
+    <ul>
+        <p> {{ form.score2.help_text }} </p>
+        {{ form.score2.errors }}
+        <p><b> Оценка по второму критерию </b> {{ form.score2 }} </p>
+    </ul>
+    <p><b> Критерий №3 </b></p>
+    <ul>
+        <p> {{ form.score3.help_text }} </p>
+        {{ form.score3.errors }}
+        <p><b> Оценка по третьему критерию </b> {{ form.score3 }} </p>
+    </ul>
+    <p><b> Критерий №4 </b></p>
+    <ul>
+        <p> {{ form.score4.help_text }} </p>
+        {{ form.score4.errors }}
+        <p><b> Оценка по четвертому критерию </b> {{ form.score4 }} </p>
+    </ul>
+    <p><b> Критерий №5 </b></p>
+    <ul>
+        <p> {{ form.score5.help_text }} </p>
+        {{ form.score5.errors }}
+        <p><b> Оценка по пятому критерию </b> {{ form.score5 }} </p>
+    </ul>
+    <p><b> Комментарий по заявке </b></p>
+    <ul>
+        <p> {{ form.comment.help_text }} </p>
+        {{ form.comment.errors }}
+        <p> {{ form.comment }} </p>
+    </ul>
+    <input type="submit" value="Отправить"/>
+
+</form>
+{% endblock %}

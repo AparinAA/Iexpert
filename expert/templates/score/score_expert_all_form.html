@@ -1,0 +1,53 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2>Форма оценки заявки</h2>
+
+<ul><b> Заявка: </b> {{ scoreexpertall.application }}</ul>
+<ul><b> Ссылка на документы заявки: </b> {{ scoreexpertall.application.url_archiv }}</ul>
+<ul><b> Ссылка на подробные критерии: </b> <a href="https://yadi.sk/i/TZFbK2hphOiesA" target="_blank">
+    https://yadi.sk/i/TZFbK2hphOiesA </a></ul>
+
+<h4> Оценки и комментарии экспертов </h4>
+{% for expert, score_and_comment in scoreexpertall.get_all_comments_and_scores.items %}
+<ul>
+    <li>
+        {{ expert }}
+    </li>
+    <ul type="None">
+        <table border="1" cellpadding="0.1" width="750">
+            <tr>
+                <td align="center"><i> Итоговая оценка эксперта </i></td>
+                <td align="center"<i> Оценка по критерию №1 </i></td>
+                <td align="center"><i> Оценка по критерию №2</i></td>
+                <td align="center"><i> Оценка по критерию №3 </i></td>
+                <td align="center"><i> Оценка по критерию №4 </i></td>
+                <td align="center"><i> Оценка по критерию №5 </i></td>
+            </tr>
+            <tr>
+                <td align="center">{{ score_and_comment.score }}</td>
+                <td align="center">{{ score_and_comment.score1 }}</td>
+                <td align="center">{{ score_and_comment.score2 }}</td>
+                <td align="center">{{ score_and_comment.score3 }}</td>
+                <td align="center">{{ score_and_comment.score4 }}</td>
+                <td align="center">{{ score_and_comment.score5 }}</td>
+            </tr>
+        </table>
+        <li><i>Комментарий: </i> {{ score_and_comment.comment }}</li>
+    </ul>
+</ul>
+{% endfor %}
+<form action="" method="post">
+    {% csrf_token %} {# {{ form.as_table }} class="fieldWrapper"#}
+
+    <p><b> Комментарий ответственного секретаря по заявке </b></p>
+    <p><i> Оставьте небольшой общий комментарий по заявке </i></p>
+    <ul>
+        <p> {{ form.comment_master.help_text }} </p>
+        {{ form.comment_master.errors }}
+        <p> {{ form.comment_master }} </p>
+    </ul>
+    <input type="submit" value="Отправить"/>
+
+</form>
+{% endblock %}

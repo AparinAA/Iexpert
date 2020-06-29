@@ -1,0 +1,30 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2>Оценки по заявке</h2>
+
+<ul><b> Эксперт: </b> {{ scoreexpert.relation_exp_app.expert }}</ul>
+<ul><b> Заявка: </b> {{ scoreexpert.relation_exp_app.application.name.name }} - {{ scoreexpert.relation_exp_app.application.vuz.short_name }}</ul>
+<h4>Оценки:</h4>
+<ul> Критерий №1:  <b> {{ scoreexpert.score1}} </b></ul>
+<ul> Критерий №2:  <b> {{ scoreexpert.score2}} </b></ul>
+<ul> Критерий №3:  <b> {{ scoreexpert.score3}} </b></ul>
+<ul> Критерий №4:  <b> {{ scoreexpert.score4}} </b></ul>
+<ul> Критерий №5:  <b> {{ scoreexpert.score5}} </b></ul>
+
+<h4>Комментарий:</h4>
+{% if scoreexpert.comment %}
+<ul>{{ scoreexpert.comment }}</ul>
+{% else %}
+<ul><b> Вы не оставили комментарий к заявке </b></ul>
+{% endif %}
+
+{% if scoreexpert.check %}
+Вы успешно оценили заявку.
+{% else %}
+Вы не закончили оценивать заявку, пожалуйста, перейдите по ссылке и закончите экспертизу:
+<a href="{% url 'score_expert_form' scoreexpert.pk%}"> форма оценки заявки </a>
+{% endif %}
+
+
+{% endblock %}

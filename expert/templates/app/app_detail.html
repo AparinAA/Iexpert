@@ -1,0 +1,31 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Заявка: {{ application.name }}</h1>
+<p><strong></strong> <a href="{% url 'application_update' application.pk%}"> Ссылка на изменения заявки </a></p>
+<p><strong>Комиссия:</strong> <a href="{% url 'commission-detail' application.name.commission.pk%}">{{ application.name.commission }}</a></p>
+<p><strong>ВУЗ:</strong> <a href="{% url 'company-detail' application.vuz.pk%}">{{ application.vuz.full_name }}</a></p>
+<p><strong>Ссылка на архив:</strong> <a target="_blank" href="{{application.link_archiv}}">{{ application.link_archiv}}</a></p>
+<div style="margin-left:20px;margin-top:20px">
+    <h4>Эксперты экспертной комиссии</h4>
+    <ul type="circle">
+        {% if all_expert_exp_com %}
+            {% for expert in all_expert_exp_com %}
+            <li><a href="{% url 'expert-detail' expert.pk%}"> {{expert}}</a> </li>
+            {% endfor %}
+        {% else %}
+            Нет назначенных экспертов на заявку
+        {% endif %}
+    </ul>
+    <h4>Эксперты общей комиссии</h4>
+    <ul type="circle">
+        {% if all_expert_com_com %}
+            {% for expert in all_expert_com_com %}
+            <li><a href="{% url 'expert-detail' expert.pk%}"> {{expert}}</a> </li>
+        {% endfor %}
+        {% else %}
+            Нет назначенных экспертов на заявку
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}

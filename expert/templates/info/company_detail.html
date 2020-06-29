@@ -1,0 +1,29 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Организация: {{ company.full_name }}</h1>
+<p>{{company.region.federal_district.full_name}} федеральный округ</p> <!-- author detail link not yet defined -->
+<div style="margin-left:20px;margin-top:20px">
+    <h4>Эксперты</h4>
+    {% if all_expert %}
+    <ul type="circle">
+        {% for expert in all_expert %}
+        <li><a href="{% url 'expert-detail' expert.pk%}"> {{expert}} </a></li>
+        {% endfor %}
+    </ul>
+    {% else%}
+    Нет экспертов у данной организации
+    {% endif %}
+
+    <h4>Заявки</h4>
+    {% if all_application %}
+    <ul type="circle">
+        {% for application in all_application %}
+        <li><a href="{% url 'application-detail' application.pk%}"> {{application}} </a></li>
+        {% endfor %}
+    </ul>
+    {% else%}
+    Нет заявок на направления у данной организации
+    {% endif %}
+</div>
+{% endblock %}

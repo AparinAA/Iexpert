@@ -1,0 +1,30 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h1>Организации</h1>
+<a href="{% url 'company_create' %}"> Форма для добавления новой организации </a>
+{% if all_company %}
+<ul type="circle">
+    {% for fo in all_fo %}
+    <li>
+        {{ fo.full_name }} федеральный округ
+        {% for company in all_company%}
+        <ul type="disc">
+        {% if company.region.federal_district == fo%}
+            <li> <a href="{% url 'company-detail' company.pk%}">  {{company.full_name}} </a> </li>
+        {% endif %}
+        </ul>
+        {% endfor %}
+
+
+    </li>
+    {% endfor %}
+
+</ul>
+{% else %}
+<p>Нет организаций</p>
+{% endif %}
+
+
+{% endblock %}

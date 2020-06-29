@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2>Комментарий по заявке</h2>
+
+<ul><b> Заявка: </b> {{ score_all.application }}</ul>
+<ul><b> Оценка общей комиссии: </b> {{ score_all.score }}</ul>
+{% if score_all.comment_master %}
+<ul><b> Комментарий ответственного секретаря общей комиссии: </b> {{ score_all.comment_master }}</ul>
+{% else %}
+<ul><b> Вы не оставили комментарий к заявке </b></ul>
+{% endif %}
+
+{% if score_all.check %}
+<p> Вы успешно оценили заявку. </p>
+<p> Если вы хотите исправить комментарий, то перейдите в <a href="{% url 'score_common_all_form' score_all.pk%}" > форму оценки заявки </a></p>
+{% else %}
+Вы не закончили комментировать заявку, пожалуйста, перейдите по ссылке и закончите экспертизу:
+<a href="{% url 'score_common_all_form' score_all.pk%}"> форма оценки заявки </a> {#  #}
+{% endif %}
+{% endblock %}

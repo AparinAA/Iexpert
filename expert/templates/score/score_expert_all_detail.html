@@ -1,0 +1,29 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2>Оценки по заявке</h2>
+
+<ul><b> Заявка: </b> {{ score_all.application.name.name }} - {{ score_all.application.vuz.short_name }}</ul>
+<h4>Оценки:</h4>
+<ul> Критерий №1:  <b> {{ score_all.score1}} </b></ul>
+<ul> Критерий №2:  <b> {{ score_all.score2}} </b></ul>
+<ul> Критерий №3:  <b> {{ score_all.score3}} </b></ul>
+<ul> Критерий №4:  <b> {{ score_all.score4}} </b></ul>
+<ul> Критерий №5:  <b> {{ score_all.score5}} </b></ul>
+
+<h4>Комментарий:</h4>
+{% if score_all.comment_master %}
+<ul>{{ score_all.comment_master }}</ul>
+{% else %}
+<ul><b> Вы не оставили комментарий к заявке </b></ul>
+{% endif %}
+
+{% if score_all.check %}
+Вы успешно оценили заявку.
+{% else %}
+Вы не закончили оценивать заявку, пожалуйста, перейдите по ссылке и закончите экспертизу:
+<a href="{% url 'score_expert_all_form' score_all.pk%}"> форма оценки заявки </a>
+{% endif %}
+
+
+{% endblock %}

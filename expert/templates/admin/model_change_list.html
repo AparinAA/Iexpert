@@ -1,0 +1,34 @@
+{% extends 'admin/import_export/change_list_import_export.html' %}
+
+
+{# Original template renders object-tools only when has_add_permission is True. #}
+{# This hack allows sub templates to add to object-tools #}
+
+
+{% block object-tools %}
+{{ block.super }}
+<table>
+    <tr>
+
+        <td>
+            <form action="load_from_relation/" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn" value="Обновить данные">
+            </form>
+        </td>
+        <td>
+            <form action="reload_scores/" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn" value="Обновить оценки">
+            </form>
+        </td>
+        <td>
+            <form action="export_custom/" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn" value="Скачать">
+            </form>
+        </td>
+    </tr>
+</table>
+<br/>
+{% endblock %}

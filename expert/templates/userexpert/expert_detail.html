@@ -1,0 +1,91 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Эксперт: {{ expert }}</h1>
+
+<p><strong></strong> <a href="{% url 'expert_update' expert.pk%}"> Ссылка на изменения персональных данных </a>
+</p> {#  #}
+{% if expert.is_admin == True %}
+<p> Админский доступ</p>
+{% endif %}
+
+
+<p><b> Место работы: </b>
+    <a href="{% url 'company-detail' expert.company.pk%}"> {{expert.company.full_name}}</a>,
+    {{expert.company.region.federal_district}}
+</p>
+<p><b> Должность: </b> {{expert.position}}</p>
+<h4> Контактная информация:</h4>
+<ul type="none">
+    <li><b> Почта: </b> {{expert.email}}</li>
+    <li><b> Телефон: </b> {{expert.phone}}</li>
+</ul>
+{% if expert.get_commission %}
+
+<h4> Комиссии в которых состоит эксперт:</h4>
+
+<ul type="circle">
+    {% for group in expert.get_custom_commission %}
+    <li><a href="{% url 'commission-detail' group.pk%}"> {{group}} </a></li>
+    {% endfor %}
+</ul>
+{% endif%}
+
+
+<h4>Заявки на которые назначен эксперт:</h4>
+{% if application_all %}
+<ul type="circle">
+    {% for application in application_all %}
+    <li><a href="{% url 'application-detail' application.pk%}"> {{application.name}} - {{application.vuz.full_name}} </a></li>
+    {% endfor %}
+</ul>
+{% else %}
+Нет назначенных заявок для оценки
+{% endif %}
+
+<h4>Ссылки на формы оценки:</h4>
+    {% if scores_common%}
+        <ul type="none">
+            <b>Общая комиссия: </b>
+            {% for score_form in scores_common %}
+            <li><a href="{% url 'score_common_form' score_form.pk %}"> {{score_form.relation_exp_app.application}} </a></li>
+            {#  #}
+            {% endfor %}
+        </ul>
+    {% else %}
+        {% if scores_expert %}
+            <ul type="none">
+                <b>Экспертная комиссия: </b>
+                {% for score_form in scores_expert %}
+                <li><a href="{% url 'score_expert_form' score_form.pk %}"> {{score_form.relation_exp_app.application}} </a></li>
+                {#  #}
+                {% endfor %}
+            </ul>
+        {% else %}
+            Нет назначенных заявок для оценки
+        {% endif %}
+    {% endif %}
+
+<h4>Готовые оценки:</h4>
+    {% if check_common%}
+        <ul type="none">
+            <b>Общая комиссия: </b>
+            {% for score_form in check_common %}
+            <li><a href="{% url 'score_common_detail' score_form.pk %}"> {{score_form.relation_exp_app.application}} </a></li>
+            {#  #}
+            {% endfor %}
+        </ul>
+    {% else %}
+        {% if check_expert %}
+            <ul type="none">
+                <b>Экспертная комиссия: </b>
+                {% for score_form in check_expert %}
+                <li><a href="{% url 'score_expert_detail' score_form.pk %}"> {{score_form.relation_exp_app.application}} </a></li>
+                {#  #}
+                {% endfor %}
+            </ul>
+        {% else %}
+            Нет готовых заявок эксперта
+        {% endif %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base_generic.html" %}
+{% block title %}<title> Я - Эксперт </title>{% endblock %}
+
+{% block content %}
+<h2>Личная страница ответственного секретаря</h2>
+<h5> {{ expert }}</h5>
+<p><strong></strong> <a href=" {% url 'expert_update' expert.pk%}"> Ссылка на изменения персональных данных </a></p> {# #}
+
+<h5> Информация о месте работы </h5>
+<ul><p><b> Должность: </b> {{expert.position}}</p></ul>
+<ul><p><b> Место работы: </b> {{expert.company.full_name}} </p></ul>
+
+<h5> Контактная информация:</h5>
+<ul><p><b> Почта: </b> {{expert.email}}</p></ul>
+<ul><p><b> Телефон: </b> {{expert.phone}}</p></ul>
+
+<h5>Ссылки на формы для оценок заявки </h5>
+{% if scores_common %}
+<ul type="circle">
+    {% for score_form in scores_common %}
+    <li><a href="{% url 'score_common_all_form' score_form.pk %}"> {{score_form.application}} </a></li> {#  #}
+    {% endfor %}
+</ul>
+{% else %}
+{% if scores_expert %}
+<ul type="circle">
+    {% for score_form in scores_expert %}
+    <li><a href="{% url 'score_expert_all_form' score_form.pk %}"> {{score_form.application}} </a></li> {#  #}
+    {% endfor %}
+</ul>
+{% else %}
+Нет назначенных заявок для оценки
+{% endif %}
+{% endif %}
+
+<h5>Ссылки на оцененные заявки </h5>
+{% if check_common %}
+<ul type="circle">
+    {% for score in check_common %}
+        <li><a href="{% url 'score_common_all_detail' score.pk %}"> {{score.application}} </a></li>
+    {% endfor %}
+</ul>
+{% else %}
+    {% if check_expert %}
+    <ul type="circle">
+        {% for score in check_expert %}
+            <li><a href="{% url 'score_expert_all_detail' score.pk %}"> {{score.application}} </a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        Нет оцененных заявок
+    {% endif %}
+{% endif %}
+
+
+{% endblock %}

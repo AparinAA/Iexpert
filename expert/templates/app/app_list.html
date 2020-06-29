@@ -1,0 +1,33 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h1>Заявки</h1>
+<a href="{% url 'application_create' %}"> Форма для добавления новой заявки </a>
+{% if all_group %}
+<ul type="circle">
+    {% for commission in all_group %}
+    {% if commission.common_commission == False%}
+        {% if commission.common_commission == False%}
+            <li> {{ commission.name }}
+                {% for application in all_application%}
+                <ul type="disc">
+                    {% if application.name.commission == commission%}
+                    <li> <a href="{% url 'application-detail' application.pk%}"> {{application.name}} - {{application.vuz.short_name}} </a> </li>
+                    {% endif %}
+                </ul>
+                {% endfor %}
+
+
+            </li>
+        {% endif %}
+    {% endif %}
+    {% endfor %}
+
+</ul>
+{% else %}
+<p>Нет направлений</p>
+{% endif %}
+
+
+{% endblock %}

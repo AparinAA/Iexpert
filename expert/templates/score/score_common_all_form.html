@@ -1,0 +1,34 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2>Форма оценки заявки</h2>
+
+<ul><b> Заявка: </b> {{ scorecommonall.application }}</ul>
+<ul><b> Ссылка на документы заявки: </b> {{ scorecommonall.application.url_archiv }}</ul>
+<ul><b> Ссылка на подробные критерии: </b> <a href="https://yadi.sk/i/Io0QEGHzF86w-w" target="_blank">
+    https://yadi.sk/i/Io0QEGHzF86w-w </a></ul>
+
+<h4> Оценки и комментарии экспертов </h4>
+{% for expert, score_and_comment in scorecommonall.get_all_comments_and_scores.items %}
+<ul>
+    <li>
+        {{ expert }}
+    </li>
+    <ul type="None">
+        <li><b>Оценка: </b> {{ score_and_comment.score }}</li>
+        <li><b>Комментарий: </b> {{ score_and_comment.comment }}</li>
+    </ul>
+</ul>
+{% endfor %}
+<form action="" method="post">
+    {% csrf_token %} {# {{ form.as_table }} class="fieldWrapper"#}
+    Оставьте комменатарий по заявке
+    <p> {{ form.comment_master.help_text }} </p>
+    {{ form.comment_master.errors }}
+    <p> {{ form.comment_master }} </p>
+    <input type="submit" value="Отправить"/>
+
+</form>
+
+
+{% endblock %}

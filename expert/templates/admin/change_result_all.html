@@ -1,0 +1,14 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+{% block field_sets %}
+<p> <b> Комиссия: </b> {{ adminform.form.instance.commission }} </p>
+<hr/>
+<p> <b> Кол-во заполненных заявок: </b> {{ adminform.form.instance.count_app_ok }} из {{ adminform.form.instance.count_app_all }} </p>
+<hr/>
+<p> <b> Кол-во готовых экспертов: </b> {{ adminform.form.instance.count_exp_ok }} из {{ adminform.form.instance.count_exp_all }} </p>
+<hr/>
+
+{{ block.super }}
+
+{% endblock %}
+

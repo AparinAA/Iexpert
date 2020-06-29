@@ -1,0 +1,15 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2>Форма для изменения заявки</h2>
+<p> <b> Направление: </b> {{ application.name }} </p>
+<p> <b> ВУЗ: </b> {{ application.vuz.full_name }} </p>
+<form action="" method="post">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <input type="submit" value="Отправить"/>
+
+</form>
+{% endblock %}

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<style type="text/css">
+   .block1 {
+    width: 200px;
+    background: #ccc;
+    padding: 5px;
+    padding-right: 20px;
+    border: solid 1px black;
+    float: left;
+    background: #39b54a;
+   }
+   .block2 {
+    width: 200px;
+    background: #fc0;
+    padding: 5px;
+    border: solid 1px black;
+    float: left;
+    position: relative;
+    top: 40px;
+    left: -70px;
+   }
+    #footer {
+    position: fixed;  /* Фиксированное положение */
+    left: 0; bottom: 0; /* Левый нижний угол */
+    padding: 5px; /* Поля вокруг текста */
+    background: #39b54a; /* Цвет фона */
+    color: #fff; /* Цвет текста */
+    width: 100%; /* Ширина слоя */
+   }
+    #menu {
+    position: absolute;
+    lest: 0;
+    top: 30px;
+    width: 200px;
+    font-size: 90%;
+    padding: 5px;
+    padding-bottom: 35px;
+   }
+   #content {
+    margin: 10px 10px 30px 200px; /* Значения отступов */
+    padding: 5px; /* Поля вокруг текста */
+   }
+   #menu a {
+    display: block; /* Отображать ссылку как блок */
+    padding: 0.5px; /* Поля вокруг ссылок */
+    margin: -1; /* Отступы вокруг */
+    font-size: 1em; /* Размер текста */
+    text-decoration: none; /* Убираем подчеркивание текста */
+   }
+
+
+
+</style>
+<head>
+    {% block title %}<title>Я - Эксперт</title>{% endblock %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- Добавление дополнительного статического CSS файла -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+
+<div class="container-fluid">
+    <div id="menu">
+        {% block sidebar %}
+        <ul class="sidebar-nav">
+            {% if not user.is_authenticated %}
+            <a href="{% url 'index' %}">Домашняя страница</a>
+            {% else %}
+            <a href="{% url 'index' %}"> Профиль </a>
+            {% endif%}
+        </ul>
+
+        {% if user.is_staff %}
+        <ul class="sidebar-nav">
+            Администратор
+            <a href="{% url 'application' %} ">Все заявки</a>
+            <a href="{% url 'experts' %}"> Все эксперты и комиссии</a>
+            <a href="{% url 'company' %} ">Все организации</a>
+            <a href="{% url 'admin:index' %}">Админка</a> {#direction#}
+        </ul>
+        {% endif %}
+
+        {% if not user.is_staff and user.master_group%}
+        <ul class="sidebar-nav">
+            Ответственный секретарь
+            <a href="{% url 'commission-detail' user.get_commission_master.pk %}"> Все эксперты комиссии</a>
+        </ul>
+        {% endif %}
+        <hr/>
+        <ul class="sidebar-nav">
+            {% if user.is_authenticated %}
+            Пользователь: {{ user.login }}
+            <a href="/accounts/logout/">Выйти из аккаунта </a>
+            {% else %}
+           <a href="/accounts/login/">Авторизоваться</a>
+            {% endif %}
+        </ul>
+        {% endblock %}
+    </div>
+    <div id="content">
+        {% block content %}
+
+        {% endblock %}
+
+        {% block pagination %}
+        {% if is_paginated %}
+        <div class="pagination">
+          <span class="page-links">
+              {% if page_obj.has_previous %}
+                  <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">предыдущая</a>
+              {% endif %}
+              <span class="page-current">
+                  страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+              </span>
+              {% if page_obj.has_next %}
+                  <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">следующая</a>
+              {% endif %}
+          </span>
+        </div>
+        {% endif %}
+        {% endblock %}
+    </div>
+</div>
+<div id="footer">
+    <center></center>
+    <ul> Email для обратной связи <a href="application@iproficlub.ru">
+        application@iproficlub.ru</a></ul>
+    </center>
+</div>
+</body>
+</html>

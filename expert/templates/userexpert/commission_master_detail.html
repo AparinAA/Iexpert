@@ -1,0 +1,29 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Комиссия: {{ commission }}</h1>
+<div style="margin-left:20px;margin-top:20px">
+    <h4>Эксперты</h4>
+    {% if all_experts %}
+    <ul type="circle">
+        {% for expert in all_experts %}
+        <li><a href="{% url 'expert-detail' expert.pk%}"> {{expert}}</a>, {{expert.company}} {{expert.count_check_app}} из {{expert.count_all_app}}</li>
+        {% endfor %}
+    </ul>
+    {% else%}
+    В комиссии нет экспертов
+    {% endif %}
+    <h4>Заявки</h4>
+    {% if all_application %}
+    <ul type="circle">
+        {% for application in all_application %}
+        <li>{{application}} </li>
+        {# {% url 'application-detail' application.pk%} #}
+        {# {% url 'score_expert_all_detail' score.pk %} #}
+        {% endfor %}
+    </ul>
+    {% else%}
+    В комиссии ещё нет заявок на направления
+    {% endif %}
+</div>
+{% endblock %}

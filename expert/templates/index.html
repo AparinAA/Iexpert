@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+{% block title %}<title> Я - Эксперт </title>{% endblock %}
+
+{% block content %}
+<h1>Я - Эксперт</h1>
+
+  <p>Система отбора заявок на четвертый сезон олимпиады «Я - профессионал» </p>
+
+<h2></h2>
+
+  <p></p>
+  <ul>
+    <li><strong>Количество поданных заявок:</strong> {{ num_application }}</li>
+    <li><strong>Количество направлений на которые принимаются заявки:</strong> {{ num_direction }}</li>
+    <li><strong>Количество экспетов:</strong> {{ num_expert }}</li>
+  </ul>
+  Если вы эксперт, но вам не выдали логин и пароль, то напишите по адресу: <a href="support@iproficlub.ru">support@iproficlub.ru</a>
+{% endblock %}

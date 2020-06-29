@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2>Оценка заявки</h2>
+
+<ul><b> Эксперт: </b> {{ scorecommon.relation_exp_app.expert }}</ul>
+<ul><b> Заявка: </b> {{ scorecommon.relation_exp_app.application }}</ul>
+<ul><b> Оценка: </b> {{ scorecommon.score }}</ul>
+{% if scorecommon.comment %}
+    <ul><b> Комментарий: </b> {{ scorecommon.comment }}</ul>
+{% else %}
+    <ul><b> Вы не оставили комментарий к заявке </b> </ul>
+{% endif %}
+
+{% if scorecommon.check %}
+    Вы успешно оценили заявку.
+{% else %}
+    Вы не закончили оценивать заявку, пожалуйста, перейдите по ссылке и закончите экспертизу:
+    <a href="{% url 'score_common_form' scorecommon.pk%}" > форма оценки заявки </a>
+{% endif %}
+{% endblock %}

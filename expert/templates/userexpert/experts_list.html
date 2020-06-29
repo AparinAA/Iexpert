@@ -1,0 +1,44 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h1>Все эксперты</h1>
+{% if all_group %}
+<ul type="circle">
+    {% for commission in all_group %}
+    {% if commission.common_commission == False%}
+    <li>
+        <a href="{% url 'commission-detail' commission.pk%}"> {{ commission.name }} </a>
+        {% for expert in all_expert%}
+            {% if commission.group in expert.get_commission%}
+                <ul type="disc">
+                    <li><a href="{% url 'expert-detail' expert.pk%}"> {{expert}} </a></li>
+                </ul>
+            {% endif %}
+        {% endfor %}
+    </li>
+    {% endif %}
+    {% endfor %}
+
+    {% for commission in all_group %}
+    {% if commission.common_commission == True%}
+    <li>
+         <a href="{% url 'commission-detail' commission.pk%}"> {{ commission.name }} </a>
+        {% for expert in all_expert%}
+            {% if commission.group in expert.get_commission%}
+                <ul type="disc">
+                    <li><a href="{% url 'expert-detail' expert.pk%}"> {{expert}} </a></li>
+                </ul>
+            {% endif %}
+        {% endfor %}
+    </li>
+    {% endif %}
+    {% endfor %}
+
+</ul>
+{% else %}
+<p>Нет экспертных групп</p>
+{% endif %}
+
+
+{% endblock %}

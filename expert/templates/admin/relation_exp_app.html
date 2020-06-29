@@ -1,0 +1,10 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+{% block field_sets %}
+<p> <b> Заявка: </b> {{ adminform.form.instance.application }} </p>
+<p> <b> Эксперт: </b> {{ adminform.form.instance.expert }} </p>
+
+{{ block.super }}
+
+{% endblock %}
+
