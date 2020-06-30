@@ -92,9 +92,6 @@ if url.hostname != None:
             'USER': url.username,
             'PASSWORD': url.password,
             'HOST': url.hostname,
-            'OPTIONS': {
-                'sql_mode': 'traditional',
-            }
         }
     }
 else:
