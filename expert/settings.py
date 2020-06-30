@@ -23,13 +23,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+#SECRET_KEY = 'a0mm*5u^8i=wro@809n$ch+u%$-7(g(uep83n%$8^8&91aa8jd'
+#SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
 SECRET_KEY = os.environ['SECRET_KEY']
-#SECRET_KEY = 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag'
 # SECURITY WARNING: don't run with debug turned on in production!
-
 #DEBUG = True
-DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
-ALLOWED_HOSTS = ['arcane-shore-78053.herokuapp.com', '127.0.0.1']
+DEBUG = bool( os.environ.get('DJANGO_DEBUG', False) )
+ALLOWED_HOSTS = ['stark-falls-11027.herokuapp.com','127.0.0.1']
 
 # Application definition
 
@@ -80,7 +80,6 @@ WSGI_APPLICATION = 'expert.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
 url = urlparse(os.getenv("CLEARDB_DATABASE_URL"))
 if url.hostname != None:
     print('NAME :',url.path[1:])
@@ -94,10 +93,6 @@ if url.hostname != None:
             'USER': url.username,
             'PASSWORD': url.password,
             'HOST': url.hostname,
-            'PORT': '',
-            'OPTIONS': {
-                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-            },
         }
     }
 else:
@@ -110,6 +105,7 @@ else:
             'HOST': 'localhost',
         }
     }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -144,13 +140,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-#db_from_env = dj_database_url.config(conn_max_age=500)
-#DATABASES['default'].update(db_from_env)
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'userexpert.Expert'
-
+# MEDIA_ROOT = os.getcwd() + '/file_users/'
+# MEDIA_URL = 'files/'
 
 LOGIN_REDIRECT_URL = '/'
 
