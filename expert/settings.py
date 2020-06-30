@@ -28,8 +28,8 @@ SECRET_KEY = os.environ['SECRET_KEY']
 #SECRET_KEY = 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag'
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = True
-#DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
+#DEBUG = True
+DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 ALLOWED_HOSTS = ['arcane-shore-78053.herokuapp.com', '127.0.0.1']
 
 # Application definition
@@ -95,6 +95,10 @@ if url.hostname != None:
             'USER': url.username,
             'PASSWORD': url.password,
             'HOST': url.hostname,
+            'PORT': '',
+            'OPTIONS': {
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
         }
     }
 else:
