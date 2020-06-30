@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv['SECRET_KEY']
 
 
 DEBUG = bool( os.environ.get('DJANGO_DEBUG', False) )
-ALLOWED_HOSTS = ['ancient-stream-32178.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['arcane-shore-78053.herokuapp.com', '127.0.0.1']
 
 # Application definition
 
