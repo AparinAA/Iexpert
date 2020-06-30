@@ -88,7 +88,7 @@ if url.hostname != None:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': url.path[1:],
+            'NAME': url.path,
             'USER': url.username,
             'PASSWORD': url.password,
             'HOST': url.hostname,
