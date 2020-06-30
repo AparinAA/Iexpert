@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'a0mm*5u^8i=wro@809n$ch+u%$-7(g(uep83n%$8^8&91aa8jd'
+SECRET_KEY = 'a0mm*5u^8i=wro@809n$ch+u%$-7(g(uep83n%$8^8&91aa8jd'
 #SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
-SECRET_KEY = os.environ['SECRET_KEY']
+#SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
 DEBUG = bool( os.environ.get('DJANGO_DEBUG', False) )
@@ -49,7 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    #'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',

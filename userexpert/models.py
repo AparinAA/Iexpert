@@ -170,8 +170,8 @@ class CustomGroup(models.Model):
         return "{}".format(self.group.name)
 
     class Meta:
-        verbose_name_plural = "Кастомные Комиссии"
-        verbose_name = "Кастомная Комиссия"
+        verbose_name_plural = "Комиссии"
+        verbose_name = "Комиссия"
 
     def name(self):
         return self.group.name
