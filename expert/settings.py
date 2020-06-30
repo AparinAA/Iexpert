@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'expert.wsgi.application'
 
 url = urlparse(os.getenv("CLEARDB_DATABASE_URL"))
 if url.hostname != None:
-    print(url.hostname)
+    print(url.path[1:])
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
