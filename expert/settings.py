@@ -23,11 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'a0mm*5u^8i=wro@809n$ch+u%$-7(g(uep83n%$8^8&91aa8jd'
-#SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
-#SECRET_KEY = os.environ['SECRET_KEY']
-# SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
+SECRET_KEY = os.environ['SECRET_KEY']
 DEBUG = bool( os.environ.get('DJANGO_DEBUG', False) )
 ALLOWED_HOSTS = ['pacific-eyrie-30352.herokuapp.com','127.0.0.1']
 
@@ -49,7 +45,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    #'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -82,10 +77,6 @@ WSGI_APPLICATION = 'expert.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 url = urlparse(os.getenv("CLEARDB_DATABASE_URL"))
 if url.hostname != None:
-    print('NAME :',url.path[1:])
-    print('USER :',url.username)
-    print('PASSWORD :',url.password)
-    print('HOST :',url.hostname)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
@@ -146,9 +137,6 @@ DATABASES['default'].update(db_from_env)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'userexpert.Expert'
-# MEDIA_ROOT = os.getcwd() + '/file_users/'
-# MEDIA_URL = 'files/'
+
 
 LOGIN_REDIRECT_URL = '/'
-
-#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
