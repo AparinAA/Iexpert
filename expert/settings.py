@@ -11,7 +11,12 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import dj_database_url
+from whitenoise import WhiteNoise
+import django_heroku
+from urllib.parse import urlparse
 
+os.environ.setdefault('DJANGO_SETTINGS_MODULE','expert.settings.production')
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -19,12 +24,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'a0mm*5u^8i=wro@809n$ch+u%$-7(g(uep83n%$8^8&91aa8jd'
-
+SECRET_KEY = os.getenv['SECRET_KEY']
+#SECRET_KEY = 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+
+DEBUG = bool( os.environ.get('DJANGO_DEBUG', False) )
+ALLOWED_HOSTS = ['ancient-stream-32178.herokuapp.com', '127.0.0.1']
 
 # Application definition
 
@@ -39,12 +45,12 @@ INSTALLED_APPS = [
     'info',
     'import_export',
     'app',
-    'score',
-    'result'
+    'score'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -75,15 +81,28 @@ WSGI_APPLICATION = 'expert.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'expert',
-        'USER': 'evgen',
-        'PASSWORD': '36BxXp936BxXp9',
-        'HOST': 'localhost',
+
+url = urlparse(os.getenv("CLEARDB_DATABASE_URL"))
+if url.hostname != None:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': url.path[1:],
+            'USER': url.username,
+            'PASSWORD': url.password,
+            'HOST': url.hostname,
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'expert',
+            'USER': 'marcon1',
+            'PASSWORD': '36BxXp936BxXp9',
+            'HOST': 'localhost',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -118,10 +137,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'userexpert.Expert'
-# MEDIA_ROOT = os.getcwd() + '/file_users/'
-# MEDIA_URL = 'files/'
+
 
 LOGIN_REDIRECT_URL = '/'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
