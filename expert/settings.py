@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 import dj_database_url
 from whitenoise import WhiteNoise
-import django_heroku
 from urllib.parse import urlparse
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE','expert.settings.production')
@@ -155,4 +154,4 @@ AUTH_USER_MODEL = 'userexpert.Expert'
 
 LOGIN_REDIRECT_URL = '/'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
