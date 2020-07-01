@@ -1,55 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
-<style type="text/css">
-   .block1 {
-    width: 200px;
-    background: #ccc;
-    padding: 5px;
-    padding-right: 20px;
-    border: solid 1px black;
-    float: left;
-    background: #39b54a;
-   }
-   .block2 {
-    width: 200px;
-    background: #fc0;
-    padding: 5px;
-    border: solid 1px black;
-    float: left;
-    position: relative;
-    top: 40px;
-    left: -70px;
-   }
-    #footer {
-    position: fixed;  /* Фиксированное положение */
-    left: 0; bottom: 0; /* Левый нижний угол */
-    padding: 5px; /* Поля вокруг текста */
-    background: #39b54a; /* Цвет фона */
-    color: #fff; /* Цвет текста */
-    width: 100%; /* Ширина слоя */
-   }
-    #menu {
-    position: absolute;
-    left: 0;
-    top: 30px;
-    width: 200px;
-    font-size: 90%;
-    padding: 5px;
-    padding-bottom: 35px;
-   }
-   #content {
-    margin: 10px 10px 30px 200px; /* Значения отступов */
-    padding: 5px; /* Поля вокруг текста */
-   }
-   #menu a {
-    display: block; /* Отображать ссылку как блок */
-    padding: 0.5px; /* Поля вокруг ссылок */
-    margin: -1; /* Отступы вокруг */
-    font-size: 1em; /* Размер текста */
-    text-decoration: none; /* Убираем подчеркивание текста */
-   }
-
-</style>
+{% load static %}
 <head>
     {% block title %}<title>Я - Эксперт</title>{% endblock %}
     <meta charset="utf-8">
@@ -59,7 +10,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <!-- Добавление дополнительного статического CSS файла -->
-    {% load static %}
+    
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 </head>
 <body>
