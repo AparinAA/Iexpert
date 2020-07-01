@@ -1,3 +1,8 @@
+	.sidebar-nav {
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
+	}
 	.block1 {
     width: 200px;
     background: #ccc;
