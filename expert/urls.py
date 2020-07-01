@@ -28,7 +28,8 @@ from info import views as info_views
 from score import views as score_views
 from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
-import settings
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
