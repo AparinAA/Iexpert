@@ -28,12 +28,11 @@ from info import views as info_views
 from score import views as score_views
 from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
-
+import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/img/favicon.ico', permanent=True)),
-    static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     path('', views.index, name='index'),
     path('index/', views.index, name='index'),
     path('accounts/', include('django.contrib.auth.urls')),
@@ -70,3 +69,5 @@ urlpatterns += [
     path('score_expert_all/<int:pk>/form/', score_views.ScoreExpertAllForm.as_view(), name='score_expert_all_form'),
 
 ]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
