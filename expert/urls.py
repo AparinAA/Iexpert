@@ -31,8 +31,8 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 
-urlpatterns = [static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)]
-urlpatterns += [
+
+urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/img/favicon.ico', permanent=True)),
     path('', views.index, name='index'),
@@ -71,4 +71,4 @@ urlpatterns += [
     path('score_expert_all/<int:pk>/form/', score_views.ScoreExpertAllForm.as_view(), name='score_expert_all_form'),
 
 ]
-
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
