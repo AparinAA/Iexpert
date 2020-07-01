@@ -33,6 +33,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/img/favicon.ico', permanent=True)),
+    static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     path('', views.index, name='index'),
     path('index/', views.index, name='index'),
     path('accounts/', include('django.contrib.auth.urls')),
