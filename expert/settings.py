@@ -23,7 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = "cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag"
+#SECRET_KEY = os.environ['SECRET_KEY']
 DEBUG = bool( os.environ.get('DJANGO_DEBUG', False) )
 ALLOWED_HOSTS = ['pacific-eyrie-30352.herokuapp.com','127.0.0.1']
 
@@ -137,8 +138,6 @@ DATABASES['default'].update(db_from_env)
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-	os.path.join(BASE_DIR, "expert", "static"),
-)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "expert", "static"),)
 AUTH_USER_MODEL = 'userexpert.Expert'
 LOGIN_REDIRECT_URL = '/'
