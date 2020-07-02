@@ -9,7 +9,8 @@
 
 <form action="generate_users/" method="POST">
     {% csrf_token %}
-    <select name="num" autofocus>
+    <p>Основа<input type="text" size="15" name="name" ></p>
+    <p>Кол-во<select name="num" autofocus>
 	    <option value="1" >1</option>
 	    <option value="2" >2</option>
 	    <option value="3" >3</option>
@@ -21,9 +22,31 @@
 	    <option value="9" >9</option>
 	    <option value="10" >10</option>
     </select>
+   	</p>
     <input type="submit" class="btn" value="Сгенерировать логины">
 </form>
 <br/>
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/modelwin.css' %}" >
+
+<input type="checkbox" id="mycheckbox">
+<label for="mycheckbox" class="feedback-label">FEEDBACK</label>
+<form class="form" action="">
+	{% csrf_token %}
+	<div>
+		<label for="id_name">Основание</label>
+    	<input name="name" type="text" id="id_name">
+	</div>
+	<div>
+		<label for="id_num">Количество</label>
+    	<input name="name" type="number" id="id_num">
+	</div>
+	<div>
+		<input type="submit" class="btn" value="Сгенерировать логины">
+	</div>
+</form>
+
 
 {{ block.super }}
 {% endblock %}
