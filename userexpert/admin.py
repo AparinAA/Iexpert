@@ -138,7 +138,9 @@ class UserAdmin(BaseUserAdmin):
         output.close()
         return response
 
-    def generate_users(self, request, osnova='expert', count=2):
+    def generate_users(self, request, osnova='expert'):
+        count = int(request.POST.get('num'))
+
         def generate(first_num, count, osnova, logins=set()):
             ar = []
             i = 0
