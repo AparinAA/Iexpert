@@ -9,10 +9,10 @@
 
 <form action="generate_users/" method="POST">
     {% csrf_token %}
-    <select size="10" tabindex="1" >
-    {% for i in 20 %}
-    	<option value={{i}}>{{ i }}</option>
-    {% endfor %}
+    <select size="10" tabindex="1" autofocus>
+	    <option value="1">1</option>
+	    <option value="2">2</option>
+	    <option value="3">3</option>
     </select>
     <input type="submit" class="btn" value="Сгенерировать логины">
 </form>
