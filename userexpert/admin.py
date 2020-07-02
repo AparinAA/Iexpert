@@ -150,7 +150,6 @@ class UserAdmin(BaseUserAdmin):
                     ar.append([log, BaseUserManager().make_random_password(length=8)])
                 i += 1
             return pd.DataFrame(ar, columns=['login', 'password'])
-
         self.message_user(request, "Генерируем {} логинов".format(count))
         set_login = set()
         for val in self.model.objects.all().values('login'):
@@ -160,6 +159,8 @@ class UserAdmin(BaseUserAdmin):
         while '{}{}'.format(osnova, last_number) in set_login:
             last_number += 1
         data = generate(last_number, count, osnova)
+        for login, password in data[['login', 'password']].values:
+            self.message_user(request, "Сгенерируем {}".format(login))
         for login, password in data[['login', 'password']].values:
             exp = Expert.objects.create_user(login, password=password)
             # exp.save()
