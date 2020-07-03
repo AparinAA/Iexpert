@@ -24,7 +24,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField, PasswordResetFo
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.http import HttpResponseRedirect
 from django.urls import path, re_path
-
+from django.template.response import TemplateResponse
 
 class UserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput)
@@ -154,19 +154,18 @@ class UserAdmin(BaseUserAdmin):
         set_login = set()
         for val in self.model.objects.all().values('login'):
             set_login.add(val['login'])
-
         last_number = 1
         while '{}{}'.format(osnova, last_number) in set_login:
             last_number += 1
         data = generate(last_number, count, osnova)
+        
         for login, password in data[['login', 'password']].values:
             exp = Expert.objects.create_user(login, password=password)
             # exp.save()
             pass
 
         return self.generate_login_and_password(request, data)
-
-
+    
 from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
 from django.contrib.auth.models import Group
 

@@ -9,8 +9,9 @@
 
 <form action="generate_users/" method="POST">
     {% csrf_token %}
-    <p>Основа<input type="text" size="15" name="name" ></p>
-    <p>Кол-во<select name="num" autofocus>
+    <p><h1>Генерация логинов и паролей</h1></p>
+    <p>Основание <input type="text" size="31" name="name" value="expert_"></p>
+    <p>Количество <select name="num" autofocus>
 	    <option value="1" >1</option>
 	    <option value="2" >2</option>
 	    <option value="3" >3</option>
@@ -22,8 +23,8 @@
 	    <option value="9" >9</option>
 	    <option value="10" >10</option>
     </select>
-   	</p>
-    <input type="button" class="btn" value="Сгенерировать логины" >
+    <input type="submit" class="btn" value="Сгенерировать логины" >
+	</p>
 
 </form>
 <br/>

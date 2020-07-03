@@ -1,0 +1,14 @@
+{% extends "admin/base_site.html" %}
+
+
+{# Original template renders object-tools only when has_add_permission is True. #}
+{# This hack allows sub templates to add to object-tools #}
+
+
+{% block object-tools %}
+
+
+
+
+{{ block.super }}
+{% endblock %}
