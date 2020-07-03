@@ -161,7 +161,10 @@ class UserAdmin(BaseUserAdmin):
             return data
 
         if 'generate' in request.POST:
-            return render(request,'admin/generate_users.html',{'list' : ['example1'], 'title':u'Генерация логинов и паролей'})
+            count = 1
+            osnova = "example"
+            data = sub_generate(self,count,osnova)
+            return render(request,'admin/generate_users.html', {'list' : data['login'].tolist(), 'id_nameOs' : osnova, 'id_number' : count, 'title':u'Генерация логинов и паролей'})
         
         if 'sgen' in request.POST:
             count = int(request.POST.get('num'))
@@ -180,7 +183,7 @@ class UserAdmin(BaseUserAdmin):
                 # exp.save()
                 pass
             return HttpResponseRedirect('../')
-
+        
         if 'download' in request.POST:
             count = int(request.POST.get('number'))
             osnova = str(request.POST.get('nameOs'))
