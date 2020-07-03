@@ -175,16 +175,19 @@ class UserAdmin(BaseUserAdmin):
             data = sub_generate(self,count,osnova)
             return render(request,'admin/generate_users.html', {'list' : data['login'].tolist(), 'id_nameOs' : osnova, 'id_number' : count, 'title':u'Генерация логинов и паролей'})
         
+        count = int(request.POST.get('number'))
+        osnova = str(request.POST.get('nameOs'))
+        data = sub_generate(self,count,osnova)
         #Если нажали подтвердить, то все, генерируем
         if 'apply' in request.POST:
-            count = int(request.POST.get('number'))
-            osnova = str(request.POST.get('nameOs'))
-            data = sub_generate(self,count,osnova)
-            self.message_user(request, "Генерируем {} логинов".format(count))
+            self.message_user(request, "Сгенерировали {} логинов".format(count))
             for login, password in data[['login', 'password']].values:
                 exp = Expert.objects.create_user(login, password=password)
                 # exp.save()
                 pass
+            return HttpResponseRedirect('../')
+
+        if 'download' in request.POST:
             return self.generate_login_and_password(request, data)
 
 from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
