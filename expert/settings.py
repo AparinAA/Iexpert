@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'info',
     'import_export',
     'app',
-    'score'
+    'score',
 ]
 
 MIDDLEWARE = [
@@ -141,3 +141,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "expert", "static"),)
 AUTH_USER_MODEL = 'userexpert.Expert'
 LOGIN_REDIRECT_URL = '/'
+
