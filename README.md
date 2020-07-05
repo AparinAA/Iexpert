@@ -9,3 +9,4 @@
 *git add .*\
 *git commit -am "Комментарий по изменению файлов"*\
 5. *git fetch origin
+6.
