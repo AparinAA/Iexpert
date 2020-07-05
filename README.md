@@ -10,11 +10,11 @@
 *git commit -m "Комментарий по изменению файлов"*\
 *git push origin master*\
 **Если кто-то загрузил изменения**\
-*git add .*\
-*git commit -m "comment"*\
-Теперь, если мы отправим изменения *git push origin master*, то получим ошибку.\
+Если мы отправим изменения *git push origin master*, то получим ошибку.\
 Для начала нужно скачать коммит с исправленным файлом, а затем их локально слить со своими:\
 *git fetch origin*\
 *git merge origin/master*\
 *проверяем не сломался ли наш код*\
+*git add .*\
+*git commit -m "comment"*\
 *git push origin master*
