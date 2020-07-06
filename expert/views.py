@@ -5,7 +5,7 @@ from userexpert.models import CustomGroup, Expert
 from app.models import  Direction, Application, RelationExpertApplication
 from info.models import Company, FederalDistrict, Region
 from django.views import generic
-
+from result.models import CheckExpertScore
 
 def index(request):
     num_application = Application.objects.all().count()
@@ -35,13 +35,18 @@ def index(request):
                 check_expert = ScoreExpertAll.objects.all().filter(application__in=all_application).filter(
                     check=True)
                 check_common = []
-            print(scores_expert)
+            try:
+                check_score = CheckExpertScore.objects.all().get(expert=expert)
+            except:
+                check_score = []
+
             return render(request, 'index_master.html', context={
                 'expert': expert,
                 'scores_common': scores_common,
                 'scores_expert': scores_expert,
                 'check_common': check_common,
                 'check_expert': check_expert,
+                'check_score': check_score
             })
         else:
             expert = Expert.objects.all().filter(id=request.user.pk)[0]
@@ -65,7 +70,10 @@ def index(request):
                 check_expert = ScoreExpert.objects.all().filter(relation_exp_app__in=all_application_set).filter(
                     check=True)
                 check_common = []
-
+            try:
+                check_score = CheckExpertScore.objects.all().get(expert=expert)
+            except:
+                check_score = []
             return render(request, 'index_expert.html', context={
                 'expert': expert, 'application_all': application_all,
                 'rel_exp_gr': rel_exp_gr,
@@ -73,6 +81,7 @@ def index(request):
                 'scores_expert': scores_expert,
                 'check_common': check_common,
                 'check_expert': check_expert,
+                'check_score': check_score
             })
     else:
         return render(request, 'index.html',
