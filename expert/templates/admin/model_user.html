@@ -10,11 +10,14 @@
 
 <form action="generate_users/" method="POST">
     {% csrf_token %}
-    <input type="submit" class="btn" name="generate" value="Сгенерировать логины" >
+    <input type="submit" class="btn" name="generate" value="Сгенерировать логины">
+
 </form>
-
+<form action="update_users/" method="POST">
+    {% csrf_token %}
+    <input type="submit" class="btn" value="Обновить экспертов">
+</form>
 <br/>
-
 
 
 {{ block.super }}
