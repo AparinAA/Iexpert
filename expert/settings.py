@@ -97,13 +97,10 @@ else:
             'USER': 'evgen', #'marcon1',
             'PASSWORD': '36BxXp936BxXp9',
             'HOST': 'localhost',
-            'OPTIONS': {'ssl': {'ca':'/path/to/cert.pem', 'cert':'/path/to/cert.pem', 'key':'/path/to/key.pem'},},
-
         }
     }
-
-#db_from_env = dj_database_url.config(default=os.getenv("CLEARDB_DATABASE_URL"),conn_max_age=500)
-#DATABASES['default'].update(db_from_env)
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
