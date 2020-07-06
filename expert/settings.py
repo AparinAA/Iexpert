@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'import_export',
     'app',
     'score',
+    'result'
 ]
 
 MIDDLEWARE = [
@@ -93,7 +94,7 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'expert',
-            'USER': 'marcon1',
+            'USER': 'evgen', #'marcon1',
             'PASSWORD': '36BxXp936BxXp9',
             'HOST': 'localhost',
         }
