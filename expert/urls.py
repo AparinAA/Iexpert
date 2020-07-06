@@ -26,11 +26,11 @@ from app import views as app_views
 from userexpert import views as exp_views
 from info import views as info_views
 from score import views as score_views
+from result import views as result_views
 from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -69,6 +69,10 @@ urlpatterns += [
     path('score_common_all/<int:pk>/form/', score_views.ScoreCommonAllForm.as_view(), name='score_common_all_form'),
     path('score_expert_all/<int:pk>/', score_views.ScoreExpertAllView, name='score_expert_all_detail'),
     path('score_expert_all/<int:pk>/form/', score_views.ScoreExpertAllForm.as_view(), name='score_expert_all_form'),
+
+]
+urlpatterns += [
+    path('score_for_expert/<int:pk>/', result_views.AllScoreForExpertForm.as_view(), name='all_score_for_expert_form'),
 
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

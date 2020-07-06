@@ -24,6 +24,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField, PasswordResetFo
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.http import HttpResponseRedirect
 from django.urls import path, re_path
+from django.shortcuts import render
 
 
 class UserCreationForm(forms.ModelForm):
@@ -70,7 +71,7 @@ class UserAdmin(BaseUserAdmin):
     list_per_page = 15
 
     list_display = (
-        'id', 'login', 'last_name', 'first_name', 'middle_name','is_active', 'is_admin',
+        'id', 'login', 'last_name', 'first_name', 'middle_name', 'is_active', 'is_admin',
         'common_commission', 'master_group', 'last_login')
     list_display_links = ('login',)
     list_filter = ['common_commission', 'is_admin', 'master_group']
@@ -100,7 +101,6 @@ class UserAdmin(BaseUserAdmin):
     change_form_template = 'admin/change_form_custom.html'
 
     def my_reset_password(self, request, user_id):
-
         user = get_object_or_404(self.model, pk=user_id)
         new_password = BaseUserManager().make_random_password(length=8)
         user.set_password(new_password)
@@ -113,9 +113,20 @@ class UserAdmin(BaseUserAdmin):
         urls = super().get_urls()
         my_urls = [
             path('generate_users/', self.generate_users),
+            path('update_users/', self.update_users),
             path('<int:user_id>/my_reset_password/', self.my_reset_password, name='my_reset_password')
         ]
         return my_urls + urls
+
+    def update_users(self, request):
+        print(self)
+        for user in self.model.objects.all():
+            try:
+                user.save()
+            except:
+                pass
+        self.message_user(request, "Все пользователи обновлены")
+        return HttpResponseRedirect("../")
 
     def generate_login_and_password(self, request, data, head=['login', 'password']):
         output = io.BytesIO()
@@ -138,32 +149,61 @@ class UserAdmin(BaseUserAdmin):
         output.close()
         return response
 
-    def generate_users(self, request, osnova='expert', count=2):
-        def generate(first_num, count, osnova, logins=set()):
-            ar = []
-            i = 0
-            while i < count:
-                log = '{}{}'.format(osnova, first_num + i)
-                if log not in logins:
-                    ar.append([log, BaseUserManager().make_random_password(length=8)])
-                i += 1
-            return pd.DataFrame(ar, columns=['login', 'password'])
+    def generate_users(self, request):
 
-        self.message_user(request, "Генерируем {} логинов".format(count))
-        set_login = set()
-        for val in self.model.objects.all().values('login'):
-            set_login.add(val['login'])
+        def sub_generate(self, count, osnova):
+            def generate(first_num, count, osnova, logins=set()):
+                ar = []
+                i = 0
+                while i < count:
+                    log = '{}{}'.format(osnova, first_num + i)
+                    if log not in logins:
+                        ar.append([log, BaseUserManager().make_random_password(length=8)])
+                    i += 1
+                return pd.DataFrame(ar, columns=['login', 'password'])
 
-        last_number = 1
-        while '{}{}'.format(osnova, last_number) in set_login:
-            last_number += 1
-        data = generate(last_number, count, osnova)
-        for login, password in data[['login', 'password']].values:
-            exp = Expert.objects.create_user(login, password=password)
-            # exp.save()
-            pass
+            set_login = set()
+            for val in self.model.objects.all().values('login'):
+                set_login.add(val['login'])
+            last_number = 1
+            while '{}{}'.format(osnova, last_number) in set_login:
+                last_number += 1
+            data = generate(last_number, count, osnova)
+            return data
 
-        return self.generate_login_and_password(request, data)
+        if 'generate' in request.POST:
+            count = 1
+            osnova = "example"
+            data = sub_generate(self, count, osnova)
+            return render(request, 'admin/generate_users.html',
+                          {'list': data['login'].tolist(), 'id_nameOs': osnova, 'id_number': count,
+                           'title': u'Генерация логинов и паролей'})
+
+        if 'sgen' in request.POST:
+            count = int(request.POST.get('num'))
+            osnova = str(request.POST.get('name'))
+            data = sub_generate(self, count, osnova)
+            return render(request, 'admin/generate_users.html',
+                          {'list': data['login'].tolist(), 'id_nameOs': osnova, 'id_number': count,
+                           'title': u'Генерация логинов и паролей'})
+
+        # Если нажали подтвердить, то все, генерируем
+        if 'apply' in request.POST:
+            count = int(request.POST.get('number'))
+            osnova = str(request.POST.get('nameOs'))
+            data = sub_generate(self, count, osnova)
+            self.message_user(request, "Сгенерировали {} логинов".format(count))
+            for login, password in data[['login', 'password']].values:
+                exp = Expert.objects.create_user(login, password=password)
+                # exp.save()
+                pass
+            return HttpResponseRedirect('../')
+
+        if 'download' in request.POST:
+            count = int(request.POST.get('number'))
+            osnova = str(request.POST.get('nameOs'))
+            data = sub_generate(self, count, osnova)
+            return self.generate_login_and_password(request, data)
 
 
 from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin

@@ -54,7 +54,7 @@
         Нет оцененных заявок
     {% endif %}
 {% endif %}
-
-
-
+{% if check_score %}
+    <a href="{% url 'all_score_for_expert_form' check_score.pk %}">Ссылка на форму подтверждения оценок </a>
+{% endif %}
 {% endblock %}

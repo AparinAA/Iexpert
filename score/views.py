@@ -64,7 +64,6 @@ def ScoreExpertOneView(request, pk):
                           context={'scoreexpert': SEC})
     raise PermissionDenied('Нет прав')
 
-
 def ScoreCommonAllView(request, pk):
     if request.user.has_perm('score.view_scorecommonall') or request.user.is_staff:
         sco_all = ScoreCommonAll.objects.all().filter(id=pk)[0]

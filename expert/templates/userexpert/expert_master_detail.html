@@ -36,7 +36,7 @@
     {% if check_common%}
         <ul type="none">
             {% for score_form in check_common %}
-            <li><a href="{% url 'score_common_detail' score_form.pk %}"> {{score_form.relation_exp_app.application}} </a></li>
+            <li> {{score_form.relation_exp_app.application}} /li>
             {#  #}
             {% endfor %}
         </ul>
@@ -44,7 +44,7 @@
         {% if check_expert %}
             <ul type="none">
                 {% for score_form in check_expert %}
-                <li><a href="{% url 'score_expert_detail' score_form.pk %}"> {{score_form.relation_exp_app.application}} </a></li>
+                <li> {{score_form.relation_exp_app.application}} </li>
                 {#  #}
                 {% endfor %}
             </ul>

@@ -1,10 +1,13 @@
+from django.urls import reverse
 from datetime import datetime
 
 from django.db import models
 
 # Create your models here.
+from django.http import HttpResponseRedirect
+
 from app.models import RelationExpertApplication, Direction, Application
-from score.models import ScoreExpert
+from score.models import ScoreExpert, ScoreCommon
 from userexpert.models import Expert, CustomGroup
 
 
@@ -33,9 +36,29 @@ class CheckExpertScore(models.Model):
         self.date_last = datetime.now(tz=None)
         rel_exp_app = RelationExpertApplication.objects.all().filter(expert=self.expert).filter(is_active=True)
         self.count_all = rel_exp_app.count()
-        exp_scores = ScoreExpert.objects.filter(relation_exp_app__in=rel_exp_app).filter(check=True)
+        if self.expert.common_commission:
+            exp_scores = ScoreCommon.objects.filter(relation_exp_app__in=rel_exp_app).filter(check=True)
+        else:
+            exp_scores = ScoreExpert.objects.filter(relation_exp_app__in=rel_exp_app).filter(check=True)
         self.count_ok = exp_scores.count()
         super(CheckExpertScore, self).save(*args, **kwargs)
+
+    @property
+    def get_all_score(self):
+        rel_exp_app = RelationExpertApplication.objects.all().filter(expert=self.expert).filter(is_active=True)
+        exp_scores = ScoreExpert.objects.filter(relation_exp_app__in=rel_exp_app)
+        self.save()
+        return exp_scores
+
+    @property
+    def get_all_score_common(self):
+        rel_exp_app = RelationExpertApplication.objects.all().filter(expert=self.expert).filter(is_active=True)
+        exp_scores = ScoreCommon.objects.filter(relation_exp_app__in=rel_exp_app)
+        self.save()
+        return exp_scores
+
+    def get_absolute_url(self):
+        return reverse('all_score_for_expert_form', args=[str(self.id)])
 
 
 class CheckGroups(models.Model):

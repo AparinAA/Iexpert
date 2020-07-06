@@ -128,7 +128,6 @@ class Expert(AbstractBaseUser, PermissionsMixin):
             print(self.groups, self.common_commission)
         except:
             pass
-
         super(Expert, self).save(*args, **kwargs)
 
     @property

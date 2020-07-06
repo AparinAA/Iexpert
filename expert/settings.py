@@ -23,9 +23,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
-DEBUG = bool( os.environ.get('DJANGO_DEBUG', False) )
-ALLOWED_HOSTS = ['pacific-eyrie-30352.herokuapp.com','127.0.0.1']
+SECRET_KEY ="sadsfz#$#@_231dsfs&#$^123_1"
+#SECRET_KEY = os.environ['SECRET_KEY']
+DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
+ALLOWED_HOSTS = ['iexpert.herokuapp.com','127.0.0.1']
 
 # Application definition
 
@@ -40,7 +41,8 @@ INSTALLED_APPS = [
     'info',
     'import_export',
     'app',
-    'score'
+    'score',
+    'result'
 ]
 
 MIDDLEWARE = [
@@ -92,7 +94,7 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'expert',
-            'USER': 'marcon1',
+            'USER': 'evgen', #'marcon1',
             'PASSWORD': '36BxXp936BxXp9',
             'HOST': 'localhost',
         }
@@ -137,8 +139,7 @@ DATABASES['default'].update(db_from_env)
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-	os.path.join(BASE_DIR, "expert", "static"),
-)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "expert", "static"),)
 AUTH_USER_MODEL = 'userexpert.Expert'
 LOGIN_REDIRECT_URL = '/'
+
