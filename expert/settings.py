@@ -26,11 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY ="sadsfz#$#@_231dsfs&#$^123_1"
 #SECRET_KEY = os.environ['SECRET_KEY']
 DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
-<<<<<<< HEAD
-ALLOWED_HOSTS = ['iexpert.herokuapp.com','127.0.0.1', 'iexpert.team']
-=======
 ALLOWED_HOSTS = ['iexpert.herokuapp.com','127.0.0.1', 'iexpert.team','www.iexpert.team']
->>>>>>> origin/master
 
 # Application definition
 
