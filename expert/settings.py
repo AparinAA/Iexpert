@@ -26,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY ="sadsfz#$#@_231dsfs&#$^123_1"
 #SECRET_KEY = os.environ['SECRET_KEY']
 DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
-ALLOWED_HOSTS = ['iexpert.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['iexpert.herokuapp.com','127.0.0.1', 'iexpert.team','www.iexpert.team']
 
 # Application definition
 
@@ -97,10 +97,13 @@ else:
             'USER': 'evgen', #'marcon1',
             'PASSWORD': '36BxXp936BxXp9',
             'HOST': 'localhost',
+            'OPTIONS': {'ssl': {'ca':'/path/to/cert.pem', 'cert':'/path/to/cert.pem', 'key':'/path/to/key.pem'},},
+
         }
     }
 
-
+#db_from_env = dj_database_url.config(default=os.getenv("CLEARDB_DATABASE_URL"),conn_max_age=500)
+#DATABASES['default'].update(db_from_env)
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -134,8 +137,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
