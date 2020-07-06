@@ -97,6 +97,8 @@ else:
             'USER': 'evgen', #'marcon1',
             'PASSWORD': '36BxXp936BxXp9',
             'HOST': 'localhost',
+            'OPTIONS': {'ssl': {'ca':'/path/to/cert.pem', 'cert':'/path/to/cert.pem', 'key':'/path/to/key.pem'},},
+
         }
     }
 
