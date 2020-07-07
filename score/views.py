@@ -24,7 +24,11 @@ class ScoreCommonOne(PermissionRequiredMixin, UpdateView):
         if self.request.user.is_staff:
             return True
         if self.model.objects.all().get(pk=pk_).relation_exp_app.expert == self.request.user:
-            return self.request.user.has_perms(perms)
+            check = CheckExpertScore.objects.get(expert=self.request.user).check_exp
+            if not check:
+                return self.request.user.has_perms(perms)
+            else:
+                return False
         else:
             return False
 
@@ -33,8 +37,10 @@ def ScoreCommonOneView(request, pk):
     if request.user.has_perm('score.view_scorecommon') or request.user.is_staff:
         SCC = ScoreCommon.objects.all().filter(id=pk)[0]
         if SCC.relation_exp_app.expert == request.user or request.user.is_staff:
+            check = CheckExpertScore.objects.get(expert=request.user)
             return render(request, 'score/score_common_detail.html',
-                          context={'scorecommon': SCC})
+                          context={'scorecommon': SCC,
+                                   'check_exp': check})
     raise PermissionDenied('Нет прав')
 
 
@@ -51,18 +57,26 @@ class ScoreExpertOne(PermissionRequiredMixin, UpdateView):
         if self.request.user.is_staff:
             return True
         if self.model.objects.all().get(pk=pk_).relation_exp_app.expert == self.request.user:
-            return self.request.user.has_perms(perms)
+            check = CheckExpertScore.objects.get(expert=self.request.user).check_exp
+            if not check:
+                return self.request.user.has_perms(perms)
+            else:
+                return False
         else:
             return False
 
-
+from result.models import CheckExpertScore
 def ScoreExpertOneView(request, pk):
     if request.user.has_perm('score.view_scoreexpert') or request.user.is_staff:
         SEC = ScoreExpert.objects.all().filter(id=pk)[0]
         if SEC.relation_exp_app.expert == request.user or request.user.is_staff:
+            check = CheckExpertScore.objects.get(expert=request.user)
             return render(request, 'score/score_expert_detail.html',
-                          context={'scoreexpert': SEC})
+                          context={'scoreexpert': SEC,
+                                   'check_exp': check})
+
     raise PermissionDenied('Нет прав')
+
 
 def ScoreCommonAllView(request, pk):
     if request.user.has_perm('score.view_scorecommonall') or request.user.is_staff:

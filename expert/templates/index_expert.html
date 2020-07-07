@@ -17,7 +17,8 @@
 <ul><p><b> Почта: </b> {{expert.email}}</p></ul>
 <ul><p><b> Телефон: </b> {{expert.phone}}</p></ul>
 
-<h5>Ссылки на формы для оценок заявки </h5>
+<hr/>
+<h5>Ссылки на формы для оценок заявки (Не готовые заявки): </h5>
 {% if scores_common%}
 <ul type="circle">
     {% for score_form in scores_common %}
@@ -35,8 +36,9 @@
         Нет назначенных заявок для оценки
     {% endif %}
 {% endif %}
+<hr/>
 
-<h5>Ссылки на оцененные заявки </h5>
+<h5>Ссылки на готовые заявки: </h5>
 {% if check_common %}
 <ul type="circle">
     {% for score in check_common %}
@@ -54,6 +56,8 @@
         Нет оцененных заявок
     {% endif %}
 {% endif %}
+<hr/>
+
 {% if check_score %}
     <a href="{% url 'all_score_for_expert_form' check_score.pk %}">Ссылка на форму подтверждения оценок </a>
 {% endif %}
