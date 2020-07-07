@@ -5,19 +5,31 @@
 
 <ul><b> Эксперт: </b> {{ scorecommon.relation_exp_app.expert }}</ul>
 <ul><b> Заявка: </b> {{ scorecommon.relation_exp_app.application }}</ul>
-<ul><b> Оценка: </b> {{ scorecommon.score }}</ul>
+<ul><b> Ссылка на документы заявки: </b>  <a href="{{ scorecommon.relation_exp_app.application.link_archiv }}" target="_blank"> {{ scorecommon.relation_exp_app.application.link_archiv }} </a></ul>
+<ul><b> Ссылка на подробные критерии: </b> <a href="https://yadi.sk/i/TZFbK2hphOiesA" target="_blank"> https://yadi.sk/i/Io0QEGHzF86w-w </a></ul>
+
+<ul><b> Оценка: </b>
+    {% if scorecommon.score is None %}  <font color="#B22222"> отстутствует </font>  {% else %}  <b>{{ scorecommon.score }}</b> {% endif %}</b></li>
+
+</ul>
 {% if scorecommon.comment %}
     <ul><b> Комментарий: </b> {{ scorecommon.comment }}</ul>
 {% else %}
-    <ul><b> Вы не оставили комментарий к заявке </b> </ul>
+    <ul><font color="#B22222">Вы не оставили комментарий к заявке </font> </ul>
 {% endif %}
+
 
 {% if scorecommon.check %}
-    Вы успешно оценили заявку.
-Если вы хотите исправить оценки перейдите по ссылке в <a href="{% url 'score_common_form' scorecommon.pk%}" > форму оценки заявки </a>
-
+<br/>
+{% if not check_exp.check_exp %}
+Вы успешно оценили заявку.<br/>
+Если вы хотите исправить оценки перейдите по ссылке в <a href="{% url 'score_common_form' scorecommon.pk%}"> формы оценки заявки </a>
 {% else %}
-    Вы не закончили оценивать заявку, пожалуйста, перейдите по ссылке и закончите экспертизу:
-    <a href="{% url 'score_common_form' scorecommon.pk%}" > форма оценки заявки </a>
+Вы подтвердили окончание экспертизы. Если вы хотите внести измнения в оценки, то напишите на почту <a href="mailto:support@iproficlub.ru"> support@iproficlub.ru </a>
 {% endif %}
+{% else %}
+Вы не закончили оценивать заявку, пожалуйста, перейдите по ссылке и закончите экспертизу:
+<a href="{% url 'score_common_form' scorecommon.pk%}"> форма оценки заявки </a>
+{% endif %}
+
 {% endblock %}

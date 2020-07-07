@@ -235,7 +235,7 @@ class GroupAdmin(BaseGroupAdmin):
 
 admin.site.register(Expert, UserAdmin)
 admin.site.unregister(Group)
-admin.site.register(Group, GroupAdmin)
+# admin.site.register(Group, GroupAdmin)
 from django.forms import ModelForm
 
 

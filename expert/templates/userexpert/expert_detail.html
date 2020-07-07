@@ -8,6 +8,7 @@
 {% if expert.is_admin == True %}
 <p> Админский доступ</p>
 {% endif %}
+<hr/>
 
 
 <p><b> Место работы: </b>
@@ -15,12 +16,15 @@
     {{expert.company.region.federal_district}}
 </p>
 <p><b> Должность: </b> {{expert.position}}</p>
+<hr/>
+
 <h4> Контактная информация:</h4>
 <ul type="none">
     <li><b> Почта: </b> {{expert.email}}</li>
     <li><b> Телефон: </b> {{expert.phone}}</li>
 </ul>
 {% if expert.get_commission %}
+<hr/>
 
 <h4> Комиссии в которых состоит эксперт:</h4>
 
@@ -31,7 +35,7 @@
 </ul>
 {% endif%}
 
-
+<hr/>
 <h4>Заявки на которые назначен эксперт:</h4>
 {% if application_all %}
 <ul type="circle">
@@ -42,6 +46,7 @@
 {% else %}
 Нет назначенных заявок для оценки
 {% endif %}
+<hr/>
 
 <h4>Ссылки на формы оценки:</h4>
     {% if scores_common%}
@@ -65,6 +70,7 @@
             Нет назначенных заявок для оценки
         {% endif %}
     {% endif %}
+<hr/>
 
 <h4>Готовые оценки:</h4>
     {% if check_common%}
@@ -88,4 +94,14 @@
             Нет готовых заявок эксперта
         {% endif %}
     {% endif %}
+
+<hr/>
+
+{% if check_score %}
+{% if check_score.check_exp %}
+    Эксперт подтвердил все свои оценки. Экспретиза окончена.
+{% endif %}
+<br/>
+ <a href="{% url 'all_score_for_expert_form' check_score.pk %}">Ссылка на форму подтверждения оценок </a>
+{% endif %}
 {% endblock %}

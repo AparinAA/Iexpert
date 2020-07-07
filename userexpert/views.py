@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.views.generic import CreateView, UpdateView
 
 from app.models import RelationExpertApplication, Application, Direction
+from result.models import CheckExpertScore
 from userexpert.models import CustomGroup, Expert
 
 from score.models import ScoreExpert, ScoreCommon, ScoreCommonAll, ScoreExpertAll
@@ -54,6 +55,10 @@ def ExpertOneViews(request, pk):
             check_expert = ScoreExpert.objects.all().filter(relation_exp_app__in=all_application_set).filter(
                 check=True)
             check_common = []
+        try:
+            check_score = CheckExpertScore.objects.all().get(expert=expert)
+        except:
+            check_score = []
         if current_user.is_admin:
             tempales = 'userexpert/expert_detail.html'
         else:
@@ -63,7 +68,8 @@ def ExpertOneViews(request, pk):
                                'scores_common': scores_common,
                                'scores_expert': scores_expert,
                                'check_common': check_common,
-                               'check_expert': check_expert
+                               'check_expert': check_expert,
+                               'check_score': check_score
                                })
     else:
         expert = Expert.objects.all().get(id=pk)

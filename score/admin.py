@@ -39,7 +39,7 @@ class MyScoreBaseAdmin(ImportExportActionModelAdmin):
 @admin.register(ScoreCommon)
 class ScoreCommonCommissionAdmin(MyScoreBaseAdmin):
     list_per_page = 15
-    list_display = ('id', 'relation_exp_app', 'is_active', 'check', 'score', 'comment', 'date_last')
+    list_display = ('id', 'relation_exp_app', 'is_active', 'check', 'score', 'date_last')
     list_display_links = ('relation_exp_app',)
     list_filter = ('check',)
     fieldsets = (
@@ -82,7 +82,7 @@ class ScoreCommonCommissionAdmin(MyScoreBaseAdmin):
 class ScoreExpertCommissionAdmin(MyScoreBaseAdmin):
     list_per_page = 15
     list_display = ('id', 'relation_exp_app','is_active', 'check', 'score',
-                    'score1', 'score2', 'score3', 'score4', 'score5', 'comment', 'date_last')
+                    'score1', 'score2', 'score3', 'score4', 'score5', 'date_last')
     list_display_links = ('relation_exp_app',)
     list_filter = ('check',)
     fieldsets = (
@@ -124,7 +124,7 @@ class ScoreExpertCommissionAdmin(MyScoreBaseAdmin):
 @admin.register(ScoreCommonAll)
 class ScoreAllCommonCommissionAdmin(MyScoreBaseAdmin):
     list_per_page = 15
-    list_display = ('id', 'application', 'check', 'score', 'comment_master', 'date_last')
+    list_display = ('id', 'application', 'check', 'score', 'date_last')
     list_display_links = ('application',)
     list_filter = ('application',)
     fieldsets = (
@@ -165,7 +165,7 @@ class ScoreAllCommonCommissionAdmin(MyScoreBaseAdmin):
 class ScoreAllExpertCommissionAdmin(MyScoreBaseAdmin):
     list_per_page = 15
     list_display = ('id', 'application', 'check', 'score',
-                    'score1', 'score2', 'score3', 'score4', 'score5', 'comment_master', 'date_last')
+                    'score1', 'score2', 'score3', 'score4', 'score5', 'date_last')
     list_display_links = ('application',)
     list_filter = ('application',)
     fieldsets = (
@@ -184,11 +184,9 @@ class ScoreAllExpertCommissionAdmin(MyScoreBaseAdmin):
         now_score_objects = self.model.objects.all().values('application')
         id_apps = []
         count = 0
-        print(all_application)
         # Просто собираем все сущестующие свзяи в табличу
         for app in now_score_objects:
             id_apps.append(app['application'])
-        print(id_apps)
 
         # проверяем есть ли связь уже
         for app in all_application:

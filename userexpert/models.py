@@ -10,6 +10,7 @@ from django.utils.translation import gettext_lazy as _
 
 from info.models import Company
 
+
 class MyUserManager(BaseUserManager):
     def create_user(self, login, password=None, **kwargs):
         if not login:
@@ -75,11 +76,17 @@ class Expert(AbstractBaseUser, PermissionsMixin):
     def has_perm(self, perm, obj=None):
         if self.is_staff:
             return True
-        print(perm, self.get_all_permissions())
         if perm in self.get_all_permissions():
             return True
         else:
             return False
+
+    def has_perms_or(self, perm_list):
+        # Функция, которая возвращает нам есть ли хотя бы одни такие права (нужна в очень редких случаях)
+        check = False
+        for perm in perm_list:
+            check = check or self.has_perm(perm)
+        return check
 
     def has_module_perms(self, app_label):
         return self.is_admin
@@ -151,7 +158,7 @@ class Expert(AbstractBaseUser, PermissionsMixin):
         return self.groups.all()
 
     def get_absolute_url(self):  # new
-        #return reverse('expert-detail', args=[str(self.id)])
+        # return reverse('expert-detail', args=[str(self.id)])
         return reverse('index')
 
 
