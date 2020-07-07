@@ -27,7 +27,7 @@ class Region(models.Model):
 
 
 class Company(models.Model):
-    short_name = models.CharField(max_length=100, verbose_name='Коротное название', unique=True)
+    short_name = models.CharField(max_length=100, verbose_name='Короткое название', unique=True)
     full_name = models.CharField(max_length=200, verbose_name='Полное название', unique=True)
     region = models.ForeignKey(Region, on_delete=models.CASCADE, verbose_name='Регион')
     is_vuz = models.BooleanField(default=True, verbose_name='Это вуз')

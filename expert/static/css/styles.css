@@ -24,22 +24,24 @@
 }
 #footer {
     position: fixed;  /*Фиксированное положение */
-    left: -30px; bottom: 0; /* Левый нижний угол */
-    background-color: rgba(53, 160, 187, 0.15);
+    left: 0px; bottom: 0px; /* Левый нижний угол */
+    background-color: rgba(53, 160, 187, 0.05);
     color: #000; /* Цвет текста */
-    width: 230px; /* Ширина слоя */
+    width: 200px; /* Ширина слоя */
     font-size: 95%;
-    padding: 0px;
+    padding: 0;
 
 }
 #menu {
     position: absolute;
     left: 0;
-    top: 30px;
+    top: 0px;
     width: 200px;
     font-size: 95%;
     padding: 5px;
     padding-bottom: 35px;
+    bottom: 0px;
+    margin: 0 auto;
 }
 #content {
     margin: 10px 10px 30px 200px; /* Значения отступов */

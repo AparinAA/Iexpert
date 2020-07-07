@@ -28,8 +28,8 @@ class CheckExpertScore(models.Model):
         return '{} {} {}'.format(self.expert.last_name, self.expert.first_name, self.expert.middle_name)
 
     class Meta:
-        verbose_name_plural = 'Готовность оценок по эксперта'
-        verbose_name = 'Готовность оценок по эксперта'
+        verbose_name_plural = 'Готовность оценок по эксперту'
+        verbose_name = 'Готовность оценок по эксперту'
 
     def save(self, *args, **kwargs):
         self.full_clean()
