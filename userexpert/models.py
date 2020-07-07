@@ -151,7 +151,8 @@ class Expert(AbstractBaseUser, PermissionsMixin):
         return self.groups.all()
 
     def get_absolute_url(self):  # new
-        return reverse('expert-detail', args=[str(self.id)])
+        #return reverse('expert-detail', args=[str(self.id)])
+        return reverse('index')
 
 
 from django.db import models
