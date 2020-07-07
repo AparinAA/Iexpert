@@ -16,9 +16,11 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" >
 </head>
 <body>
-
+        
 <div class="container-fluid">
     <div id="menu">
+        <p><a href="{% url 'index' %}"><img src="../static/img/basic.png" width="180" height="60"/></a></p>
+
         {% block sidebar %}
         <ul class="sidebar-nav">
             {% if not user.is_authenticated %}
