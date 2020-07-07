@@ -3,22 +3,22 @@
 
 {% block content %}
 <h2>Личная страница эксперта</h2>
-<h5>Эксперт: {{ expert }}</h5>
+<h4>Эксперт: {{ expert }}</h4>
 <p><strong></strong> <a href="{% url 'expert_update' expert.pk%}"> Ссылка на изменения персональных данных </a></p>
 {% if expert.is_admin == True %}
 <p> Админский доступ</p>
 {% endif %}
 
-<h5> Информация о месте работы </h5>
+<h4> Информация о месте работы </h4>
 <ul><p><b> Должность: </b> {{expert.position}}</p></ul>
 <ul><p><b> Место работы: </b> {{expert.company.full_name}} </p></ul>
 
-<h5> Контактная информация:</h5>
+<h4> Контактная информация:</h4>
 <ul><p><b> Почта: </b> {{expert.email}}</p></ul>
 <ul><p><b> Телефон: </b> {{expert.phone}}</p></ul>
 
 <hr/>
-<h5>Ссылки на формы для оценок заявки (Не готовые заявки): </h5>
+<h4>Ссылки на формы для оценок заявки (Не готовые заявки): </h4>
 {% if scores_common%}
 <ul type="circle">
     {% for score_form in scores_common %}
@@ -38,7 +38,7 @@
 {% endif %}
 <hr/>
 
-<h5>Ссылки на готовые заявки: </h5>
+<h4>Ссылки на готовые заявки: </h4>
 {% if check_common %}
 <ul type="circle">
     {% for score in check_common %}
