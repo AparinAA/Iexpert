@@ -26,6 +26,7 @@ from django.http import HttpResponseRedirect
 from django.urls import path, re_path
 from django.shortcuts import render
 import pyperclip
+import clipboard
 
 class UserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput)
@@ -105,8 +106,9 @@ class UserAdmin(BaseUserAdmin):
         new_password = BaseUserManager().make_random_password(length=8)
         user.set_password(new_password)
         user.save()
+        clipboard.copy('blah blah blah')
         #pyperclip.copy(new_password)
-        os.system("echo '%s' | xclip -selection c" % new_password)
+        #os.system("echo '%s' | xclip -selection c" % new_password)
         #os.system("echo '%s' | pbcopy" % new_password)  # копирует в буфер обмена
         self.message_user(request, "Новый пароль скопирован в буфер обмена: {}".format(new_password))
         return HttpResponseRedirect("../")
