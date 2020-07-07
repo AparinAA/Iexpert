@@ -105,8 +105,8 @@ class UserAdmin(BaseUserAdmin):
         new_password = BaseUserManager().make_random_password(length=8)
         user.set_password(new_password)
         user.save()
-        pyperclip.copy(new_password)
-        #os.system("xclip -selection clipboard -in {%s}" % new_password)
+        #pyperclip.copy(new_password)
+        os.system("echo '%s' | xclip -selection c" % new_password)
         #os.system("echo '%s' | pbcopy" % new_password)  # копирует в буфер обмена
         self.message_user(request, "Новый пароль скопирован в буфер обмена: {}".format(new_password))
         return HttpResponseRedirect("../")
