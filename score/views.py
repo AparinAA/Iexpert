@@ -37,7 +37,7 @@ def ScoreCommonOneView(request, pk):
     if request.user.has_perm('score.view_scorecommon') or request.user.is_staff:
         SCC = ScoreCommon.objects.all().filter(id=pk)[0]
         if SCC.relation_exp_app.expert == request.user or request.user.is_staff:
-            check = CheckExpertScore.objects.get(expert=request.user)
+            check = CheckExpertScore.objects.get(expert=SCC.relation_exp_app.expert)
             return render(request, 'score/score_common_detail.html',
                           context={'scorecommon': SCC,
                                    'check_exp': check})
@@ -70,7 +70,7 @@ def ScoreExpertOneView(request, pk):
     if request.user.has_perm('score.view_scoreexpert') or request.user.is_staff:
         SEC = ScoreExpert.objects.all().filter(id=pk)[0]
         if SEC.relation_exp_app.expert == request.user or request.user.is_staff:
-            check = CheckExpertScore.objects.get(expert=request.user)
+            check = CheckExpertScore.objects.get(expert=SEC.relation_exp_app.expert)
             return render(request, 'score/score_expert_detail.html',
                           context={'scoreexpert': SEC,
                                    'check_exp': check})

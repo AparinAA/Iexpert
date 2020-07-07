@@ -52,7 +52,7 @@
 
     <ul type="None">
         <li><i>Оценка: </i>  {% if item.score is None %}  <font color="#B22222"> отстутствует </font>  {% else %}  <b>{{ item.score }}</b> {% endif %}</b></li>
-        <li><i>Комментарий: </i> {% if item.comment is None %}  <font color="#B22222"> отстутствует </font>  {% else %}  <b>{{ item.comment }}</b> {% endif %}</b></li>
+        <li><i>Комментарий: </i> {% if item.comment is None or item.comment == "" %}  <font color="#B22222"> отстутствует </font>  {% else %}  <b>{{ item.comment }}</b> {% endif %}</b></li>
     </ul>
     <br/>
 
