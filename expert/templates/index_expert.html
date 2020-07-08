@@ -15,7 +15,7 @@
 
 <h4> Контактная информация:</h4>
 <ul><p><b> Почта: </b> {{expert.email}}</p></ul>
-<ul><p><b> Телефон: </b> {{expert.phone}}</p></ul>
+<ul><p><b> Телефон: </b> {% if expert.phone is None %}  <font color="#B22222"> отстутствует </font>  {% else %}  {{ expert.phone }} {% endif %}</p></ul>
 
 <hr/>
 <h4>Ссылки на формы для оценок заявки (Не готовые заявки): </h4>
