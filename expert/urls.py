@@ -73,6 +73,6 @@ urlpatterns += [
 ]
 urlpatterns += [
     path('score_for_expert/<int:pk>/', result_views.AllScoreForExpertForm.as_view(), name='all_score_for_expert_form'),
-
+    path('check_score/', result_views.AllScoreForExpertIndex, name='check_score')
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

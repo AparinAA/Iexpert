@@ -57,12 +57,5 @@
     {% endif %}
 {% endif %}
 <hr/>
-{% if check_score %}
-{% if not check_score.check_exp %}
-    <a href="{% url 'all_score_for_expert_form' check_score.pk %}">Ссылка на форму подтверждения оценок </a>
-{% else %}
-    Вы подтвердили все свои оценки. Экспретиза окончена.
-
-{% endif %}
-{% endif %}
+{# {% if check_score %} {% if not check_score.check_exp %} <a href="{% url 'all_score_for_expert_form' check_score.pk %}">Ссылка на форму подтверждения оценок </a> {% else %} Вы подтвердили все свои оценки. Экспретиза окончена.{% endif %}{% endif %}#}
 {% endblock %}
