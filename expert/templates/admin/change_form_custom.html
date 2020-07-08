@@ -3,6 +3,7 @@
 {% block object-tools %}
 {{ block.super }}
 
+
 <form action="../my_reset_password/" method="POST">
     {% csrf_token %}
     <input type="submit" class="historylink" value="Сменить пароль">
