@@ -109,7 +109,7 @@ class UserAdmin(BaseUserAdmin):
         self.message_user(request, "Новый пароль скопирован в буфер обмена: {}".format(new_password))
         return HttpResponseRedirect("../")
 
-    def get_urls(self):  # TODO ограничить доступ
+    def get_urls(self):
         urls = super().get_urls()
         my_urls = [
             path('generate_users/', self.generate_users),

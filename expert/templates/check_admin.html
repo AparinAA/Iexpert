@@ -1,0 +1,11 @@
+{% extends "base_generic.html" %}
+{% block title %}<title> Я - Эксперт </title>{% endblock %}
+
+{% block content %}
+<p>Вы администратор, вам не нужно подтверждать оценки</p>
+
+<p> Если вы уверены, что это ошибка, то напишите по адресу: <a href="mailto:support@iproficlub.ru">support@iproficlub.ru</a>
+</p>
+
+<p> Вернуться на <a href="{% url 'index' %}">страницу пользователя </a></p>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2>Подтверждение оценок </h2>
+<h4> <p> Эксперт: {{checkexpertscore.expert}}</p> </h4>
+{% for item in checkexpertscore.get_all_score %}
+<ul>
+    <li>
+        <b> {{ item.relation_exp_app.application }} </b>
+        {% if not checkexpertscore.check_exp %}
+            - <a href="{% url 'score_expert_form' item.pk %}"> Изменить оценки </a>
+        {% endif %}
+    </li>
+    <br/>
+
+    <ul type="None">
+        <table border="1" cellpadding="0.1" width="750">
+            <tr>
+                <td align="center"><i> Оценка по критерию №1 </i></td>
+                <td align="center"><i> Оценка по критерию №2</i></td>
+                <td align="center"><i> Оценка по критерию №3 </i></td>
+                <td align="center"><i> Оценка по критерию №4 </i></td>
+                <td align="center"><i> Оценка по критерию №5 </i></td>
+            </tr>
+            <tr>
+                {% if item.score1 is None %} <td align="center"> <font color="#B22222"> отстутствует </font> </td> {% else %} <td align="center"> <b>{{ item.score1 }}</b></td> {% endif %}</b>
+                {% if item.score2 is None %} <td align="center">  <font color="#B22222"> отстутствует </font>  </td> {% else %} <td align="center"> <b>{{ item.score2 }}</b></td> {% endif %}</b>
+                {% if item.score3 is None %} <td align="center"> <font color="#B22222"> отстутствует </font>   </td> {% else %} <td align="center"> <b>{{ item.score3 }}</b></td> {% endif %}</b>
+                {% if item.score4 is None %} <td align="center"> <font color="#B22222"> отстутствует </font>  </td> {% else %} <td align="center"> <b>{{ item.score4 }}</b></td> {% endif %}</b>
+                {% if item.score5 is None %} <td align="center"> <font color="#B22222"> отстутствует </font>    </td> {% else %} <td align="center"> <b>{{ item.score5 }}</b></td> {% endif %}</b>
+            </tr>
+        </table>
+        {% if item.comment is None or item.comment == "" %}
+        <li><i>Комментарий: </i> <font color="#B22222">  Вы не оставили комментарий по заявке  </font></li>
+        {% else %}
+        <li><i>Комментарий: </i> {{ item.comment }}</li>
+        {% endif %}
+    </ul>
+    <br/>
+
+</ul>
+{% endfor %}
+{% for item in checkexpertscore.get_all_score_common %}
+<ul>
+    <li>
+        <b> {{ item.relation_exp_app.application }} </b>
+        {% if not checkexpertscore.check_exp %}
+            - <a href="{% url 'score_common_form' item.pk %}"> Изменить оценки </a>
+        {% endif %}
+    </li>
+    <br/>
+
+    <ul type="None">
+        <li><i>Оценка: </i>  {% if item.score is None %}  <font color="#B22222"> отстутствует </font>  {% else %}  <b>{{ item.score }}</b> {% endif %}</b></li>
+        <li><i>Комментарий: </i> {% if item.comment is None or item.comment == "" %}  <font color="#B22222"> отстутствует </font>  {% else %}  <b>{{ item.comment }}</b> {% endif %}</b></li>
+    </ul>
+    <br/>
+
+</ul>
+{% endfor %}
+{% if not checkexpertscore.check_exp %}
+    {% if checkexpertscore.count_all == checkexpertscore.count_ok %}
+    <form action="" method="post">
+        {% csrf_token %} {# {{ form.as_table }} class="fieldWrapper"#}
+            Подтвердите свои оценки:
+             {{ form.check_exp.help_text }}
+            {{ form.check_exp.errors }}
+             {{ form.check_exp }}
+        <br/>
+        <br/>
+
+        <input type="submit" value="Отправить"/>
+    </form>
+    Если вы хотите поправить оценки, то сделайте это до подтверждения
+        {%else%}
+    <b>Вы не окончили оценку заявок. Пожалуйста, вернитесь к заявкам, которые вы не оценили и вернитесь на эту страницу после.</b>
+    {%endif%}
+{%else%}
+<b>Вы подтвердили окончание экспертизы. Если вы хотите внести измнения в оценки, то напишите на почту <a href="mailto:support@iproficlub.ru"> support@iproficlub.ru </a></b>
+{%endif%}
+
+{% endblock %}
