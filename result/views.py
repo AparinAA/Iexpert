@@ -48,7 +48,6 @@ class AllScoreForExpertForm(PermissionRequiredMixin, UpdateView):
 def AllScoreForExpertIndex(request):
     perms = ('score.change_scoreexpert', 'score.change_scorecommon')
     # if request.method == "POST":
-    print(request.method)
     if request.user.is_staff:
         return render(request, 'check_admin.html')
     if request.user.has_perms_or(perms) or request.user.is_staff:
@@ -62,12 +61,10 @@ def AllScoreForExpertIndex(request):
             except:
                 pass
         elif request.method == 'POST':
-            print(request)
             form = UserForm(request.POST)
             if form.is_valid():
-                data = form.save(commit=False)
+                # data = form.save(commit=False)
                 check_exp_sc = CheckExpertScore.objects.all().get(expert=request.user)
-                print(check_exp_sc)
                 check_exp_sc.check_exp = form.cleaned_data['check_exp']
 
                 return render(request, 'result/score_all_for_expert.html',
