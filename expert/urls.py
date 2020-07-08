@@ -41,6 +41,12 @@ urlpatterns = [
 ]
 
 urlpatterns += [
+    path('criteria_expert/', views.criteria_expert, name='criteria_expert'), #criteria_common
+    path('criteria_common/', views.criteria_common, name='criteria_common'),  # criteria_common
+
+]
+
+urlpatterns += [
     path('expert/<int:pk>/', exp_views.ExpertOneViews, name='expert-detail'),
     path('expert/<int:pk>/update/', exp_views.ExpertUpdate.as_view(), name='expert_update'),
     path('experts/', exp_views.ExpertViews, name='experts'),

@@ -2,10 +2,11 @@ from django.shortcuts import render
 
 from score.models import ScoreCommon, ScoreExpert, ScoreCommonAll, ScoreExpertAll
 from userexpert.models import CustomGroup, Expert
-from app.models import  Direction, Application, RelationExpertApplication
+from app.models import Direction, Application, RelationExpertApplication
 from info.models import Company, FederalDistrict, Region
 from django.views import generic
 from result.models import CheckExpertScore
+
 
 def index(request):
     num_application = Application.objects.all().count()
@@ -88,3 +89,10 @@ def index(request):
                       context={'num_application': num_application, 'num_direction': num_direction,
                                'num_expert': num_expert,
                                'num_visits': num_visits})
+
+
+def criteria_expert(request):
+    return render(request, 'criteria_expert.html', )
+
+def criteria_common(request):
+    return render(request, 'criteria_common.html', )

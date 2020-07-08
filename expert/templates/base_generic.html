@@ -12,20 +12,22 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <!-- Добавление дополнительного статического CSS файла -->
-    <link rel="stylesheet" type="text/css" href="{% static '/css/styles.css'%}" >
+    {% block style_css %}
+    <link rel="stylesheet" type="text/css" href="{% static '/css/styles.css'%}">
+    {% endblock %}
 </head>
 <body>
 
 <div class="container-fluid">
     <div id="menu">
-        <p><a href="{% url 'index' %}"><img src="{% static 'img/basic.png' %}" width="180" height="60" ></a></p>        
+        <p><a href="{% url 'index' %}"><img src="{% static 'img/basic.png' %}" width="180" height="60"></a></p>
         {% block sidebar %}
         <ul class="sidebar-nav">
             {% if not user.is_authenticated %}
             <a href="{% url 'index' %}">Домашняя страница</a>
             {% else %}
-                <a href="{% url 'index' %}"> Профиль </a>
-                <a href="{% url 'check_score' %}"> Подтверждение оценок</a>
+            <a href="{% url 'index' %}"> Профиль </a>
+            <a href="{% url 'check_score' %}"> Подтверждение оценок</a>
             {% endif%}
         </ul>
 
@@ -52,19 +54,19 @@
             ФИО: {{ user }}
             <hr/>
             {% if user.is_admin %}
-            <a href="https://yadi.sk/i/Io0QEGHzF86w-w" target="_blank"> Критерии экспертной комиссии </a>
-            <a href="https://yadi.sk/i/TZFbK2hphOiesA" target="_blank"> Критерии общей комиссии </a>
+            <a href="{% url 'criteria_expert' %}" target="_blank"> Критерии экспертной комиссии </a>
+            <a href="{% url 'criteria_common' %}" target="_blank"> Критерии общей комиссии </a>
             {% else %}
-                {% if user.is_common_commission %}
-                        <a href="https://yadi.sk/i/TZFbK2hphOiesA" target="_blank"> Критерии общей комиссии </a>
-                {% else %}
-                        <a href="https://yadi.sk/i/Io0QEGHzF86w-w" target="_blank"> Критерии экспертной комиссии </a>
-                {% endif %}
+            {% if user.is_common_commission %}
+            <a href="{% url 'criteria_common' %}" target="_blank"> Критерии общей комиссии </a>
+            {% else %}
+            <a href="{% url 'criteria_expert' %}" target="_blank"> Критерии экспертной комиссии </a>
             {% endif %}
-             <hr/>
+            {% endif %}
+            <hr/>
             <a href="/accounts/logout/">Выйти из аккаунта </a>
             {% else %}
-           <a href="/accounts/login/">Авторизоваться</a>
+            <a href="/accounts/login/">Авторизоваться</a>
             {% endif %}
         </ul>
         {% endblock %}
@@ -95,6 +97,6 @@
 
 
 </div>
-<div id="footer"> email для обратной связи: <a href="mailto:support@iproficlub.ru">support@iproficlub.ru</a> </div>
+<div id="footer"> email для обратной связи: <a href="mailto:support@iproficlub.ru">support@iproficlub.ru</a></div>
 </body>
 </html>

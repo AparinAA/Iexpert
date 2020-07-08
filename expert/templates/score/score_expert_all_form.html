@@ -5,8 +5,7 @@
 
 <ul><b> Заявка: </b> {{ scoreexpertall.application }}</ul>
 <ul><b> Ссылка на документы заявки: </b> {{ scoreexpertall.application.url_archiv }}</ul>
-<ul><b> Ссылка на подробные критерии: </b> <a href="https://yadi.sk/i/Io0QEGHzF86w-w" target="_blank">
-    https://yadi.sk/i/TZFbK2hphOiesA </a></ul>
+<ul><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_expert' %}" target="_blank"> Критерии экспертной комиссии </a></ul>
 
 <h4> Оценки и комментарии экспертов </h4>
 {% for expert, score_and_comment in scoreexpertall.get_all_comments_and_scores.items %}

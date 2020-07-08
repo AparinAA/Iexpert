@@ -6,7 +6,7 @@
 <ul><b> Эксперт: </b> {{ scorecommon.relation_exp_app.expert }}</ul>
 <ul><b> Заявка: </b> {{ scorecommon.relation_exp_app.application }}</ul>
 <ul><b> Ссылка на документы заявки: </b>  <a href="{{ scorecommon.relation_exp_app.application.link_archiv }}" target="_blank"> {{ scorecommon.relation_exp_app.application.link_archiv }} </a></ul>
-<ul><b> Ссылка на подробные критерии: </b> <a href="https://yadi.sk/i/TZFbK2hphOiesA" target="_blank"> https://yadi.sk/i/Io0QEGHzF86w-w </a></ul>
+<ul><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_common' %}" target="_blank"> Критерии общей комиссии </a></ul>
 
 <form action="" method="post">
     {% csrf_token %} {# {{ form.as_table }} class="fieldWrapper"#}

@@ -5,8 +5,7 @@
 
 <ul><b> Заявка: </b> {{ scorecommonall.application }}</ul>
 <ul><b> Ссылка на документы заявки: </b> {{ scorecommonall.application.url_archiv }}</ul>
-<ul><b> Ссылка на подробные критерии: </b> <a href="https://yadi.sk/i/TZFbK2hphOiesA" target="_blank">
-    https://yadi.sk/i/Io0QEGHzF86w-w </a></ul>
+<ul><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_common' %}" target="_blank"> Критерии общей комиссии </a></ul>
 
 <h4> Оценки и комментарии экспертов </h4>
 {% for expert, score_and_comment in scorecommonall.get_all_comments_and_scores.items %}
