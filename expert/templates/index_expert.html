@@ -9,11 +9,11 @@
 <h4>Персональная информация</h4>
 <p><strong></strong> <a href="{% url 'expert_update' expert.pk%}"> Ссылка на изменения персональных данных </a></p>
 <ul>
-    <h5> Информация о месте работы </h5>
+    <b style='font-size:15px'> Информация о месте работы </b>
     <ul><p><i> Должность: </i> {{expert.position}}</p></ul>
     <ul><p><i> Место работы: </i> {{expert.company.full_name}} </p></ul>
 
-    <h5> Контактная информация:</h5>
+    <b style='font-size:15px'> Контактная информация:</b>
     <ul><p><i> Почта: </i> {{expert.email}}</p></ul>
     <ul><p><i> Телефон: </i> {% if expert.phone is None %} <font color="#B22222"> отстутствует </font> {% else %} {{
         expert.phone }} {% endif %}</p></ul>
@@ -42,7 +42,7 @@
 
 <h4>Экспертиза заявок</h4>
 <ul>
-    <b>Не готовые экспертные оценки </b>
+    <b style='font-size:15px'>Не готовые экспертные оценки </b>
     <br/>
     {% for com in commissions %}
     <ul>
@@ -72,7 +72,7 @@
     <br/><br/>
 
     <br/><hr/>
-    <b>Оконченные экспертные оценки </b>
+    <b style='font-size:15px'>Оконченные экспертные оценки </b>
         {% for com in commissions %}
     <ul>
         <b> {{com}}</b>
