@@ -143,7 +143,10 @@ class Expert(AbstractBaseUser, PermissionsMixin):
 
     @property
     def get_custom_commission(self):  # Отдает список групп эксперта
-        cg = CustomGroup.objects.all().filter(group__in=self.groups.all())
+        all_gr = []
+        for gr in self.groups.all():
+            all_gr.append(gr)
+        cg = CustomGroup.objects.all().filter(group__in=all_gr)
         return cg
 
     @property

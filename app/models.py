@@ -41,6 +41,7 @@ class Application(models.Model):
         verbose_name_plural = "Заявки"
         verbose_name = "Заявка"
         ordering = ['name']
+        unique_together = ['name', 'vuz']
 
     def __str__(self):
         return '{} - {}'.format(self.name, self.vuz.short_name)

@@ -40,6 +40,8 @@
 
 </ul>
 {% endfor %}
+
+
 {% for item in checkexpertscore.get_all_score_common %}
 <ul>
     <li>
@@ -58,6 +60,8 @@
 
 </ul>
 {% endfor %}
+
+
 {% if not checkexpertscore.check_exp %}
     {% if checkexpertscore.count_all == checkexpertscore.count_ok %}
     <form action="" method="post">
