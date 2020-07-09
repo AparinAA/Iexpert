@@ -42,11 +42,11 @@
 
 <h4>Экспертиза заявок</h4>
 <ul>
-    <b style='font-size:15px'>Не рассмотренные экспертные оценки </b>
+    <b style='font-size:15px'>Нерассмотренные экспертные оценки </b>
     <br/>
     {% for com in commissions %}
     <ul>
-        <b> {{com}}</b>
+        <i> {{com}}</i>
         {% if com.common_commission %}
                 {% if scores_common%}
                     <ul type="circle">
@@ -73,7 +73,7 @@
     <b style='font-size:15px'>Завершенные экспертные оценки </b>
         {% for com in commissions %}
     <ul>
-        <b> {{com}}</b>
+        <i> {{com}}</i>
         {% if com.common_commission %}
                 {% if check_common%}
                     <ul type="circle">
