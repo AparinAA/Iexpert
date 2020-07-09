@@ -3,6 +3,24 @@
 {% block object-tools %}
 {{ block.super }}
 
+{% load static %}
+<!---Разметка для модального окна---->	
+<div id="iw-modal" class="{% static 'css/iw-modal' %}">
+<div class="{% static 'css/iw-modal-wrapper' %}">
+<div class="{% static 'css/iw-CSS-modal-inner' %}">
+<div class="{% static 'css/iw-modal-header' %}">
+<h3 class="{% static 'css/iw-modal-title' %}">Заголовок</h3>
+<a href="#close" title="Закрыть" class="{% static 'iw-close' %}">×</a>
+</div>
+<div class="{% static 'css/iw-modal-text' %}">    
+<p>Здесь Вы можете разместить свой текст, изображения или формы обратной связи</p>
+</div>
+</div>
+</div>	
+</div>
+<!---end.Разметка для модального окна---->	
+<!-- Разметка для кнопки открытия модального окна -->
+<a href="#iw-modal" class="../static/css/iw-modal-btn">Открыть</a>
 
 <form action="../my_reset_password/" method="POST">
     {% csrf_token %}

@@ -1,0 +1,57 @@
+.sidebar-nav {
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
+}
+.block1 {
+    width: 200px;
+    background: #ccc;
+    padding: 5px;
+    padding-right: 20px;
+    border: solid 1px black;
+    float: left;
+    background: #39b54a;
+}
+.block2 {
+    width: 200px;
+    background: #fc0;
+    padding: 5px;
+    border: solid 1px black;
+    float: left;
+    position: relative;
+    top: 40px;
+    left: -70px;
+}
+#footer {
+    position: fixed;  /*Фиксированное положение */
+    left: 0px; bottom: 0px; /* Левый нижний угол */
+    background-color: rgba(53, 160, 187, 0.05);
+    color: #000; /* Цвет текста */
+    width: 200px; /* Ширина слоя */
+    font-size: 95%;
+    padding: 0;
+
+}
+#menu {
+    position: absolute;
+    left: 0;
+    top: 0px;
+    width: 200px;
+    font-size: 95%;
+    padding: 5px;
+    padding-bottom: 35px;
+    bottom: 0px;
+    margin: 0 auto;
+}
+#content {
+    margin: 10px 10px 30px 200px; /* Значения отступов */
+    padding: 5px; /* Поля вокруг текста */
+}
+#menu a {
+    display: block; /* Отображать ссылку как блок */
+    padding: 0.5px; /* Поля вокруг ссылок */
+    margin: -1; /* Отступы вокруг */
+    font-size: 1em; /* Размер текста */
+    text-decoration: none; /* Убираем подчеркивание текста */
+}
+
