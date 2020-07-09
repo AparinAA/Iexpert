@@ -10,12 +10,12 @@
 <p><strong></strong> <a href="{% url 'expert_update' expert.pk%}"> Ссылка на изменения персональных данных </a></p>
 <ul>
     <h5> Информация о месте работы </h5>
-    <ul><p><b> Должность: </b> {{expert.position}}</p></ul>
-    <ul><p><b> Место работы: </b> {{expert.company.full_name}} </p></ul>
+    <ul><p><i> Должность: </i> {{expert.position}}</p></ul>
+    <ul><p><i> Место работы: </i> {{expert.company.full_name}} </p></ul>
 
     <h5> Контактная информация:</h5>
-    <ul><p><b> Почта: </b> {{expert.email}}</p></ul>
-    <ul><p><b> Телефон: </b> {% if expert.phone is None %} <font color="#B22222"> отстутствует </font> {% else %} {{
+    <ul><p><i> Почта: </i> {{expert.email}}</p></ul>
+    <ul><p><i> Телефон: </i> {% if expert.phone is None %} <font color="#B22222"> отстутствует </font> {% else %} {{
         expert.phone }} {% endif %}</p></ul>
 </ul>
     <br/>
@@ -42,7 +42,8 @@
 
 <h4>Экспертиза заявок</h4>
 <ul>
-    <h5>Не готовые экспертные оценки </h5>
+    <b>Не готовые экспертные оценки </b>
+    <br/>
     {% for com in commissions %}
     <ul>
         <b> {{com}}</b>
@@ -71,7 +72,7 @@
     <br/><br/>
 
     <br/><hr/>
-    <h5>Оконченные экспертные оценки </h5>
+    <b>Оконченные экспертные оценки </b>
         {% for com in commissions %}
     <ul>
         <b> {{com}}</b>
