@@ -25,5 +25,5 @@
 **Загрузить обновления из git** *git pull*\
 **Если не ругается при слияние**\
 *git fetch --all*\
-*git reset --hard origin/master*
+*git reset --hard origin/master*\
 *git pull*
