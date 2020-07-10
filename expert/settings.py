@@ -11,8 +11,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import dj_database_url
-from whitenoise import WhiteNoise
 from urllib.parse import urlparse
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE','expert.settings.production')
@@ -26,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY ="sadsfz#$#@_231dsfs&#$^123_1"
 #SECRET_KEY = os.environ['SECRET_KEY']
 DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
-ALLOWED_HOSTS = ['iexpert.herokuapp.com','127.0.0.1', 'iexpert.team','www.iexpert.team','expert-olymp.ru']
+ALLOWED_HOSTS = ['iexpert.herokuapp.com','127.0.0.1', 'iexpert.team','www.iexpert.team','expert-olymp.ru','www.expert-olymp.ru']
 
 # Application definition
 
@@ -47,7 +45,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -78,7 +75,7 @@ WSGI_APPLICATION = 'expert.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-url = urlparse(os.getenv("CLEARDB_DATABASE_URL"))
+url = urlparse(os.getenv("DB"))
 if url.hostname != None:
     DATABASES = {
         'default': {
@@ -99,8 +96,8 @@ else:
             'HOST': 'localhost',
         }
     }
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+#db_from_env = dj_database_url.config(conn_max_age=500)
+#DATABASES['default'].update(db_from_env)
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -136,7 +133,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "expert", "static"),)
 AUTH_USER_MODEL = 'userexpert.Expert'
