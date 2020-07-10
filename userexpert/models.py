@@ -59,6 +59,7 @@ class Expert(AbstractBaseUser, PermissionsMixin):
     position = models.CharField(verbose_name='Должность', max_length=200)
     phone = models.CharField(blank=True, null=True, verbose_name='Телефон', max_length=20)
     common_commission = models.BooleanField(verbose_name='Общая комиссия', default=False)
+    expert_commission = models.BooleanField(verbose_name='Общая комиссия', default=True)
     master_group = models.BooleanField(verbose_name='Ответственный секретарь', default=False)
     objects = MyUserManager()
 
