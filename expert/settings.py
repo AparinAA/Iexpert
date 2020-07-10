@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 from urllib.parse import urlparse
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE','expert.settings.production')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'expert.settings.production')
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -22,15 +22,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 try:
-    with open(os.path.join(os.getenv('HOME'),'config'),'r') as config:
+    with open(os.path.join(os.getenv('HOME'), 'config'), 'r') as config:
         url = urlparse(config.readline())
         SECRET_KEY = config.readline()
-except (IOError,TypeError):
-    SECRET_KEY ="sadsfz#$#@_231dsfs&#$^123_1"
+except (IOError, TypeError):
+    SECRET_KEY = "sadsfz#$#@_231dsfs&#$^123_1"
     url = False
 
-DEBUG = bool( os.environ.get('DJANGO_DEBUG', False) )
-ALLOWED_HOSTS = ['iexpert.herokuapp.com','127.0.0.1', 'iexpert.team','www.iexpert.team','expert-olymp.ru','www.expert-olymp.ru']
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', False))
+ALLOWED_HOSTS = ['iexpert.herokuapp.com', '127.0.0.1', 'iexpert.team', 'www.iexpert.team', 'expert-olymp.ru',
+                 'www.expert-olymp.ru']
 
 # Application definition
 
@@ -97,7 +98,7 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'expert',
-            'USER': 'evgen', #'marcon1',
+            'USER': 'evgen',  # 'marcon1',
             'PASSWORD': '36BxXp936BxXp9',
             'HOST': 'localhost',
         }
@@ -142,4 +143,3 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "expert", "static"),)
 AUTH_USER_MODEL = 'userexpert.Expert'
 LOGIN_REDIRECT_URL = '/'
-
