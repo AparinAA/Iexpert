@@ -21,9 +21,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY ="sadsfz#$#@_231dsfs&#$^123_1"
-#SECRET_KEY = os.environ['SECRET_KEY']
-DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
+try:
+    with open(os.path.join(os.getenv('HOME'),'config'),'r') as config:
+        url = urlparse(config.readline())
+        SECRET_KEY = config.readline()
+except IOError:
+    SECRET_KEY ="sadsfz#$#@_231dsfs&#$^123_1"
+    url = False
+
+DEBUG = bool( os.environ.get('DJANGO_DEBUG', False) )
 ALLOWED_HOSTS = ['iexpert.herokuapp.com','127.0.0.1', 'iexpert.team','www.iexpert.team','expert-olymp.ru','www.expert-olymp.ru']
 
 # Application definition
@@ -75,8 +81,8 @@ WSGI_APPLICATION = 'expert.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-url = urlparse(os.getenv("DB"))
-if url.hostname != None:
+
+if url != False:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
@@ -96,8 +102,6 @@ else:
             'HOST': 'localhost',
         }
     }
-#db_from_env = dj_database_url.config(conn_max_age=500)
-#DATABASES['default'].update(db_from_env)
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -133,7 +137,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = 'static/'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "expert", "static"),)
 AUTH_USER_MODEL = 'userexpert.Expert'
