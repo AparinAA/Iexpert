@@ -14,7 +14,7 @@ class ScoreCommon(models.Model):
     """
     Оценки общей комиссии в связке с экспертами и заявками (самая подробная информация)
     """
-    with open('score/info.json', 'r', encoding='utf-8') as file:
+    with open('/var/www/u1095817/data/www/expert-olymp.ru/Iexpert/score/info.json', 'r', encoding='utf-8') as file:
         data_score = json.load(file)
     can_score = ((1, 1), (2, 2), (3, 3), (4, 4), (5, 5),
                  (6, 6), (7, 7), (8, 8), (9, 9), (10, 10))
@@ -63,7 +63,7 @@ class ScoreExpert(models.Model):
     """
     Оценки общей комиссии в связке с экспертами и заявками (самая подробная информация)
     """
-    with open('score/info.json', 'r', encoding='utf-8') as file:
+    with open('/var/www/u1095817/data/www/expert-olymp.ru/Iexpert/score/info.json', 'r', encoding='utf-8') as file:
         data_score = json.load(file)
     can_score = ((1, 1), (2, 2), (3, 3), (4, 4), (5, 5),
                  (6, 6), (7, 7), (8, 8), (9, 9), (10, 10))

@@ -5,8 +5,8 @@
 {# This hack allows sub templates to add to object-tools #}
 
 
-{% block content %}
-
+{% block object-tools %}
+{{ block.super }}
 <form action="" method="POST">
     {% csrf_token %}
     <p>Основание <input type="text" size="24" name="name" value="example"></p>
@@ -25,11 +25,12 @@
     <input type="submit" class="btn" name='sgen' value="Сгенерировать">
     <ul>{{list | unordered_list}}</ul>
     
-    <input type="submit" class="btn" name='apply' value="Подтвердить" >
-    <input type="submit" class="btn" name="download" value="Скачать">
+
     <input type="hidden" name="nameOs" value="{{id_nameOs}}">
     <input type="hidden" name="number" value="{{id_number}}">
-	</p>
+	<input type="submit" class="btn" name='apply' value="Подтвердить и скачать в xlsx" >
+    </p>
+    <input type="submit" class="btn" name='prev' value="Вернуться">
 
 </form>
 

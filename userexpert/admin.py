@@ -119,7 +119,6 @@ class UserAdmin(BaseUserAdmin):
         return my_urls + urls
 
     def update_users(self, request):
-        print(self)
         for user in self.model.objects.all():
             try:
                 user.save()
@@ -170,40 +169,40 @@ class UserAdmin(BaseUserAdmin):
                 last_number += 1
             data = generate(last_number, count, osnova)
             return data
+        
+        #кнопка вернуться
+        if 'prev' in request.POST:
+            return HttpResponseRedirect('../')
 
-        if 'generate' in request.POST:
-            count = 1
+        #перейти на страницу для генерации
+        elif 'generate' in request.POST:
+            count = int(1)
             osnova = "example"
             data = sub_generate(self, count, osnova)
             return render(request, 'admin/generate_users.html',
-                          {'list': data['login'].tolist(), 'id_nameOs': osnova, 'id_number': count,
-                           'title': u'Генерация логинов и паролей'})
+                          {'list': data['login'].tolist(), 'id_number' : count, 'id_nameOs' : osnova,
+                           'title': u'Генерация логинов и паролей',})
 
-        if 'sgen' in request.POST:
+        # Генерируем новые логины
+        elif 'sgen' in request.POST:
             count = int(request.POST.get('num'))
             osnova = str(request.POST.get('name'))
             data = sub_generate(self, count, osnova)
             return render(request, 'admin/generate_users.html',
-                          {'list': data['login'].tolist(), 'id_nameOs': osnova, 'id_number': count,
-                           'title': u'Генерация логинов и паролей'})
+                          {'list': data['login'].tolist(), 'id_number' : count, 'id_nameOs' : osnova,
+                           'title': u'Генерация логинов и паролей',})
 
-        # Если нажали подтвердить, то все, генерируем
-        if 'apply' in request.POST:
+        # Если нажали подтвердить, то все, сохраняем и экспортируем xlsx
+        elif 'apply' in request.POST:
             count = int(request.POST.get('number'))
             osnova = str(request.POST.get('nameOs'))
             data = sub_generate(self, count, osnova)
-            self.message_user(request, "Сгенерировали {} логинов".format(count))
-            for login, password in data[['login', 'password']].values:
+            self.message_user(request, "Сгенерировано новых логинов: {}".format(count))
+            for login, password in data[['login','password']].values:
                 exp = Expert.objects.create_user(login, password=password)
                 # exp.save()
                 pass
-            return HttpResponseRedirect('../')
-
-        if 'download' in request.POST:
-            count = int(request.POST.get('number'))
-            osnova = str(request.POST.get('nameOs'))
-            data = sub_generate(self, count, osnova)
-            return self.generate_login_and_password(request, data)
+            return self.generate_login_and_password(request, data) #
 
 
 from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
