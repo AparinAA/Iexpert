@@ -6,7 +6,7 @@ from app.models import Application, RelationExpertApplication
 from score.function_score import scalar_product_exp_scores, mean_any, MyError, scalar_product_com_exp
 import json
 from datetime import datetime
-
+import os
 # Create your models here.
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -15,7 +15,7 @@ class ScoreCommon(models.Model):
     """
     Оценки общей комиссии в связке с экспертами и заявками (самая подробная информация)
     """
-    with open(BASE_DIR + 'info.json', 'r', encoding='utf-8') as file:
+    with open(os.path.join(BASE_DIR , 'score/info.json'), 'r', encoding='utf-8') as file:
         data_score = json.load(file)
     can_score = ((1, 1), (2, 2), (3, 3), (4, 4), (5, 5),
                  (6, 6), (7, 7), (8, 8), (9, 9), (10, 10))
@@ -64,7 +64,7 @@ class ScoreExpert(models.Model):
     """
     Оценки общей комиссии в связке с экспертами и заявками (самая подробная информация)
     """
-    with open(BASE_DIR + 'info.json', 'r', encoding='utf-8') as file:
+    with open(os.path.join(BASE_DIR , 'score/info.json'), 'r', encoding='utf-8') as file:
         data_score = json.load(file)
     can_score = ((1, 1), (2, 2), (3, 3), (4, 4), (5, 5),
                  (6, 6), (7, 7), (8, 8), (9, 9), (10, 10))

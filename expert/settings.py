@@ -25,7 +25,7 @@ try:
     with open(os.path.join(os.getenv('HOME'),'config'),'r') as config:
         url = urlparse(config.readline())
         SECRET_KEY = config.readline()
-except IOError:
+except (IOError,TypeError):
     SECRET_KEY ="sadsfz#$#@_231dsfs&#$^123_1"
     url = False
 
