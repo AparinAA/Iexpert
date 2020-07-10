@@ -16,6 +16,7 @@ import os
 from xlsxwriter import Workbook
 import pandas as pd
 from datetime import datetime
+from .function_upload import upload_expert, upload_group, upload_app
 
 @admin.register(CheckExpertScore)
 class ExpertScoreAdmin(MyScoreBaseAdmin):
@@ -35,29 +36,13 @@ class ExpertScoreAdmin(MyScoreBaseAdmin):
         """
         Проверяем есть ли связи в общей комиссии, которые мы ещё не добавили, если есть, добавляем
         """
-        self.model.objects.all().update()
-        all_expert = Expert.objects.all().filter(master_group=False).filter(is_admin=False)
-
-        now_obj = self.model.objects.all().values('expert')
-        id_exps = []
-        count = 0
-        # Просто собираем все сущестующие свзяи в табличу
-        for exp in now_obj:
-            id_exps.append(exp['expert'])
-        print(id_exps)
-
-        for exp in all_expert:
-            if exp.id in id_exps:
-                print('YES', exp)
-            else:
-                print('NO', exp)
-                self.model.objects.create(expert=exp)
-                count += 1
+        count = upload_expert()
         if count:
-            self.message_user(request, "Объекты добавлены в количестве {} шт".format(count))
+            log = "Объекты добавлены в количестве {} шт".format(count)
         else:
-            self.message_user(request, "Нет объектов для добавления".format(count))
-        return HttpResponseRedirect("../")
+            log = "Нет объектов для добавления".format(count)
+        return log
+
 
 
 @admin.register(CheckGroups)
@@ -84,10 +69,6 @@ class CheckGroupsAdmin(MyScoreBaseAdmin):
         ]
         return my_urls + urls
 
-    #def export_itog(self, request):
-    #    self.message_user(request, "ТУТ БУДЕТ КАСТОМНЫЙ ЭКСПОРТ")  # TODO EXPORT
-    #    return HttpResponseRedirect("../")
-
     def export_itog(self, request):
         self.message_user(request, "ТУТ БУДЕТ КАСТОМНЫЙ ЭКСПОРТ")  # TODO EXPORT
         output = io.BytesIO()
@@ -112,33 +93,17 @@ class CheckGroupsAdmin(MyScoreBaseAdmin):
         return response
 
 
-    def load_from_relation(self, request):
+    def load_from_relation(self, request): # TODO Не работает. Исправить
         """
         Проверяем есть ли связи в общей комиссии, которые мы ещё не добавили, если есть, добавляем
         """
-        self.model.objects.all().update()
-        all_commission = CustomGroup.objects.all().filter(admin_group=False)
-
-        now_obj = self.model.objects.all().values('commission')
-        id_comm = []
-        count = 0
-        # Просто собираем все сущестующие свзяи в табличу
-        for comm in now_obj:
-            id_comm.append(comm['commission'])
-        print(id_comm)
-
-        for comm in all_commission:
-            if comm.id in id_comm:
-                print('YES', comm)
-            else:
-                print('NO', comm)
-                self.model.objects.create(commission=comm)
-                count += 1
+        count = upload_group()
         if count:
-            self.message_user(request, "Объекты добавлены в количестве {} шт".format(count))
+            log = "Объекты добавлены в количестве {} шт".format(count)
         else:
-            self.message_user(request, "Нет объектов для добавления".format(count))
-        return HttpResponseRedirect("../")
+            log = "Нет объектов для добавления".format(count)
+        return log
+
 
 
 
@@ -158,26 +123,9 @@ class CheckApplicationAdmin(MyScoreBaseAdmin):
         """
         Проверяем есть ли связи в общей комиссии, которые мы ещё не добавили, если есть, добавляем
         """
-        self.model.objects.all().update()
-        all_app = Application.objects.all()
-
-        now_obj = self.model.objects.all().values('application')
-        id_apps = []
-        count = 0
-        # Просто собираем все сущестующие свзяи в табличу
-        for app in now_obj:
-            id_apps.append(app['application'])
-        print(id_apps)
-
-        for app in all_app:
-            if app.id in id_apps:
-                print('YES', app)
-            else:
-                print('NO', app)
-                self.model.objects.create(application=app)
-                count += 1
+        count = upload_app()
         if count:
-            self.message_user(request, "Объекты добавлены в количестве {} шт".format(count))
+            log = "Объекты добавлены в количестве {} шт".format(count)
         else:
-            self.message_user(request, "Нет объектов для добавления".format(count))
-        return HttpResponseRedirect("../")
+            log = "Нет объектов для добавления".format(count)
+        return log

@@ -5,6 +5,8 @@ from django.urls import path
 from app.models import Application, RelationExpertApplication
 from import_export.admin import ImportExportActionModelAdmin
 from score.models import ScoreCommon, ScoreExpert, ScoreAll, ScoreCommonAll, ScoreExpertAll
+from .function_upload import upload_score_common, upload_score_expert, upload_score_all
+from expert.fuction_for_all import reload_scores
 
 
 class MyScoreBaseAdmin(ImportExportActionModelAdmin):
@@ -20,19 +22,16 @@ class MyScoreBaseAdmin(ImportExportActionModelAdmin):
         return my_urls + urls
 
     def export_custom(self, request):
-        self.message_user(request, "ТУТ БУДЕТ КАСТОМНЫЙ ЭКСПОРТ")  # TODO EXPORT
-        return HttpResponseRedirect("../")
-
-    def reload_scores(self, request):
-        for mod in self.model.objects.all():
-            mod.save()
-
-        self.message_user(request, "Оценки обновились")
-
+        request.message_user(request, "ТУТ БУДЕТ КАСТОМНЫЙ ЭКСПОРТ")  # TODO EXPORT
         return HttpResponseRedirect("../")
 
     def load_from_relation(self, request):
-        self.message_user(request, "Ничего не произошло")
+        return 'Ничего не произошло'
+
+    def reload_scores(self, request):
+        log = self.load_from_relation(request)
+        reload_scores(self.model)
+        self.message_user(request, "Оценки обновились и " + log)
         return HttpResponseRedirect("../")
 
 
@@ -51,37 +50,18 @@ class ScoreCommonCommissionAdmin(MyScoreBaseAdmin):
     change_form_template = 'admin/score_one_admin.html'
 
     def load_from_relation(self, request):
-        """
-        Проверяем есть ли связи в общей комиссии, которые мы ещё не добавили, если есть, добавляем
-        """
-        self.model.objects.all().update()
-        all_rel_exp_app = RelationExpertApplication.objects.all()
-        now_score_objects = self.model.objects.all().values('relation_exp_app')
-        id_rel_exp_app_now = []
-        count = 0
-        # Просто собираем все сущестующие свзяи в табличу
-        for score_obj in now_score_objects:
-            id_rel_exp_app_now.append(score_obj['relation_exp_app'])
-        # проверяем есть ли связь уже
-        for rel_exp_app in all_rel_exp_app:
-            if rel_exp_app.id in id_rel_exp_app_now:
-                print('YES', rel_exp_app)
-            else:
-                print('NO', rel_exp_app)
-                if rel_exp_app.common_commission:  # обязательная проверка на общую комиссию
-                    self.model.objects.create(relation_exp_app=rel_exp_app)
-                    count += 1
+        count = upload_score_common()
         if count:
-            self.message_user(request, "Объекты добавлены в количестве {} шт".format(count))
+            log = "Объекты добавлены в количестве {} шт".format(count)
         else:
-            self.message_user(request, "Нет объектов для добавления".format(count))
-        return HttpResponseRedirect("../")
+            log = "Нет объектов для добавления".format(count)
+        return log
 
 
 @admin.register(ScoreExpert)
 class ScoreExpertCommissionAdmin(MyScoreBaseAdmin):
     list_per_page = 15
-    list_display = ('id', 'relation_exp_app','is_active', 'check', 'score',
+    list_display = ('id', 'relation_exp_app', 'is_active', 'check', 'score',
                     'score1', 'score2', 'score3', 'score4', 'score5', 'date_last')
     list_display_links = ('relation_exp_app',)
     list_filter = ('check',)
@@ -97,28 +77,12 @@ class ScoreExpertCommissionAdmin(MyScoreBaseAdmin):
         """
         Проверяем есть ли связи в общей комиссии, которые мы ещё не добавили, если есть, добавляем
         """
-        self.model.objects.all().update()
-        all_rel_exp_app = RelationExpertApplication.objects.all()
-        now_score_objects = self.model.objects.all().values('relation_exp_app')
-        id_rel_exp_app_now = []
-        count = 0
-        # Просто собираем все сущестующие свзяи в табличу
-        for score_obj in now_score_objects:
-            id_rel_exp_app_now.append(score_obj['relation_exp_app'])
-        # проверяем есть ли связь уже
-        for rel_exp_app in all_rel_exp_app:
-            if rel_exp_app.id in id_rel_exp_app_now:
-                print('YES', rel_exp_app)
-            else:
-                print('NO', rel_exp_app)
-                if not rel_exp_app.common_commission:  # обязательная проверка на экспертную комиссию
-                    self.model.objects.create(relation_exp_app=rel_exp_app)
-                    count += 1
+        count = upload_score_expert()
         if count:
-            self.message_user(request, "Объекты добавлены в количестве {} шт".format(count))
+            log = "Объекты добавлены в количестве {} шт".format(count)
         else:
-            self.message_user(request, "Нет объектов для добавления".format(count))
-        return HttpResponseRedirect("../")
+            log = "Нет объектов для добавления".format(count)
+        return log
 
 
 @admin.register(ScoreCommonAll)
@@ -138,27 +102,12 @@ class ScoreAllCommonCommissionAdmin(MyScoreBaseAdmin):
         """
         Проверяем есть ли ещё заявки, которые мы ещё не добавили, если есть, добавляем
         """
-        self.model.objects.all().update()
-        all_application = Application.objects.all()
-        now_score_objects = self.model.objects.all().values('application')
-        id_apps = []
-        count = 0
-        # Просто собираем все сущестующие свзяи в табличу
-        for app in now_score_objects:
-            id_apps.append(app['application'])
-
-        # проверяем есть ли связь уже
-        for app in all_application:
-            if app.id in id_apps:
-                pass
-            else:
-                self.model.objects.create(application=app)
-                count += 1
+        count = upload_score_all(ScoreCommonAll)
         if count:
-            self.message_user(request, "Объекты добавлены в количестве {} шт".format(count))
+            log = "Объекты добавлены в количестве {} шт".format(count)
         else:
-            self.message_user(request, "Нет объектов для добавления".format(count))
-        return HttpResponseRedirect("../")
+            log = "Нет объектов для добавления".format(count)
+        return log
 
 
 @admin.register(ScoreExpertAll)
@@ -179,28 +128,12 @@ class ScoreAllExpertCommissionAdmin(MyScoreBaseAdmin):
         """
         Проверяем есть ли ещё заявки, которые мы ещё не добавили, если есть, добавляем
         """
-        self.model.objects.all().update()
-        all_application = Application.objects.all()
-        now_score_objects = self.model.objects.all().values('application')
-        id_apps = []
-        count = 0
-        # Просто собираем все сущестующие свзяи в табличу
-        for app in now_score_objects:
-            id_apps.append(app['application'])
-
-        # проверяем есть ли связь уже
-        for app in all_application:
-            if app.id in id_apps:
-                print('YES', app)
-            else:
-                print('NO', app)
-                self.model.objects.create(application=app)
-                count += 1
+        count = upload_score_all(ScoreExpertAll)
         if count:
-            self.message_user(request, "Объекты добавлены в количестве {} шт".format(count))
+            log = "Объекты добавлены в количестве {} шт".format(count)
         else:
-            self.message_user(request, "Нет объектов для добавления".format(count))
-        return HttpResponseRedirect("../")
+            log = "Нет объектов для добавления".format(count)
+        return log
 
 
 @admin.register(ScoreAll)
@@ -218,29 +151,9 @@ class ScoreAllAdmin(MyScoreBaseAdmin):
         """
         Проверяем есть ли ещё заявки, которые мы ещё не добавили, если есть, добавляем
         """
-        self.model.objects.all().update()
-        all_application = Application.objects.all()
-        now_score_objects = self.model.objects.all().values('application')
-        id_apps = []
-        count = 0
-        print(all_application)
-        # Просто собираем все сущестующие свзяи в табличу
-        for app in now_score_objects:
-            id_apps.append(app['application'])
-        print(id_apps)
-
-        # проверяем есть ли связь уже
-        for app in all_application:
-            if app.id in id_apps:
-                print('YES', app)
-            else:
-                print('NO', app)
-                self.model.objects.create(application=app)
-                count += 1
+        count = upload_score_all(ScoreAll)
         if count:
-            self.message_user(request, "Объекты добавлены в количестве {} шт".format(count))
+            log = "Объекты добавлены в количестве {} шт".format(count)
         else:
-            self.message_user(request, "Нет объектов для добавления".format(count))
-        return HttpResponseRedirect("../")
-
-
+            log = "Нет объектов для добавления".format(count)
+        return log

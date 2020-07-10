@@ -11,15 +11,9 @@
     <tr>
 
         <td>
-            <form action="load_from_relation/" method="POST">
-                {% csrf_token %}
-                <input type="submit" class="btn" value="Обновить данные">
-            </form>
-        </td>
-        <td>
             <form action="reload_scores/" method="POST">
                 {% csrf_token %}
-                <input type="submit" class="btn" value="Обновить оценки">
+                <input type="submit" class="btn" value="Обновить">
             </form>
         </td>
         <td>
