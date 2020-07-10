@@ -21,6 +21,7 @@ from django.urls import path, include
 from django.views.generic import RedirectView
 
 import userexpert.views
+from .admin import MyAdminSite
 from expert import views
 from app import views as app_views
 from userexpert import views as exp_views
@@ -33,6 +34,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    #path('myadmin/', MyAdminSite),
     path('admin/', admin.site.urls),
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/img/favicon.ico', permanent=True)),
     path('', views.index, name='index'),

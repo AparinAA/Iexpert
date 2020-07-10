@@ -35,7 +35,7 @@ ALLOWED_HOSTS = ['iexpert.herokuapp.com','127.0.0.1', 'iexpert.team','www.iexper
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    'expert.apps.MyAdminConfig',  # replaces 'django.contrib.admin'
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'import_export',
     'app',
     'score',
-    'result'
+    'result',
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,49 @@
+{% extends 'admin/index.html' %}
+
+{% block content %}
+<table>
+    <tr>
+        <td>
+            Оценки
+        </td>
+
+
+        <td>
+            <form action="upload_score/" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn" value="Обновить">
+            </form>
+        </td>
+
+        <td>
+            <form action="export_score/" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn" value="Выгрузить">
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Результаты (сводные таблицы)
+        </td>
+
+
+        <td>
+            <form action="upload_result/" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn" value="Обновить">
+            </form>
+        </td>
+
+        <td>
+            <form action="export_result/" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn" value="Выгрузить">
+            </form>
+        </td>
+    </tr>
+</table>
+<br/>
+{{ block.super }}
+
+{% endblock %}

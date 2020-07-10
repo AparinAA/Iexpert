@@ -117,7 +117,7 @@ class CheckApplication(models.Model):
     comment = models.TextField(max_length=2000, verbose_name='Комметарий по эксперту', null=True, blank=True)
 
     def __str__(self):
-        return '{}'.format(self.commission.group.name)
+        return '{}'.format(self.application)
 
     class Meta:
         verbose_name_plural = 'Готовность по заявкам'
