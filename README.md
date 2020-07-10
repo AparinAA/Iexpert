@@ -21,8 +21,8 @@
 5. Работа на удаленном сервере с соеденением SSH:\
 **Подключить виртуальную среду** *source ~/djangoenv/bin/activate*\
 **Зайти в директорию с проектом** *~/www/expert-team.ru/Iexpert*\
-**Перезапустить сервер** *rm ~/www/expert-teamp.ru/tmp/restart.txt && vi ~/www/expert-teamp.ru/tmp/restart.txt* (здесь будет скрипт)
-**Загрузить обновления из git** *git pull*
+**Перезапустить сервер** *rm ~/www/expert-teamp.ru/tmp/restart.txt && vi ~/www/expert-teamp.ru/tmp/restart.txt* (здесь будет скрипт)\
+**Загрузить обновления из git** *git pull*\
 **Если не ругается при слияние**\
 *git fetch --all*\
 *git reset --hard origin/master*
