@@ -12,11 +12,11 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 from urllib.parse import urlparse
-#TEST UPGRADE
-os.environ.setdefault('DJANGO_SETTINGS_MODULE','expert.settings.production')
+
+# TEST UPGRADE
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'expert.settings.production')
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -30,6 +30,7 @@ except (IOError, TypeError):
     url = False
 
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', False))
+DEBUG = True
 ALLOWED_HOSTS = ['iexpert.herokuapp.com', '127.0.0.1', 'iexpert.team', 'www.iexpert.team', 'expert-olymp.ru',
                  'www.expert-olymp.ru']
 
@@ -138,8 +139,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 
-STATIC_ROOT = 'static/'
+STATIC_ROOT = "static/"
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "expert", "static"),)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "expert", "static"), )
 AUTH_USER_MODEL = 'userexpert.Expert'
 LOGIN_REDIRECT_URL = '/'
