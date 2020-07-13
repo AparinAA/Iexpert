@@ -20,8 +20,8 @@
 *git push origin master*
 5. Работа на удаленном сервере с соеденением SSH:\
 **Подключить виртуальную среду** *source ~/djangoenv/bin/activate*\
-**Зайти в директорию с проектом** *~/www/expert-team.ru/Iexpert*\
-**Перезапустить сервер** *rm ~/www/expert-teamp.ru/tmp/restart.txt && vi ~/www/expert-teamp.ru/tmp/restart.txt* (здесь будет скрипт)\
+**Зайти в директорию с проектом** *~/www/expert-olymp.ru/Iexpert*\
+**Перезапустить сервер** *rm ~/www/expert-olymp.ru/tmp/restart.txt && vi ~/www/expert-olymp.ru/tmp/restart.txt* (здесь будет скрипт)\
 **Загрузить обновления из git** *git pull*\
 **Если ругается при слияние**\
 *git fetch --all*\
