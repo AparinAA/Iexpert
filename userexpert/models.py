@@ -95,7 +95,7 @@ class Expert(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = 'Эксперт'
         verbose_name_plural = 'Эксперты'
-        ordering = ['last_name', 'first_name', 'middle_name']
+        ordering = ['id', 'last_name', 'first_name', 'middle_name']
         # unique_together = ('last_name', 'first_name', 'middle_name')
 
     @property
