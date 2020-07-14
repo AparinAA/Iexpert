@@ -9,7 +9,7 @@ from result.function_upload import upload_all_result
 from result.models import CheckExpertScore, CheckGroups, CheckApplication
 from expert.fuction_for_all import reload_scores
 
-from userexpert.function_admin import export_personal_info_request
+from .func_export import export_personal_info_request
 
 
 class MyAdminSite(AdminSite):

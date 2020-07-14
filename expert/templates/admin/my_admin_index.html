@@ -4,83 +4,48 @@
 <table>
     <tr>
         <td>
-            <b>Эксперты </b>
+            <b>Загрузить: </b>
         </td>
 
 
         <td>
             <form action="load_users/" method="POST"> {# TODO #}
                 {% csrf_token %}
-                <input type="submit" class="btn" value="Загрузить">
+                <input type="submit" class="btn" value="Эксперты">
             </form>
-        </td>
-
-        <td>
-            <form action="export_users/" method="POST"> {# TODO #}
-                {% csrf_token %}
-                <input type="submit" class="btn" value="Выгрузить">
-            </form>
-        </td>
-        <td>
-            <b> Распределение экспертов </b>
         </td>
 
 
         <td>
             <form action="load_relation/" method="POST"> {# TODO #}
                 {% csrf_token %}
-                <input type="submit" class="btn" value="Загрузить">
+                <input type="submit" class="btn" value="Распределение экспертов">
             </form>
         </td>
-
-        <td>
-            <form action="export_relation/" method="POST"> {# TODO #}
-                {% csrf_token %}
-                <input type="submit" class="btn" value="Выгрузить">
-            </form>
-        </td>
-    </tr>
-
-    <tr>
-        <td>
-           <b> Оценки</b>
-        </td>
-
-
         <td>
             <form action="upload_score/" method="POST">
                 {% csrf_token %}
-                <input type="submit" class="btn" value="Обновить">
+                <input type="submit" class="btn" value="Оценки">
             </form>
         </td>
-
-        <td>
-            <form action="export_score/" method="POST">
-                {% csrf_token %}
-                <input type="submit" class="btn" value="Выгрузить">
-            </form>
-        </td>
-
-        <td>
-           <b> Результаты (сводные таблицы)</b>
-        </td>
-
 
         <td>
             <form action="upload_result/" method="POST">
                 {% csrf_token %}
-                <input type="submit" class="btn" value="Обновить">
+                <input type="submit" class="btn" value="Результаты">
             </form>
         </td>
 
-        <td>
-            <form action="export_result/" method="POST">
-                {% csrf_token %}
-                <input type="submit" class="btn" value="Выгрузить">
-            </form>
-        </td>
     </tr>
 </table>
+<br/>
+
+<form action="export_users/" method="POST"> {# TODO #}
+    {% csrf_token %}
+    <input type="submit" class="btn" value="Выгрузить всё">
+</form>
+
+<br/>
 <br/>
 {{ block.super }}
 

@@ -10,7 +10,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from xlsxwriter import Workbook
 
-from userexpert.function_admin import export_personal_info_request
+from expert.func_export import export_personal_info_request
 from userexpert.models import Expert, CustomGroup
 
 from django.contrib.auth.base_user import BaseUserManager

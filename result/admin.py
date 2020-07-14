@@ -58,38 +58,18 @@ class CheckGroupsAdmin(MyScoreBaseAdmin):
     ordering = ('commission',)
     change_form_template = 'admin/change_result_all.html'
 
-    change_list_template = "admin/result_all.html"
+    #change_list_template = "admin/result_all.html"
 
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [
             path('load_from_relation/', self.load_from_relation),
-            path('export_itog/', self.export_itog),
             path('reload_scores/', self.reload_scores)
         ]
         return my_urls + urls
 
     def export_itog(self, request):
         self.message_user(request, "ТУТ БУДЕТ КАСТОМНЫЙ ЭКСПОРТ")  # TODO EXPORT
-        output = io.BytesIO()
-
-        data = pd.DataFrame([[1, 2], [3, 4]], columns=['1', '2'])
-        workbook = Workbook(output, {'in_memory': True})
-        worksheet = workbook.add_worksheet()
-        for col_num in range(len(list(data))):
-            worksheet.write(0, col_num, list(data)[col_num])
-
-        for row_num, columns in enumerate(data.values):
-            for col_num, cell_data in enumerate(columns):
-                worksheet.write(row_num + 1, col_num, cell_data)
-        workbook.close()
-        date_ = '{}-{} {}-{}-{}'.format(datetime.now().hour, datetime.now().minute,
-                                        datetime.now().day, datetime.now().month, datetime.now().year)
-        output.seek(0)
-        response = HttpResponse(output.read(),
-                                content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-        response['Content-Disposition'] = "attachment; filename=Итоговые результаты_{}.xlsx".format(date_)
-        output.close()
         return response
 
 

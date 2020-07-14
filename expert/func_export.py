@@ -24,12 +24,13 @@ dict_commission = {'0': 'Аll',
                    "9": "Социально-экономические науки",
                    "10": "Общая комиссия"}
 
+
 def save_personal_info_to_woorksheet(workbook, worksheet, data, top_name):
     """
     Сохраняет перс. данные в красивую эксель
     """
     top_format = workbook.add_format({'bold': True, 'border': 0, 'font_name': 'Times New Roman',
-                                       'align': 'left', 'font_size': 14})
+                                      'align': 'left', 'font_size': 14})
     worksheet.set_column(0, 0, 30)
     worksheet.set_column(1, 30, 20)
     head_format = workbook.add_format({'bold': True, 'border': 1, 'font_name': 'Times New Roman',
@@ -41,7 +42,7 @@ def save_personal_info_to_woorksheet(workbook, worksheet, data, top_name):
     normal_text.set_align('center')
     normal_text.set_align('vcenter')
 
-    head =list(data)
+    head = list(data)
 
     top = 'Экспертная комиссия "{}". {}'.format(top_name, "Личная информация")
     worksheet.write(0, 0, top, top_format)
@@ -98,7 +99,6 @@ def export_personal_info_one_com_request(request, commission):
     worksheet = workbook.add_worksheet(commission.group.name)
     worksheet = save_personal_info_to_woorksheet(workbook, worksheet, data, commission.group.name)
 
-
     workbook.close()
     date_ = '{}-{} {}-{}-{}'.format(datetime.now().hour, datetime.now().minute,
                                     datetime.now().day, datetime.now().month, datetime.now().year)
@@ -111,7 +111,6 @@ def export_personal_info_one_com_request(request, commission):
     response['Content-Disposition'] = "attachment; filename={}".format(filename)
     output.close()
     return response
-
 
 
 def export_personal_info_all_request(request):
@@ -156,8 +155,6 @@ def export_personal_info_request(request):
             name_commission = dict_commission[id_ans]
             commission = CustomGroup.objects.get(group=Group.objects.get(name=name_commission))
             return export_personal_info_one_com_request(request, commission)
-
-
     else:
-        return render(request, 'admin/user_export.html',
-                      {'title': u'Скачивание перс. данных', })
+        return render(request, 'admin/export_by_commission.html',
+                      {'title': u'Скачивание', })

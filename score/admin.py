@@ -16,14 +16,9 @@ class MyScoreBaseAdmin(ImportExportActionModelAdmin):
         urls = super().get_urls()
         my_urls = [
             path('load_from_relation/', self.load_from_relation),
-            path('export_custom/', self.export_custom),
             path('reload_scores/', self.reload_scores)
         ]
         return my_urls + urls
-
-    def export_custom(self, request):
-        request.message_user(request, "ТУТ БУДЕТ КАСТОМНЫЙ ЭКСПОРТ")  # TODO EXPORT
-        return HttpResponseRedirect("../")
 
     def load_from_relation(self, request):
         return 'Ничего не произошло'
