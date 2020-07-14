@@ -9,6 +9,8 @@ from result.function_upload import upload_all_result
 from result.models import CheckExpertScore, CheckGroups, CheckApplication
 from expert.fuction_for_all import reload_scores
 
+from userexpert.function_admin import export_personal_info_request
+
 
 class MyAdminSite(AdminSite):
     site_header = 'Админка Я - Эксперт'
@@ -24,9 +26,38 @@ class MyAdminSite(AdminSite):
             path('export_score/', self.export_score),
             # path('update_result/', self.update_result),
             path('upload_result/', self.upload_result),
-            path('export_result/', self.export_result)
+            path('export_result/', self.export_result),
+            path('export_users/', self.export_users),
+            path('load_users/', self.load_users),
+            path('export_relation/', self.export_relation),
+            path('load_relation/', self.load_relation),
         ]
         return my_urls + urls
+
+    def export_users(self, request):
+
+        # Выгружает личную инфу экспертов
+        #log = 'Якобы выгрузил личную инфу экспертов'
+        #messages.success(request, log)
+        return export_personal_info_request(request)
+
+    def load_users(self, request):
+        # Загружает экспертов
+        log = 'Якобы загрузили экспертов'
+        messages.success(request, log)
+        return HttpResponseRedirect("../")
+
+    def export_relation(self, request):
+        # Выгружает распределение экспертов
+        log = 'Якобы выгрузил распределение экспертов'
+        messages.success(request, log)
+        return HttpResponseRedirect("../")
+
+    def load_relation(self, request):
+        # Загружает распределение экспертов
+        log = 'Якобы загрузили распределение экспертов'
+        messages.success(request, log)
+        return HttpResponseRedirect("../")
 
     def update_score(self):
         # Подгружает новые объекты в score

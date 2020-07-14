@@ -7,18 +7,37 @@
 
 {% block object-tools %}
 
+<table>
+    <tr>
+        <td>
+            <form action="generate_users/" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn" name="generate" value="Сгенерировать логины">
 
-<form action="generate_users/" method="POST">
-    {% csrf_token %}
-    <input type="submit" class="btn" name="generate" value="Сгенерировать логины">
+            </form>
+        </td>
+        <td>
+            <form action="update_users/" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn" value="Обновить">
+            </form>
+        </td>
+        <td>
+            <form action="load_users/" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn" value="Загрузить">
+            </form>
+        </td>
+        <td>
+            <form action="export_users/" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn" value="Выгрузить">
+            </form>
+        </td>
+    </tr>
+</table>
 
-</form>
-<form action="update_users/" method="POST">
-    {% csrf_token %}
-    <input type="submit" class="btn" value="Обновить экспертов">
-</form>
 <br/>
-
 
 {{ block.super }}
 {% endblock %}

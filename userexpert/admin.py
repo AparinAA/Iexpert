@@ -10,6 +10,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from xlsxwriter import Workbook
 
+from userexpert.function_admin import export_personal_info_request
 from userexpert.models import Expert, CustomGroup
 
 from django.contrib.auth.base_user import BaseUserManager
@@ -114,6 +115,9 @@ class UserAdmin(BaseUserAdmin):
         my_urls = [
             path('generate_users/', self.generate_users),
             path('update_users/', self.update_users),
+            path('load_users/', self.load_users),
+            path('export_users/', self.export_users),
+
             path('<int:user_id>/my_reset_password/', self.my_reset_password, name='my_reset_password')
         ]
         return my_urls + urls
@@ -126,6 +130,15 @@ class UserAdmin(BaseUserAdmin):
                 pass
         self.message_user(request, "Все пользователи обновлены")
         return HttpResponseRedirect("../")
+
+
+    def load_users(self, request):
+        self.message_user(request, "Допустим загрузили экспертов")
+        return HttpResponseRedirect("../")
+
+    def export_users(self, request):
+        # self.message_user(request, "Допустим выгрузили экспертов")
+        return export_personal_info_request(request)
 
     def generate_login_and_password(self, request, data, head=['login', 'password']):
         output = io.BytesIO()
@@ -201,7 +214,7 @@ class UserAdmin(BaseUserAdmin):
             for login, password in data[['login','password']].values:
                 exp = Expert.objects.create_user(login, password=password)
                 # exp.save()
-                pass
+
             return self.generate_login_and_password(request, data) #
 
 

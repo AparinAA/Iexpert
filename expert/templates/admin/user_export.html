@@ -1,0 +1,30 @@
+{% extends "admin/base_site.html" %}
+
+
+{% block object-tools %}
+{{ block.super }}
+
+<form action="" method="POST">
+    {% csrf_token %}
+
+    Комиссия <select name="group" autofocus>
+        <option value="0" >Все комиссии в одном файле</option>
+	    <option value="1" >Агропромышленный комплекс</option>
+	    <option value="2" >Вооружение и военная техника</option>
+	    <option value="3" >Естественные науки</option>
+	    <option value="4" >Инженерные науки и технологии</option>
+	    <option value="5" >Искусство и гуманитарные науик</option>
+	    <option value="6" >Компьютерные науки</option>
+	    <option value="7" >Медицина и здравоохранение</option>
+	    <option value="8" >Педагогические науки</option>
+	    <option value="9" >Социально-экономические науки</option>
+	    <option value="10" >Общая комиссия</option>
+    </select>
+
+	<input type="submit" class="btn" name='apply' value="Подтвердить и скачать в xlsx" >
+    </p>
+    <input type="submit" class="btn" name='prev' value="Вернуться">
+
+</form>
+
+{% endblock %}
