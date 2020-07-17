@@ -15,6 +15,8 @@ from app.models import Direction, Application
 from score.models import ScoreExpertAll, ScoreCommonAll
 from score.models import ScoreExpert, ScoreCommon
 from app.models import RelationExpertApplication
+from score.models import ScoreAll
+from django.contrib import messages
 
 dict_commission = {'0': 'Аll',
                    "1": "Агропромышленный комплекс",
@@ -298,6 +300,82 @@ def save_detailed_scores_to_woorksheet(workbook, worksheet, data, top_name, dop_
     return worksheet
 
 
+def export_itog_scores_commission(commission):
+    """
+    По комиссии возвращает ИТОГОВЫЙ рейтинг в dataframe
+    """
+    if not commission.common_commission:
+        all_directs = Direction.objects.filter(commission=commission)
+        all_application = Application.objects.filter(name__in=all_directs)
+        score_all = ScoreAll.objects.filter(application__in=all_application)
+
+        result = []
+        head = ["Название направления", "ВУЗ", "Балл экспертной комиссии", "Балл общей комиссии", "Итоговый балл",
+                "Итоговый комментарий", "Результат"]
+        for mod in score_all:
+            score_all_exp = ScoreExpertAll.objects.get(application=mod.application)
+            ar = []
+            ar.append('{}'.format(mod.application.name.name))
+            ar.append('{}'.format(mod.application.vuz.short_name))
+            ar.append(mod.score_exp)
+            ar.append(mod.score_com)
+            ar.append(mod.score_final)
+            ar.append(score_all_exp.comment_master)
+            ar.append('-')
+            result.append(ar)
+        df = pd.DataFrame(result, columns=head)
+        return df
+    else:
+        return pd.DataFrame()
+
+
+def export_itog_all_scores():
+    """
+    Собирает какие-то данные по группам, возвращает словарь
+    """
+    result = {}
+    for comm in CustomGroup.objects.filter(admin_group=False):
+        if not comm.common_commission:
+            df = export_itog_scores_commission(comm)
+            result[comm] = df
+    return result
+
+
+def save_itog_scores_to_woorksheet(workbook, worksheet, data, top_name, dop_name='Личная информация'):
+    """
+    Сохраняет подробный рейтинг заявок в красивую эксель
+    """
+    top_format = workbook.add_format({'bold': True, 'border': 0, 'font_name': 'Times New Roman',
+                                      'align': 'left', 'font_size': 14})
+    worksheet.set_column(0, 0, 30)
+    worksheet.set_column(1, 1, 10)
+    worksheet.set_column(2, 30, 25)
+    head_format = workbook.add_format({'bold': True, 'border': 1, 'font_name': 'Times New Roman',
+                                       'align': 'center', 'valign': 'center'})
+    head_format.set_align('center')
+    head_format.set_align('vcenter')
+    normal_text = workbook.add_format({'border': 1, 'font_name': 'Times New Roman',
+                                       'align': 'left', 'valign': 'vcenter', 'text_wrap': True})
+    normal_text.set_align('center')
+    normal_text.set_align('vcenter')
+
+    head = list(data)
+
+    top = 'Экспертная комиссия "{}". {}'.format(top_name, dop_name)
+    worksheet.write(0, 0, top, top_format)
+    start_row = 3
+    for col_num in range(len(head)):
+        worksheet.write(start_row - 1, col_num, head[col_num], head_format)
+
+    for row_num, columns in enumerate(data.values):
+        for col_num, cell_data in enumerate(columns):
+            try:
+                worksheet.write(row_num + start_row, col_num, cell_data, normal_text)
+            except TypeError:
+                worksheet.write(row_num + start_row, col_num, '-', normal_text)
+    return worksheet
+
+
 def export_request(request, commission, func_for_get_data_all=export_personal_info,
                    func_for_woorksheet=save_personal_info_to_woorksheet,
                    namefile='Перс. данные', dop_name="Личная информация"):
@@ -378,7 +456,7 @@ def export_personal_info_request(request):
                 return export_request(request, commission, func_for_get_data_all=export_all_scores,
                                       func_for_woorksheet=save_scores_to_woorksheet,
                                       namefile='Рейтинг', dop_name="Рейтинг заявок")
-        elif id_what == "3":  # Подробные результаты # TODO
+        elif id_what == "3":  # Подробные результаты
             if id_ans == "0":
                 return export_request(request, 'all', func_for_get_data_all=export_detailed_all_scores,
                                       func_for_woorksheet=save_detailed_scores_to_woorksheet,
@@ -390,7 +468,20 @@ def export_personal_info_request(request):
                                       func_for_woorksheet=save_detailed_scores_to_woorksheet,
                                       namefile='Подробный рейтинг.', dop_name="Подробный рейтинг")
         elif id_what == "4":  # Итоговые результаты # TODO
-            return HttpResponseRedirect('../')
+            if id_ans == "0":
+                return export_request(request, 'all', func_for_get_data_all=export_itog_all_scores,
+                                      func_for_woorksheet=save_itog_scores_to_woorksheet,
+                                      namefile='Итоговый рейтинг.', dop_name="Итоговый рейтинг")
+            else:
+                name_commission = dict_commission[id_ans]
+                commission = CustomGroup.objects.get(group=Group.objects.get(name=name_commission))
+                if commission.common_commission:
+                    messages.success(request, "Нельзя скачать итоговый рейтинг общей комиссии")
+                    return HttpResponseRedirect("/admin/export_users/")
+                else:
+                    return export_request(request, commission, func_for_get_data_all=export_itog_all_scores,
+                                          func_for_woorksheet=save_itog_scores_to_woorksheet,
+                                          namefile='Итоговый рейтинг.', dop_name="Итоговый рейтинг")
 
 
     else:
