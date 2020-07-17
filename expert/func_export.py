@@ -376,6 +376,114 @@ def save_itog_scores_to_woorksheet(workbook, worksheet, data, top_name, dop_name
     return worksheet
 
 
+def export_relation_commission(commission):
+    """
+    По комиссии возвращает ИТОГОВЫЙ рейтинг в dataframe
+    """
+    if not commission.common_commission:
+        all_directs = Direction.objects.filter(commission=commission)
+        all_application = Application.objects.filter(name__in=all_directs)
+        relation_all = RelationExpertApplication.objects.filter(application__in=all_application).filter(
+            common_commission=False)
+
+        result = []
+
+        max_expert = 0
+        for app in all_application:
+            relation_all_app = RelationExpertApplication.objects.filter(application=app).filter(
+            common_commission=False)
+            if relation_all_app.count() > max_expert:
+                max_expert = relation_all_app.count()
+        head = ["Заявка"] + ["Эксперт №{}".format(i + 1) for i in range(max_expert)]
+        for app in all_application:
+            relation_all_app = RelationExpertApplication.objects.filter(application=app).filter(
+            common_commission=False)
+            ar = []
+            ar.append('{} - {}'.format(app.name.name, app.vuz.short_name))
+            for mod in relation_all_app:
+                exp = mod.expert
+                vuz = mod.expert.company.short_name
+                fo = mod.expert.company.region.federal_district.short_name
+                fio = '{} {}. {}. ({}, {})'.format(exp.last_name, exp.first_name[0], exp.middle_name[0], vuz, fo)
+                ar.append(fio)
+            null = ['-'] * (max_expert - relation_all_app.count())
+            ar = ar + null
+            result.append(ar)
+        df = pd.DataFrame(result, columns=head)
+        return df
+    else:
+        all_directs = Direction.objects.all()
+        all_application = Application.objects.filter(name__in=all_directs)
+        relation_all = RelationExpertApplication.objects.filter(
+            common_commission=True)
+        result = []
+
+        max_expert = 0
+        for app in all_application:
+            relation_all_app = RelationExpertApplication.objects.filter(application=app).filter(
+            common_commission=True)
+            if relation_all_app.count() > max_expert:
+                max_expert = relation_all_app.count()
+        head = ["Заявка"] + ["Эксперт №{}".format(i + 1) for i in range(max_expert)]
+        for app in all_application:
+            relation_all_app = RelationExpertApplication.objects.filter(application=app).filter(
+            common_commission=True)
+            ar = []
+            ar.append('{} - {}'.format(app.name.name, app.vuz.short_name))
+            for mod in relation_all_app:
+                exp = mod.expert
+                vuz = mod.expert.company.short_name
+                fo = mod.expert.company.region.federal_district.short_name
+                fio = '{} {}. {}. ({}, {})'.format(exp.last_name, exp.first_name[0], exp.middle_name[0], vuz, fo)
+                ar.append(fio)
+            null = ['-'] * (max_expert - relation_all_app.count())
+            ar = ar + null
+            result.append(ar)
+        df = pd.DataFrame(result, columns=head)
+        return df
+
+
+def export_relation():
+    """
+    Собирает какие-то данные по группам, возвращает словарь
+    """
+    return export_info_for_all_com(export_relation_commission)
+
+
+def save_relation_s_to_woorksheet(workbook, worksheet, data, top_name, dop_name='Личная информация'):
+    """
+    Сохраняет подробный рейтинг заявок в красивую эксель
+    """
+    top_format = workbook.add_format({'bold': True, 'border': 0, 'font_name': 'Times New Roman',
+                                      'align': 'left', 'font_size': 14})
+    worksheet.set_column(0, 0, 30)
+    worksheet.set_column(1, 30, 20)
+    head_format = workbook.add_format({'bold': True, 'border': 1, 'font_name': 'Times New Roman',
+                                       'align': 'center', 'valign': 'center'})
+    head_format.set_align('center')
+    head_format.set_align('vcenter')
+    normal_text = workbook.add_format({'border': 1, 'font_name': 'Times New Roman',
+                                       'align': 'left', 'valign': 'vcenter', 'text_wrap': True})
+    normal_text.set_align('center')
+    normal_text.set_align('vcenter')
+
+    head = list(data)
+
+    top = 'Экспертная комиссия "{}". {}'.format(top_name, dop_name)
+    worksheet.write(0, 0, top, top_format)
+    start_row = 3
+    for col_num in range(len(head)):
+        worksheet.write(start_row - 1, col_num, head[col_num], head_format)
+
+    for row_num, columns in enumerate(data.values):
+        for col_num, cell_data in enumerate(columns):
+            try:
+                worksheet.write(row_num + start_row, col_num, cell_data, normal_text)
+            except TypeError:
+                worksheet.write(row_num + start_row, col_num, '-', normal_text)
+    return worksheet
+
+
 def export_request(request, commission, func_for_get_data_all=export_personal_info,
                    func_for_woorksheet=save_personal_info_to_woorksheet,
                    namefile='Перс. данные', dop_name="Личная информация"):
@@ -444,7 +552,16 @@ def export_personal_info_request(request):
                                       func_for_woorksheet=save_personal_info_to_woorksheet,
                                       namefile='Перс. данные', dop_name="Личная информация")
         elif id_what == "1":  # Распределение экспертов по заявкам # TODO
-            return HttpResponseRedirect('../')
+            if id_ans == "0":
+                return export_request(request, 'all', func_for_get_data_all=export_relation,
+                                      func_for_woorksheet=save_relation_s_to_woorksheet,
+                                      namefile='Распределение', dop_name="Распределение экспертов")
+            else:
+                name_commission = dict_commission[id_ans]
+                commission = CustomGroup.objects.get(group=Group.objects.get(name=name_commission))
+                return export_request(request, commission, func_for_get_data_all=export_relation,
+                                      func_for_woorksheet=save_relation_s_to_woorksheet,
+                                      namefile='Распределение', dop_name="Распределение экспертов")
         elif id_what == "2":  # Просто результаты по комиссиям
             if id_ans == "0":
                 return export_request(request, 'all', func_for_get_data_all=export_all_scores,
