@@ -56,7 +56,10 @@ def save_personal_info_to_woorksheet(workbook, worksheet, data, top_name, dop_na
 
     for row_num, columns in enumerate(data.values):
         for col_num, cell_data in enumerate(columns):
-            worksheet.write(row_num + start_row, col_num, cell_data, normal_text)
+            try:
+                worksheet.write(row_num + start_row, col_num, cell_data, normal_text)
+            except TypeError:
+                worksheet.write(row_num + start_row, col_num, '-', normal_text)
     return worksheet
 
 
@@ -177,7 +180,10 @@ def save_scores_to_woorksheet(workbook, worksheet, data, top_name, dop_name='Ð›Ð
 
     for row_num, columns in enumerate(data.values):
         for col_num, cell_data in enumerate(columns):
-            worksheet.write(row_num + start_row, col_num, cell_data, normal_text)
+            try:
+                worksheet.write(row_num + start_row, col_num, cell_data, normal_text)
+            except TypeError:
+                worksheet.write(row_num + start_row, col_num, '-', normal_text)
     return worksheet
 
 
