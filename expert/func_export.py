@@ -15,6 +15,7 @@ from app.models import Direction, Application
 from score.models import ScoreExpertAll, ScoreCommonAll
 from score.models import ScoreExpert, ScoreCommon
 from app.models import RelationExpertApplication
+
 dict_commission = {'0': 'Аll',
                    "1": "Агропромышленный комплекс",
                    "2": "Вооружение и военная техника",
@@ -180,6 +181,13 @@ def save_scores_to_woorksheet(workbook, worksheet, data, top_name, dop_name='Л�
     return worksheet
 
 
+def fun_for_append(ar, what):
+    if not what != what:
+        ar.append(what)
+    else:
+        ar.append('-')
+    return ar
+
 
 def export_detailed_scores_commission(commission):
     """
@@ -206,13 +214,13 @@ def export_detailed_scores_commission(commission):
                 exp = sc_detail.relation_exp_app.expert
                 fio = '{} {} {}'.format(exp.last_name, exp.first_name, exp.middle_name)
                 ar.append(fio)
-                ar.append(sc_detail.score1)
-                ar.append(sc_detail.score2)
-                ar.append(sc_detail.score3)
-                ar.append(sc_detail.score4)
-                ar.append(sc_detail.score5)
-                ar.append(sc_detail.score)
-                ar.append(sc_detail.comment)
+                ar = fun_for_append(ar, sc_detail.score1)
+                ar = fun_for_append(ar, sc_detail.score2)
+                ar = fun_for_append(ar, sc_detail.score3)
+                ar = fun_for_append(ar, sc_detail.score4)
+                ar = fun_for_append(ar, sc_detail.score5)
+                ar = fun_for_append(ar, sc_detail.score)
+                ar = fun_for_append(ar, sc_detail.comment)
 
                 result.append(ar)
         df = pd.DataFrame(result, columns=head)
@@ -236,8 +244,8 @@ def export_detailed_scores_commission(commission):
                 exp = sc_detail.relation_exp_app.expert
                 fio = '{} {} {}'.format(exp.last_name, exp.first_name, exp.middle_name)
                 ar.append(fio)
-                ar.append(sc_detail.score)
-                ar.append(sc_detail.comment)
+                ar = fun_for_append(ar, sc_detail.score)
+                ar = fun_for_append(ar, sc_detail.comment)
                 result.append(ar)
         df = pd.DataFrame(result, columns=head)
         return df
@@ -277,9 +285,11 @@ def save_detailed_scores_to_woorksheet(workbook, worksheet, data, top_name, dop_
 
     for row_num, columns in enumerate(data.values):
         for col_num, cell_data in enumerate(columns):
-            worksheet.write(row_num + start_row, col_num, cell_data, normal_text)
+            try:
+                worksheet.write(row_num + start_row, col_num, cell_data, normal_text)
+            except TypeError:
+                worksheet.write(row_num + start_row, col_num, '-', normal_text)
     return worksheet
-
 
 
 def export_request(request, commission, func_for_get_data_all=export_personal_info,
