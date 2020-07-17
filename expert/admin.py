@@ -23,33 +23,21 @@ class MyAdminSite(AdminSite):
         my_urls = [
             # path('update_score/', self.update_score),
             path('upload_score/', self.upload_score),
-            path('export_score/', self.export_score),
+            # path('export_score/', self.export_score),
             # path('update_result/', self.update_result),
             path('upload_result/', self.upload_result),
-            path('export_result/', self.export_result),
-            path('export_users/', self.export_users),
+            # path('export_result/', self.export_result),
+            path('export_all/', self.export_all),
+            # path('export_users/', self.export_users),
             path('load_users/', self.load_users),
-            path('export_relation/', self.export_relation),
+            # path('export_relation/', self.export_relation),
             path('load_relation/', self.load_relation),
         ]
         return my_urls + urls
 
-    def export_users(self, request):
-
-        # Выгружает личную инфу экспертов
-        #log = 'Якобы выгрузил личную инфу экспертов'
-        #messages.success(request, log)
-        return export_personal_info_request(request)
-
     def load_users(self, request):
         # Загружает экспертов
         log = 'Якобы загрузили экспертов'
-        messages.success(request, log)
-        return HttpResponseRedirect("../")
-
-    def export_relation(self, request):
-        # Выгружает распределение экспертов
-        log = 'Якобы выгрузил распределение экспертов'
         messages.success(request, log)
         return HttpResponseRedirect("../")
 
@@ -65,7 +53,6 @@ class MyAdminSite(AdminSite):
         # messages.success(request, log)
         return log
 
-
     def upload_score(self, request):
         log = self.update_score()
         # Обновляет оценки
@@ -75,14 +62,9 @@ class MyAdminSite(AdminSite):
         messages.success(request, 'Обновили оценки ' + log)
         return HttpResponseRedirect("../")
 
-    def export_score(self, request):
-        messages.success(request, 'Допустим выгрузили оценки') # TODO
-        return HttpResponseRedirect("../")
-
     def update_result(self):
         log = upload_all_result()
         return log
-
 
     def upload_result(self, request):
         log = self.update_result()
@@ -92,13 +74,34 @@ class MyAdminSite(AdminSite):
         messages.success(request, 'Обновили результаты ' + log)
         return HttpResponseRedirect("../")
 
+    def export_all(self, request):
+        # Отправляет на отдельную страницу выгрузки
+        return export_personal_info_request(request)
 
+    """
     def export_result(self, request):
         messages.success(request, 'Допустим выгрузили  результаты') # TODO
         return HttpResponseRedirect("../")
+    def export_score(self, request):
+        messages.success(request, 'Допустим выгрузили оценки') # TODO
+        return HttpResponseRedirect("../")
+
+    def export_users(self, request):
+
+        # Выгружает личную инфу экспертов
+        # log = 'Якобы выгрузил личную инфу экспертов'
+        # messages.success(request, log)
+        return export_personal_info_request(request)
+
+    def export_relation(self, request):
+        # Выгружает распределение экспертов
+        log = 'Якобы выгрузил распределение экспертов'
+        messages.success(request, log)
+        return HttpResponseRedirect("../")
 
 
-    """
+
+
     def get_app_list(self, request):
         ordering = {
             "Эксперты": 1,

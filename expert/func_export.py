@@ -404,7 +404,7 @@ def export_relation_commission(commission):
                 exp = mod.expert
                 vuz = mod.expert.company.short_name
                 fo = mod.expert.company.region.federal_district.short_name
-                fio = '{} {}. {}. ({}, {})'.format(exp.last_name, exp.first_name[0], exp.middle_name[0], vuz, fo)
+                fio = '{} {} {} ({}, {})'.format(exp.last_name, exp.first_name, exp.middle_name, vuz, fo)
                 ar.append(fio)
             null = ['-'] * (max_expert - relation_all_app.count())
             ar = ar + null
@@ -434,7 +434,7 @@ def export_relation_commission(commission):
                 exp = mod.expert
                 vuz = mod.expert.company.short_name
                 fo = mod.expert.company.region.federal_district.short_name
-                fio = '{} {}. {}. ({}, {})'.format(exp.last_name, exp.first_name[0], exp.middle_name[0], vuz, fo)
+                fio = '{} {} {} ({}, {})'.format(exp.last_name, exp.first_name, exp.middle_name, vuz, fo)
                 ar.append(fio)
             null = ['-'] * (max_expert - relation_all_app.count())
             ar = ar + null

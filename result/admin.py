@@ -45,7 +45,7 @@ class ExpertScoreAdmin(MyScoreBaseAdmin):
 
 
 
-@admin.register(CheckGroups)
+# @admin.register(CheckGroups)
 class CheckGroupsAdmin(MyScoreBaseAdmin):
     list_per_page = 15
     list_display = ('id', 'commission', 'check_group', 'count_exp_ok',
@@ -87,7 +87,7 @@ class CheckGroupsAdmin(MyScoreBaseAdmin):
 
 
 
-@admin.register(CheckApplication)
+# @admin.register(CheckApplication)
 class CheckApplicationAdmin(MyScoreBaseAdmin):
     list_per_page = 15
     list_display = ('id', 'application', 'check_app', 'count_exp_ok', 'count_exp_all', 'date_last')
