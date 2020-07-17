@@ -13,7 +13,8 @@ from userexpert.models import Expert, CustomGroup
 import transliterate
 from app.models import Direction, Application
 from score.models import ScoreExpertAll, ScoreCommonAll
-
+from score.models import ScoreExpert, ScoreCommon
+from app.models import RelationExpertApplication
 dict_commission = {'0': 'Аll',
                    "1": "Агропромышленный комплекс",
                    "2": "Вооружение и военная техника",
@@ -100,7 +101,7 @@ def export_personal_info():
 
 def export_scores_commission(commission):
     """
-    По комиссии возвращает оценки в dataframe
+    По комиссии возвращает рейтинг в dataframe
     """
     if not commission.common_commission:
         all_directs = Direction.objects.filter(commission=commission)
@@ -149,7 +150,7 @@ def export_all_scores():
 
 def save_scores_to_woorksheet(workbook, worksheet, data, top_name, dop_name='Личная информация'):
     """
-    Сохраняет перс. данные в красивую эксель
+    Сохраняет рейтинг заявок в красивую эксель
     """
     top_format = workbook.add_format({'bold': True, 'border': 0, 'font_name': 'Times New Roman',
                                       'align': 'left', 'font_size': 14})
@@ -179,13 +180,120 @@ def save_scores_to_woorksheet(workbook, worksheet, data, top_name, dop_name='Л�
     return worksheet
 
 
+
+def export_detailed_scores_commission(commission):
+    """
+    По комиссии возвращает подробный рейтинг в dataframe
+    """
+    if not commission.common_commission:
+        all_directs = Direction.objects.filter(commission=commission)
+        all_application = Application.objects.filter(name__in=all_directs)
+        score_all = ScoreExpertAll.objects.filter(application__in=all_application)
+        rel_exp_sco = RelationExpertApplication.objects.filter(application__in=all_application).filter(
+            common_commission=False)
+        score_detail = ScoreExpert.objects.filter(relation_exp_app__in=rel_exp_sco)
+        result = []
+        head = ["Заявка", "Балл ЭК", "Эксперт", "Критерий №1", "Критерий №2", "Критерий №3",
+                "Критерий №4", "Критерий №5", "Оценка эксперта", "Комментарий эксперта"]
+        for mod in score_all:
+            one_rel_exp_sco = RelationExpertApplication.objects.filter(application=mod.application).filter(
+                common_commission=False)
+            one_score_detail = ScoreExpert.objects.filter(relation_exp_app__in=one_rel_exp_sco)
+            for sc_detail in one_score_detail:
+                ar = []
+                ar.append('{} - {}'.format(mod.application.name.name, mod.application.vuz.short_name))
+                ar.append(mod.score)
+                exp = sc_detail.relation_exp_app.expert
+                fio = '{} {} {}'.format(exp.last_name, exp.first_name, exp.middle_name)
+                ar.append(fio)
+                ar.append(sc_detail.score1)
+                ar.append(sc_detail.score2)
+                ar.append(sc_detail.score3)
+                ar.append(sc_detail.score4)
+                ar.append(sc_detail.score5)
+                ar.append(sc_detail.score)
+                ar.append(sc_detail.comment)
+
+                result.append(ar)
+        df = pd.DataFrame(result, columns=head)
+        return df
+    else:
+        score_all = ScoreCommonAll.objects.all()
+
+        rel_exp_sco = RelationExpertApplication.objects.filter(
+            common_commission=True)
+        score_detail = ScoreCommon.objects.all()
+        result = []
+        head = ["Заявка", "Балл общей комиссии", "Эксперт", "Оценка эксперта", "Комменатрий эксперта"]
+        for mod in score_all:
+            one_rel_exp_sco = RelationExpertApplication.objects.filter(application=mod.application).filter(
+                common_commission=True)
+            one_score_detail = ScoreCommon.objects.filter(relation_exp_app__in=one_rel_exp_sco)
+            for sc_detail in one_score_detail:
+                ar = []
+                ar.append('{} - {}'.format(mod.application.name.name, mod.application.vuz.short_name))
+                ar.append(mod.score)
+                exp = sc_detail.relation_exp_app.expert
+                fio = '{} {} {}'.format(exp.last_name, exp.first_name, exp.middle_name)
+                ar.append(fio)
+                ar.append(sc_detail.score)
+                ar.append(sc_detail.comment)
+                result.append(ar)
+        df = pd.DataFrame(result, columns=head)
+        return df
+
+
+def export_detailed_all_scores():
+    return export_info_for_all_com(export_detailed_scores_commission)
+
+
+def save_detailed_scores_to_woorksheet(workbook, worksheet, data, top_name, dop_name='Личная информация'):
+    """
+    Сохраняет подробный рейтинг заявок в красивую эксель
+    """
+    top_format = workbook.add_format({'bold': True, 'border': 0, 'font_name': 'Times New Roman',
+                                      'align': 'left', 'font_size': 14})
+    worksheet.set_column(0, 0, 30)
+    worksheet.set_column(1, 1, 10)
+    worksheet.set_column(2, 2, 20)
+    worksheet.set_column(3, 30, 15)
+    worksheet.set_column(9, 9, 40)
+    head_format = workbook.add_format({'bold': True, 'border': 1, 'font_name': 'Times New Roman',
+                                       'align': 'center', 'valign': 'center'})
+    head_format.set_align('center')
+    head_format.set_align('vcenter')
+    normal_text = workbook.add_format({'border': 1, 'font_name': 'Times New Roman',
+                                       'align': 'left', 'valign': 'vcenter', 'text_wrap': True})
+    normal_text.set_align('center')
+    normal_text.set_align('vcenter')
+
+    head = list(data)
+
+    top = 'Экспертная комиссия "{}". {}'.format(top_name, dop_name)
+    worksheet.write(0, 0, top, top_format)
+    start_row = 3
+    for col_num in range(len(head)):
+        worksheet.write(start_row - 1, col_num, head[col_num], head_format)
+
+    for row_num, columns in enumerate(data.values):
+        for col_num, cell_data in enumerate(columns):
+            worksheet.write(row_num + start_row, col_num, cell_data, normal_text)
+    return worksheet
+
+
+
 def export_request(request, commission, func_for_get_data_all=export_personal_info,
                    func_for_woorksheet=save_personal_info_to_woorksheet,
                    namefile='Перс. данные', dop_name="Личная информация"):
-    # func_for_get_data_all = export_personal_info
-    # func_for_woorksheet = save_personal_info_to_woorksheet
-    # namefile = 'Перс. данные'
-    # dop_name = Личная информация
+    """
+    Функция, которая выгружает красивые эксельки
+    :param commission: Комиссия или 'all'
+    :param func_for_get_data_all: (export_personal_info) - Функция, которая получает всю информацию в словарь датафреймов
+    :param func_for_woorksheet: (save_personal_info_to_woorksheet) - Функция, которая красиво сохраняет именно этот тип данных
+    :param namefile: 'Перс. данные' - название файла на русском
+    :param dop_name: ' Личная информация' - Это заголовок к таблицам
+    :return: response
+    """
 
     output = io.BytesIO()
     workbook = Workbook(output, {'in_memory': True})
@@ -243,19 +351,28 @@ def export_personal_info_request(request):
                                       namefile='Перс. данные', dop_name="Личная информация")
         elif id_what == "1":  # Распределение экспертов по заявкам # TODO
             return HttpResponseRedirect('../')
-        elif id_what == "2":  # Просто результаты по комиссиям # TODO
+        elif id_what == "2":  # Просто результаты по комиссиям
             if id_ans == "0":
                 return export_request(request, 'all', func_for_get_data_all=export_all_scores,
                                       func_for_woorksheet=save_scores_to_woorksheet,
-                                      namefile='Рейтинг', dop_name="Рейтинг заяовк")
+                                      namefile='Рейтинг', dop_name="Рейтинг заявок")
             else:
                 name_commission = dict_commission[id_ans]
                 commission = CustomGroup.objects.get(group=Group.objects.get(name=name_commission))
                 return export_request(request, commission, func_for_get_data_all=export_all_scores,
                                       func_for_woorksheet=save_scores_to_woorksheet,
-                                      namefile='Рейтинг', dop_name="Рейтинг заяовк")
+                                      namefile='Рейтинг', dop_name="Рейтинг заявок")
         elif id_what == "3":  # Подробные результаты # TODO
-            return HttpResponseRedirect('../')
+            if id_ans == "0":
+                return export_request(request, 'all', func_for_get_data_all=export_detailed_all_scores,
+                                      func_for_woorksheet=save_detailed_scores_to_woorksheet,
+                                      namefile='Подробный рейтинг.', dop_name="Подробный рейтинг")
+            else:
+                name_commission = dict_commission[id_ans]
+                commission = CustomGroup.objects.get(group=Group.objects.get(name=name_commission))
+                return export_request(request, commission, func_for_get_data_all=export_detailed_all_scores,
+                                      func_for_woorksheet=save_detailed_scores_to_woorksheet,
+                                      namefile='Подробный рейтинг.', dop_name="Подробный рейтинг")
         elif id_what == "4":  # Итоговые результаты # TODO
             return HttpResponseRedirect('../')
 
