@@ -10,6 +10,7 @@ from result.models import CheckExpertScore, CheckGroups, CheckApplication
 from expert.fuction_for_all import reload_scores
 
 from .func_export import export_personal_info_request
+from .func_load_relation import func_load_relation
 
 
 class MyAdminSite(AdminSite):
@@ -43,9 +44,9 @@ class MyAdminSite(AdminSite):
 
     def load_relation(self, request):
         # Загружает распределение экспертов
-        log = 'Якобы загрузили распределение экспертов'
-        messages.success(request, log)
-        return HttpResponseRedirect("../")
+        # log = 'Якобы загрузили распределение экспертов'
+        # messages.success(request, log)
+        return func_load_relation(request)
 
     def update_score(self):
         # Подгружает новые объекты в score

@@ -1,8 +1,64 @@
 {% extends "admin/base_site.html" %}
 
-
 {% block object-tools %}
 {{ block.super }}
-HELLO relation
+
+<table>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <tr>
+            <td>
+                Комиссия
+            </td>
+            <td><select name="group" value="4">
+                <option value="1">Агропромышленный комплекс</option>
+                <option value="2">Вооружение и военная техника</option>
+                <option value="3">Естественные науки</option>
+                <option value="4">Инженерные науки и технологии</option>
+                <option value="5">Искусство и гуманитарные науик</option>
+                <option value="6">Компьютерные науки</option>
+                <option value="7">Медицина и здравоохранение</option>
+                <option value="8">Педагогические науки</option>
+                <option value="9">Социально-экономические науки</option>
+                <option value="10">Общая комиссия</option>
+            </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Выберите файл</td>
+            <td>
+                <input type="file" name='file'>
+            </td>
+        </tr>
+        <tr>
+            <td><input type="submit" class="btn" name='prev' value="Вернуться"></td>
+            <td><input type="submit" class="btn" name='check' value="Проверить файл на валидность"></td>
+            {% if check %}<td><input type="submit" class="btn" name='check_and_apply' value="Проверить и загрузить файл в систему"></td> {% endif %}
+        </tr>
+    </form>
+</table>
+
+<hr/>
+{% if tables %}
+<table>
+    <tr>
+    {% for h in head %}
+        <td bgcolor="#ffffff" align="center"> <b> {{h}} </b></td>
+    {% endfor %}
+    </tr>
+
+    {% for row in tables %}
+    <tr>
+        {% for items in row %}
+            {% if items.0 %}
+                <td bgcolor="#98FB98"> {{items.1}}</td>
+            {% else %}
+                <td bgcolor="#F08080"> {{items.1}}</td>
+            {% endif %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
 
 {% endblock %}
