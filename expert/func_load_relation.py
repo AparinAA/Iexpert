@@ -47,30 +47,37 @@ def func_load_relation(request):
             return False, app
 
     def find_expert(exp, commission):
-        try:
-            fio, vuz_fo = exp.split('(')
-            vuz, fo = vuz_fo.split(', ')
-            fo = fo[:-1]
-            f, i, o = fio.split()
-            expert = Expert.objects.filter(last_name=f).filter(
-                first_name=i).filter(middle_name=o)
-            vuz = Company.objects.get(short_name=vuz)
-            expert = expert.filter(company=vuz)
-            expert = expert.filter(groups=commission.group)
-            if expert.count() != 1:
+        if exp != '-':
+            try:
+                fio, vuz_fo = exp.split('(')
+                vuz, fo = vuz_fo.split(', ')
+                fo = fo[:-1]
+                f, i, o = fio.split()
+                expert = Expert.objects.filter(last_name=f).filter(
+                    first_name=i).filter(middle_name=o)
+                vuz = Company.objects.get(short_name=vuz)
+                expert = expert.filter(company=vuz)
+                expert = expert.filter(groups=commission.group)
+                if expert.count() != 1:
+                    return False, exp
+                else:
+                    return True, expert.get()
+            except:
                 return False, exp
-            else:
-                return True, expert.get()
-        except:
-            return False, exp
+        else:
+            return True, exp
 
     def create_dataset(myfile, commission):
         df = pd.read_excel(myfile, skiprows=2)
         check = True
         count_exp = df.shape[1]
         head = ['Заявка'] + ['Эксперт №{}'.format(i + 1) for i in range(count_exp - 1)]
+        print(head)
+        print(list(df))
         if head != list(df):
+            print('NONE!')
             return False, None, None
+
 
         result = []
         for row in df.values:
@@ -96,16 +103,17 @@ def func_load_relation(request):
             app = row[0][1]
             experts = [item[1] for item in row[1:]]
             for exp in experts:
-                c = True
-                if RelationExpertApplication.objects.filter(application=app):
-                    if RelationExpertApplication.objects.filter(application=app).filter(expert=exp):
-                        print('exist')
-                        c = False
-                if c:
-                    rel = RelationExpertApplication(expert=exp, application=app)
-                    rel.save()
-                    count += 1
-                    print('add', rel)
+                if exp != '-':
+                    c = True
+                    if RelationExpertApplication.objects.filter(application=app):
+                        if RelationExpertApplication.objects.filter(application=app).filter(expert=exp):
+                            print('exist')
+                            c = False
+                    if c:
+                        rel = RelationExpertApplication(expert=exp, application=app)
+                        rel.save()
+                        count += 1
+                        print('add', rel)
         return count
     id_commission = "1"
     if 'prev' in request.POST:
@@ -120,6 +128,7 @@ def func_load_relation(request):
                 check, table, head = create_dataset(myfile, custom_gr)
                 log = 'file: {}, commission: {}'.format(myfile, custom_gr.group.name)
                 messages.success(request, log)
+                print(table)
                 if 'check' in request.POST:
                     return render(request, 'admin/load_relation.html',
                                   {'title': u'Загрузка распределения экспертов', 'check': check,
