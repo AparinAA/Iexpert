@@ -522,7 +522,7 @@ def export_svod_commission(commission):
         ar.append(exp.position)
         ar.append(exp.email)
         ar.append(exp.phone)
-        ar.append(check.comment)
+        ar.append(exp.comment)
         table.append(ar)
     df = pd.DataFrame(table, columns=head)
     return df

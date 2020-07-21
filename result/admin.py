@@ -25,7 +25,9 @@ class ExpertScoreAdmin(MyScoreBaseAdmin):
     list_display_links = ('expert',)
     list_filter = ('check_exp', )
     fieldsets = (
-        (None, {'fields': ('check_exp', 'comment')}),
+        (None, {'fields': ('check_exp',
+                           # 'comment'
+                           )}),
         # ('Эксперты', {'fields': ('experts', )})
     )
     search_fields = ['expert__first_name', 'expert__second_name', 'expert__last_name', ]

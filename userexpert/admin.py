@@ -86,6 +86,7 @@ class UserAdmin(BaseUserAdmin):
         ('Доступ', {'fields': ('is_admin', 'is_active',)}),
         ('Права', {'fields': ('user_permissions',)}),
         ('Группы', {'fields': ('groups',)}),
+        ('Комментарий', {'fields': ('comment', )})
 
     )
     add_fieldsets = (
