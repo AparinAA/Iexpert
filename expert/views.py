@@ -57,6 +57,8 @@ def index(request):
             for app_expert in all_application_set:
                 app = app_expert.get_application()
                 application_all.append(app)
+
+            # Эксперт общей комиссии и его оценки
             try:
                 sc_common = ScoreCommon.objects.all().filter(relation_exp_app__in=all_application_set)
                 scores_common = sc_common.filter(check=False)
@@ -65,6 +67,8 @@ def index(request):
                 scores_common = []
                 check_common = []
 
+
+            # Эксперт экспертной комиссии и его оценки
             try:
                 sc_exp = ScoreExpert.objects.all().filter(relation_exp_app__in=all_application_set)
                 scores_expert = sc_exp.filter(check=False)
@@ -72,10 +76,35 @@ def index(request):
             except:
                 scores_expert = []
                 check_expert = []
+
+            dict_score = {}
+            dict_check = {}
+            # Словарь
+            for com in commissions:
+                if not com.common_commission:
+                    all_dir = Direction.objects.filter(commission=com)
+                    all_app = Application.objects.filter(name__in=all_dir)
+                    all_rel = RelationExpertApplication.objects.all().filter(application__in=all_app).filter(expert=expert)
+                else:
+                    all_dir = Direction.objects.all()
+                    all_app = Application.objects.filter(name__in=all_dir)
+                    all_rel = RelationExpertApplication.objects.all().filter(expert=expert).filter(application__in=all_app)
+                if com.common_commission:
+                    sc = ScoreCommon.objects.all().filter(relation_exp_app__in=all_rel)
+                else:
+                    sc = ScoreExpert.objects.all().filter(relation_exp_app__in=all_rel)
+                score = sc.filter(check=False)
+                check = sc.filter(check=True)
+                dict_score[com] = score
+                dict_check[com] = check
+
+            # Подтверждение оценок
             try:
                 check_score = CheckExpertScore.objects.all().get(expert=expert)
             except:
                 check_score = []
+
+
             return render(request, 'index_expert.html', context={
                 'expert': expert, 'application_all': application_all,
                 'commissions': commissions,
@@ -83,7 +112,9 @@ def index(request):
                 'scores_expert': scores_expert,
                 'check_common': check_common,
                 'check_expert': check_expert,
-                'check_score': check_score
+                'check_score': check_score,
+                'dict_check': dict_check,
+                'dict_score': dict_score
             })
     else:
         return render(request, 'index.html',

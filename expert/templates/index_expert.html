@@ -15,86 +15,96 @@
 
     <b style='font-size:15px'> Контакты: </b>
     <ul><p><i> Почта: </i> {{expert.email}}</p></ul>
-    <ul><p><i> Телефон: </i> {% if expert.phone is None or expert.phone == '-'%} <font color="#B22222"> отстутствует </font> {% else %} {{ expert.phone }} {% endif %}</p></ul>
+    <ul><p><i> Телефон: </i> {% if expert.phone is None or expert.phone == '-'%} <font color="#B22222">
+        отстутствует </font> {% else %} {{ expert.phone }} {% endif %}</p></ul>
 </ul>
-    <br/>
-    <hr/>
+<br/>
+<hr/>
 <h4> Информация об экспертных комиссиях</h4>
 
-    <ul>
-        {% for com in commissions %}
+<ul>
+    {% for com in commissions %}
 
-        <li> <b> {{com}} </b></li>
-        {% if com.master %}
-            <ul><i> Ответственный секретарь:</i>
-                {{com.master}}</ul>
-            <ul><i> Почта ответственного секретаря:</i>
-                <a href="mailto:{{com.master.email}}"> {{com.master.email}}</a></ul>
-        {% else %}
-        <ul><i> Ответственный секретарь пока не назначен </i></ul>
-        {% endif %}
-        {% endfor %}
+    <li><b> {{com}} </b></li>
+    {% if com.master %}
+    <ul><i> Ответственный секретарь:</i>
+        {{com.master}}
     </ul>
+    <ul><i> Почта ответственного секретаря:</i>
+        <a href="mailto:{{com.master.email}}"> {{com.master.email}}</a></ul>
+    {% else %}
+    <ul><i> Ответственный секретарь пока не назначен </i></ul>
+    {% endif %}
+    {% endfor %}
+</ul>
 
-    <br/>
-    <hr/>
-
+<br/>
+<hr/>
 <h4>Экспертиза заявок</h4>
 <ul>
     <b style='font-size:15px'>Нерассмотренные экспертные оценки </b>
     <br/>
-    {% for com in commissions %}
+    {% for com, scores in dict_score.items %}
     <ul>
         <i> {{com}}</i>
-        {% if com.common_commission %}
-                {% if scores_common%}
-                    <ul type="circle">
-                        {% for score_form in scores_common %}
-                        <li><a href="{% url 'score_common_form' score_form.pk %}"> {{score_form.relation_exp_app.application}} </a></li>
-                        {% endfor %}
-                    </ul>
+        {% if scores %}
+            {% if com.common_commission %}
+            <ul type="None">
+                {% for score_form in scores %}
+                <li><a href="{% url 'score_common_form' score_form.pk %}"> {{score_form.relation_exp_app.application}} </a>
+                </li>
+                {% endfor %}
+            </ul>
 
+            {% else %}
+            <ul type="None">
+                {% for score_form in scores %}
+                {% if score_form.relation_exp_app.application.name.commission == com %}
+                <li><a href="{% url 'score_expert_form' score_form.pk %}"> {{score_form.relation_exp_app.application}} </a>
+                </li>
                 {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
         {% else %}
-                {% if scores_expert %}
-                <ul type="circle">
-                    {% for score_form in scores_expert %}
-                    {% if score_form.relation_exp_app.application.name.commission == com %}
-                        <li><a href="{% url 'score_expert_form' score_form.pk %}"> {{score_form.relation_exp_app.application}} </a></li>
-                    {% endif %}
-                    {% endfor %}
-                </ul>
-                {% endif %}
+        <ul type="None">
+        <li> Нет назначенных заявок в этой комиссии </li>
+        </ul>
         {% endif %}
     </ul>
     {% endfor %}
-<hr/>
+    <hr/>
     <b style='font-size:15px'>Завершенные экспертные оценки </b>
-        {% for com in commissions %}
+    {% for com, check in dict_check.items %}
     <ul>
         <i> {{com}}</i>
-        {% if com.common_commission %}
-                {% if check_common%}
-                    <ul type="circle">
-                        {% for score_form in check_common %}
-                        <li><a href="{% url 'score_common_detail' score_form.pk %}"> {{score_form.relation_exp_app.application}} </a></li>
-                        {% endfor %}
-                    </ul>
+        {% if check %}
+            {% if com.common_commission %}
+            <ul type="None">
+                {% for score_form in  check %}
+                <li><a href="{% url 'score_common_detail' score_form.pk %}">
+                    {{score_form.relation_exp_app.application}} </a></li>
+                {% endfor %}
+            </ul>
 
+            {% else %}
+            <ul type="None">
+                {% for score_form in check %}
+                {% if score_form.relation_exp_app.application.name.commission == com %}
+                <li><a href="{% url 'score_expert_detail' score_form.pk %}">
+                    {{score_form.relation_exp_app.application}} </a></li>
                 {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
         {% else %}
-                {% if check_expert %}
-                <ul type="circle">
-                    {% for score_form in check_expert %}
-                    {% if score_form.relation_exp_app.application.name.commission == com %}
-                        <li><a href="{% url 'score_expert_detail' score_form.pk %}"> {{score_form.relation_exp_app.application}} </a></li>
-                    {% endif %}
-                    {% endfor %}
-                </ul>
-                {% endif %}
+        <ul type="None">
+        <li> Нет готовых заявок в этой комиссии </li>
+        </ul>
         {% endif %}
     </ul>
     {% endfor %}
 
 </ul>
+
 {% endblock %}
