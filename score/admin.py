@@ -40,7 +40,16 @@ class ScoreCommonCommissionAdmin(MyScoreBaseAdmin):
         (None, {'fields': ('score', 'comment',)}),
         # ('Эксперты', {'fields': ('experts', )})
     )
-    search_fields = ['relation_exp_app', 'check', ]
+    search_fields = ['score'
+        #'relation_exp_app__expert',
+                  #   'relation_exp_app__expert__middle_name',
+                  #   'relation_exp_app__expert__first_name',
+                  #   'relation_exp_app__application__name__name',
+                  #   'relation_exp_app__application__vuz__short_name',
+                  #   'relation_exp_app__application__vuz__full_name',
+                  #   'check',
+                     #
+                     ]
     ordering = ('relation_exp_app',)
     change_form_template = 'admin/score_one_admin.html'
 

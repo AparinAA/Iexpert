@@ -391,13 +391,13 @@ def export_relation_commission(commission):
         max_expert = 0
         for app in all_application:
             relation_all_app = RelationExpertApplication.objects.filter(application=app).filter(
-            common_commission=False)
+                common_commission=False)
             if relation_all_app.count() > max_expert:
                 max_expert = relation_all_app.count()
         head = ["Заявка"] + ["Эксперт №{}".format(i + 1) for i in range(max_expert)]
         for app in all_application:
             relation_all_app = RelationExpertApplication.objects.filter(application=app).filter(
-            common_commission=False)
+                common_commission=False)
             ar = []
             ar.append('{} - {}'.format(app.name.name, app.vuz.short_name))
             for mod in relation_all_app:
@@ -421,13 +421,13 @@ def export_relation_commission(commission):
         max_expert = 0
         for app in all_application:
             relation_all_app = RelationExpertApplication.objects.filter(application=app).filter(
-            common_commission=True)
+                common_commission=True)
             if relation_all_app.count() > max_expert:
                 max_expert = relation_all_app.count()
         head = ["Заявка"] + ["Эксперт №{}".format(i + 1) for i in range(max_expert)]
         for app in all_application:
             relation_all_app = RelationExpertApplication.objects.filter(application=app).filter(
-            common_commission=True)
+                common_commission=True)
             ar = []
             ar.append('{} - {}'.format(app.name.name, app.vuz.short_name))
             for mod in relation_all_app:
@@ -484,9 +484,94 @@ def save_relation_s_to_woorksheet(workbook, worksheet, data, top_name, dop_name=
     return worksheet
 
 
+from result.models import CheckExpertScore
+
+
+def export_svod_commission(commission):
+    all_expert = Expert.objects.filter(groups=commission.group)
+    head = ["ФИО эксперта", "Login", "Комиссия", "Сколько заявок сделано", "Сколько заявок распрделили",
+            "Закончил экспертизу (предыдущие столбцы равны)", "Подтвердил готовность оценок",
+            "Организация эксперта", "ФО", "Должность", "Почта", "Телефон", "Комментарий в системе"]
+    table = []
+    for exp in all_expert:
+        ar = []
+        fio = '{} {} {}'.format(exp.last_name, exp.first_name, exp.middle_name)
+        ar.append(fio)
+        ar.append(exp.login)
+        ar.append(commission.group.name)
+        check = CheckExpertScore.objects.get(expert=exp)
+
+        rel_exp_app = RelationExpertApplication.objects.filter(expert=exp).filter(is_active=True)
+        if not commission.common_commission:
+            rel_exp_app = rel_exp_app.filter(application__name__commission=commission)
+        count_all = rel_exp_app.count()
+
+        if exp.common_commission:
+            exp_scores = ScoreCommon.objects.filter(relation_exp_app__in=rel_exp_app).filter(check=True)
+        else:
+            exp_scores = ScoreExpert.objects.filter(relation_exp_app__in=rel_exp_app).filter(check=True)
+        count_ok = exp_scores.count()
+
+        ar.append(count_ok)
+        ar.append(count_all)
+
+        ar.append('Да') if check.check_exp else ar.append('Нет')
+        ar.append('Да') if count_ok == count_all else ar.append('Нет')
+        ar.append(exp.company.short_name)
+        ar.append(exp.company.region.federal_district.short_name)
+        ar.append(exp.position)
+        ar.append(exp.email)
+        ar.append(exp.phone)
+        ar.append(check.comment)
+        table.append(ar)
+    df = pd.DataFrame(table, columns=head)
+    return df
+
+
+def export_svod():
+    """
+    Собирает какие-то данные по группам, возвращает словарь
+    """
+    return export_info_for_all_com(export_svod_commission)
+
+
+def save_svod_to_woorksheet(workbook, worksheet, data, top_name, dop_name='Личная информация'):
+    """
+    Сохраняет подробный рейтинг заявок в красивую эксель
+    """
+    top_format = workbook.add_format({'bold': True, 'border': 0, 'font_name': 'Times New Roman',
+                                      'align': 'left', 'font_size': 14})
+    worksheet.set_column(0, 0, 30)
+    worksheet.set_column(1, 30, 20)
+    head_format = workbook.add_format({'bold': True, 'border': 1, 'font_name': 'Times New Roman',
+                                       'align': 'center', 'valign': 'center'})
+    head_format.set_align('center')
+    head_format.set_align('vcenter')
+    normal_text = workbook.add_format({'border': 1, 'font_name': 'Times New Roman',
+                                       'align': 'left', 'valign': 'vcenter', 'text_wrap': True})
+    normal_text.set_align('center')
+    normal_text.set_align('vcenter')
+
+    head = list(data)
+
+    top = 'Экспертная комиссия "{}". {}'.format(top_name, dop_name)
+    worksheet.write(0, 0, top, top_format)
+    start_row = 3
+    for col_num in range(len(head)):
+        worksheet.write(start_row - 1, col_num, head[col_num], head_format)
+
+    for row_num, columns in enumerate(data.values):
+        for col_num, cell_data in enumerate(columns):
+            try:
+                worksheet.write(row_num + start_row, col_num, cell_data, normal_text)
+            except TypeError:
+                worksheet.write(row_num + start_row, col_num, '-', normal_text)
+    return worksheet
+
+
 def export_request(request, commission, func_for_get_data_all=export_personal_info,
                    func_for_woorksheet=save_personal_info_to_woorksheet,
-                   namefile='Перс. данные', dop_name="Личная информация"):
+                   namefile='Перс. данные', dop_name="Личная информация", all_in_one_wheet=False):
     """
     Функция, которая выгружает красивые эксельки
     :param commission: Комиссия или 'all'
@@ -502,11 +587,19 @@ def export_request(request, commission, func_for_get_data_all=export_personal_in
     result = func_for_get_data_all()
 
     if commission == 'all':
-        for com in list(result):
-            data = result[com]
-            worksheet = workbook.add_worksheet(com.group.name)
-            worksheet = func_for_woorksheet(workbook, worksheet, data, com.group.name, dop_name=dop_name)
+        if not all_in_one_wheet:
+            for com in list(result):
+                data = result[com]
+                worksheet = workbook.add_worksheet(com.group.name)
+                worksheet = func_for_woorksheet(workbook, worksheet, data, com.group.name, dop_name=dop_name)
 
+        else:
+            all_data = pd.DataFrame()
+            for com in list(result):
+                data = result[com]
+                all_data = all_data.append(data)
+            worksheet = workbook.add_worksheet("Все комиссии")
+            worksheet = func_for_woorksheet(workbook, worksheet, all_data, "Все комиссии", dop_name=dop_name)
     else:
         data = result[commission]
         worksheet = workbook.add_worksheet(commission.group.name)
@@ -600,7 +693,25 @@ def export_personal_info_request(request):
                                           func_for_woorksheet=save_itog_scores_to_woorksheet,
                                           namefile='Итоговый рейтинг.', dop_name="Итоговый рейтинг")
 
-
+        elif id_what == "5":  # Выгрузка сводных таблиц
+            if id_ans == "0":
+                return export_request(request, 'all', func_for_get_data_all=export_svod,
+                                      func_for_woorksheet=save_svod_to_woorksheet,
+                                      namefile='Сводная таблица',
+                                      dop_name="Сводная таблица готовности работы экспертов",
+                                      all_in_one_wheet=True)
+            else:
+                name_commission = dict_commission[id_ans]
+                commission = CustomGroup.objects.get(group=Group.objects.get(name=name_commission))
+                if commission.common_commission:
+                    messages.success(request, "Нельзя скачать итоговый рейтинг общей комиссии")
+                    return HttpResponseRedirect("/admin/export_users/")
+                else:
+                    return export_request(request, commission, func_for_get_data_all=export_svod,
+                                          func_for_woorksheet=save_svod_to_woorksheet,
+                                          namefile='Сводная таблица',
+                                          dop_name="Сводная таблица готовности работы экспертов",
+                                          all_in_one_wheet=True)
     else:
         return render(request, 'admin/export_by_commission.html',
                       {'title': u'Скачивание', })
