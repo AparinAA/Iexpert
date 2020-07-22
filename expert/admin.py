@@ -11,7 +11,7 @@ from expert.fuction_for_all import reload_scores
 
 from .func_export import export_personal_info_request
 from .func_load_relation import func_load_relation
-
+from .func_load_expert import func_load_expert
 
 class MyAdminSite(AdminSite):
     site_header = 'Админка Я - Эксперт'
@@ -38,9 +38,10 @@ class MyAdminSite(AdminSite):
 
     def load_users(self, request):
         # Загружает экспертов
-        log = 'Якобы загрузили экспертов'
-        messages.success(request, log)
-        return HttpResponseRedirect("../")
+        #log = 'Якобы загрузили экспертов'
+        #messages.success(request, log)
+        #return HttpResponseRedirect("../")
+        return func_load_expert(request)
 
     def load_relation(self, request):
         # Загружает распределение экспертов

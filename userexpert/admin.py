@@ -11,6 +11,8 @@ from django.shortcuts import get_object_or_404
 from xlsxwriter import Workbook
 
 from expert.func_export import export_personal_info_request
+
+from expert.func_load_expert import func_load_expert
 from userexpert.models import Expert, CustomGroup
 
 from django.contrib.auth.base_user import BaseUserManager
@@ -134,8 +136,9 @@ class UserAdmin(BaseUserAdmin):
 
 
     def load_users(self, request):
-        self.message_user(request, "Допустим загрузили экспертов")
-        return HttpResponseRedirect("../")
+        #self.message_user(request, "Допустим загрузили экспертов")
+        #return HttpResponseRedirect("../")
+        return func_load_expert(request)
 
     def export_users(self, request):
         # self.message_user(request, "Допустим выгрузили экспертов")

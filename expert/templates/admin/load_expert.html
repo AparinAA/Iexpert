@@ -1,0 +1,53 @@
+{% extends "admin/base_site.html" %}
+
+{% block object-tools %}
+{{ block.super }}
+
+<table>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <tr>
+            <td>Выберите файл</td>
+            <td>
+                <input type="file" name='file'>
+            </td>
+        </tr>
+        <tr>
+            <td><input type="submit" class="btn" name='prev' value="Вернуться"></td>
+            <td><input type="submit" class="btn" name='check' value="Проверить файл на валидность"></td>
+            {% if check %}<td><input type="submit" class="btn" name='check_and_apply' value="Проверить и загрузить файл в систему"></td>
+            {% else %} <td><input type="submit" class="btn" name='company' value="Перейти в организации"></td>    {% endif %}
+        </tr>
+    </form>
+</table>
+
+<hr/>
+{% if tables %}
+<table>
+    <tr>
+    {% for h in head %}
+        <td bgcolor="#ffffff" align="center"> <b> {{h}} </b></td>
+    {% endfor %}
+    </tr>
+
+    {% for row in tables %}
+    <tr>
+        {% for items in row %}
+            {% if items.0 == 'green' %}
+                <td bgcolor="#90EE90">
+            {% elif items.0 == 'orange' %}
+                <td bgcolor="#FFAC46">
+            {% elif items.0 == 'gray' %}
+                <td bgcolor="#E0E0DF">
+            {% else %}
+                 <td bgcolor="#FF836D">
+            {% endif %}
+                        {{items.1}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+{% endblock %}

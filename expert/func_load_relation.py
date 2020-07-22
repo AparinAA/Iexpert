@@ -1,3 +1,4 @@
+
 import zipfile
 from datetime import datetime
 from sys import path
@@ -24,7 +25,6 @@ dict_commission = {'0': 'Аll',
                    "8": "Педагогические науки",
                    "9": "Социально-экономические науки",
                    "10": "Общая комиссия"}
-
 from io import BytesIO
 import openpyxl
 from django.shortcuts import render
@@ -34,6 +34,7 @@ from django.core.files.storage import FileSystemStorage
 
 def func_load_relation(request):
     def find_app(app, commission):
+        # Находит в базе заявку
         try:
             name, vuz = app.split(' - ')
             direct = Direction.objects.filter(name=name).get(commission=commission)
@@ -47,6 +48,7 @@ def func_load_relation(request):
             return False, app
 
     def find_expert(exp, commission):
+        # Находит в базе эксперта
         if exp != '-':
             try:
                 fio, vuz_fo = exp.split('(')
@@ -68,14 +70,12 @@ def func_load_relation(request):
             return True, exp
 
     def create_dataset(myfile, commission):
+        # Создает табличку для html
         df = pd.read_excel(myfile, skiprows=2)
         check = True
         count_exp = df.shape[1]
         head = ['Заявка'] + ['Эксперт №{}'.format(i + 1) for i in range(count_exp - 1)]
-        print(head)
-        print(list(df))
         if head != list(df):
-            print('NONE!')
             return False, None, None
 
 
@@ -98,6 +98,7 @@ def func_load_relation(request):
         return check, result, head
 
     def load_to_bd(table):
+        # Загружает в БД
         count = 0
         for row in table:
             app = row[0][1]
