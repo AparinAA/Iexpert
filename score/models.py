@@ -179,7 +179,8 @@ class ScoreCommonAll(models.Model):
         try:
             self.score = mean_any(scores)
         except MyError:
-            print('not found socres')
+            pass
+
         if not (self.score is None or self.comment_master is None or len(self.comment_master) == 0):
             self.check = True
         else:
@@ -264,7 +265,6 @@ class ScoreExpertAll(models.Model):
             scores.append(sc.score)
 
         try:
-            print(scores1, scores2, scores3, scores4, scores5, scores)
             self.score1 = mean_any(scores1)
             self.score2 = mean_any(scores2)
             self.score3 = mean_any(scores3)
@@ -272,7 +272,7 @@ class ScoreExpertAll(models.Model):
             self.score5 = mean_any(scores5)
             self.score = mean_any(scores)
         except MyError:
-            print('not found socres')
+            pass
         if not (self.score is None or self.comment_master is None or len(self.comment_master) == 0):
             self.check = True
         else:
@@ -302,14 +302,13 @@ class ScoreAll(models.Model):
     def save(self, *args, **kwargs):
         self.full_clean()
         scores_common = ScoreCommonAll.objects.all().get(application=self.application).score
-        print(scores_common)
         scores_expert = ScoreExpertAll.objects.all().get(application=self.application).score
         try:
             self.score_com = scores_common
             self.score_exp = scores_expert
             self.score_final = scalar_product_com_exp(com=scores_common, exp=scores_expert)
         except MyError:
-            print('not found socres')
+            pass
         if not (self.score_final is None):
             self.check = True
         else:

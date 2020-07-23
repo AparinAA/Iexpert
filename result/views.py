@@ -21,10 +21,6 @@ class UserForm(forms.ModelForm):
         model = CheckExpertScore
         fields = ['check_exp']
 
-    """def save(self, *args, **kwargs):
-        print('save forms')
-        super(UserForm, self).__save__(*args, **kwargs)
-    """
 
 class AllScoreForExpertForm(PermissionRequiredMixin, UpdateView):
     model = CheckExpertScore

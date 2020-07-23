@@ -108,13 +108,11 @@ def func_load_relation(request):
                     c = True
                     if RelationExpertApplication.objects.filter(application=app):
                         if RelationExpertApplication.objects.filter(application=app).filter(expert=exp):
-                            print('exist')
                             c = False
                     if c:
                         rel = RelationExpertApplication(expert=exp, application=app)
                         rel.save()
                         count += 1
-                        print('add', rel)
         return count
     id_commission = "1"
     if 'prev' in request.POST:
@@ -129,7 +127,6 @@ def func_load_relation(request):
                 check, table, head = create_dataset(myfile, custom_gr)
                 log = 'file: {}, commission: {}'.format(myfile, custom_gr.group.name)
                 messages.success(request, log)
-                print(table)
                 if 'check' in request.POST:
                     return render(request, 'admin/load_relation.html',
                                   {'title': u'Загрузка распределения экспертов', 'check': check,

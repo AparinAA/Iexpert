@@ -270,11 +270,10 @@ class CustomGroupForm(ModelForm):
             self.fields['name'].initial = self.instance.name()
             self.fields['permissions'].initial = self.instance.permissions()
         except:
-            print('pass')
+            pass
 
     def save(self, *args, **kwargs):
         if 'instance' in self:
-            print('instance')
             group = self.instance.group
             group.name = self.cleaned_data.get('name')
             group.common_commission = self.cleaned_data.get('common_commission')
@@ -288,7 +287,6 @@ class CustomGroupForm(ModelForm):
             return group
         else:
             super(CustomGroupForm, self).save(commit=False)
-            print('no instance')
             group_name = self.cleaned_data.get('name')
             group, _ = Group.objects.get_or_create(name=group_name)
             for per in self.cleaned_data.get('permissions'):

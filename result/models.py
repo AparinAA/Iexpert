@@ -96,7 +96,6 @@ class CheckGroups(models.Model):
 
         all_direct = Direction.objects.all().filter(commission=self.commission)
         all_app = Application.objects.all().filter(name__in=all_direct)
-        print(all_app)
         self.count_app_all = all_app.count()
         all_score_exp = ScoreExpert.objects.filter()
         self.count_app_ok = 0  # TODO

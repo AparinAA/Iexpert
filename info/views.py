@@ -22,7 +22,6 @@ def CompanyOneView(request, pk):
         company = Company.objects.all().filter(id=pk)[0]
         all_expert = Expert.objects.all().filter(company=company)
         all_application = Application.objects.all().filter(vuz=company)
-        print(all_expert)
         return render(request, 'info/company_detail.html',
                       context={'company': company, 'all_expert': all_expert,
                                'all_application': all_application})

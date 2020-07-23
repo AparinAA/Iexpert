@@ -19,6 +19,7 @@ from userexpert.models import Expert, CustomGroup
 from app.models import Application, Direction, RelationExpertApplication
 from info.models import Company
 from django.contrib import messages
+from django.core.validators import validate_email
 
 dict_commission = {'0': 'Аll',
                    "1": "Агропромышленный комплекс",
@@ -37,14 +38,17 @@ import openpyxl
 from django.shortcuts import render
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 
 
 def func_load_expert(request):
-    def clear_word(word):
+    def clear_word(word, zn=True):
         if word != word:
             return '-'
         word = str(word)
-        word = word.replace('.', '. ')
+        if zn:
+            word = word.replace('.', '. ')
         while word.find('  ') != -1:
             word = word.replace('  ', ' ')
         while word[-1] == ' ':
@@ -178,12 +182,26 @@ def func_load_expert(request):
             else:
                 ar.append(('green', company.get()))
 
+            i = 0
             for it in [possition, fo, phone, email, comment]:
-                if it != it:
-                    ar.append(('gray', '-'))
+                if i == 3:
+                    it_cl = clear_word(str(it), zn=False)
+                    try:
+                        validate_email(it_cl)
+                        ar.append(('green', it_cl))
+                    except ValidationError:
+                        ar.append(('red', it_cl))
+                        check = False
+                    except:
+                        ar.append(('red', it_cl))
+                        check = False
                 else:
-                    it_cl = clear_word(str(it))
-                    ar.append(('gray', it_cl))
+                    if it != it:
+                        ar.append(('gray', '-'))
+                    else:
+                        it_cl = clear_word(str(it))
+                        ar.append(('gray', it_cl))
+                i += 1
             result.append(ar)
         head = [''] + head
         return check, result, head, count
@@ -207,18 +225,16 @@ def func_load_expert(request):
         head_format.set_align('vcenter')
 
         normal_text_green = workbook.add_format({'border': 1, 'font_name': 'Times New Roman',
-                                           'align': 'left', 'valign': 'vcenter', 'text_wrap': True})
+                                                 'align': 'left', 'valign': 'vcenter', 'text_wrap': True})
         normal_text_green.set_align('left')
         normal_text_green.set_align('vcenter')
         normal_text_green.set_bg_color('#90EE90')
 
-
         normal_text_orange = workbook.add_format({'border': 1, 'font_name': 'Times New Roman',
-                                           'align': 'left', 'valign': 'vcenter', 'text_wrap': True})
+                                                  'align': 'left', 'valign': 'vcenter', 'text_wrap': True})
         normal_text_orange.set_align('left')
         normal_text_orange.set_align('vcenter')
         normal_text_orange.set_bg_color('#FFAC46')
-
 
         start_row = 0
         for col, it in enumerate(head):

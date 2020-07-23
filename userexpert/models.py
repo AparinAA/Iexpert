@@ -135,7 +135,6 @@ class Expert(AbstractBaseUser, PermissionsMixin):
                 self.master_group = True
             else:
                 self.master_group = False
-            print(self.groups, self.common_commission)
         except:
             pass
         super(Expert, self).save(*args, **kwargs)
