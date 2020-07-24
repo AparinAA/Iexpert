@@ -55,13 +55,49 @@ def ExpertOneViews(request, pk):
             check_expert = ScoreExpert.objects.all().filter(relation_exp_app__in=all_application_set).filter(
                 check=True)
             check_common = []
+
+        dict_score = {}
+        dict_check = {}
+        # Словарь
+        commissions = expert.get_custom_commission
+
+        for com in commissions:
+            if not com.common_commission:
+                all_dir = Direction.objects.filter(commission=com)
+                all_app = Application.objects.filter(name__in=all_dir)
+                all_rel = RelationExpertApplication.objects.all().filter(application__in=all_app).filter(expert=expert)
+            else:
+                all_dir = Direction.objects.all()
+                all_app = Application.objects.filter(name__in=all_dir)
+                all_rel = RelationExpertApplication.objects.all().filter(expert=expert).filter(application__in=all_app)
+            if com.common_commission:
+                sc = ScoreCommon.objects.all().filter(relation_exp_app__in=all_rel)
+            else:
+                sc = ScoreExpert.objects.all().filter(relation_exp_app__in=all_rel)
+            score = sc.filter(check=False)
+            check = sc.filter(check=True)
+            dict_score[com] = score
+            dict_check[com] = check
+
+        # Подтверждение оценок
         try:
             check_score = CheckExpertScore.objects.all().get(expert=expert)
         except:
             check_score = []
+
         if current_user.is_admin:
             tempales = 'userexpert/expert_detail.html'
         else:
+            com = current_user.get_commission_master
+            try:
+                dict_check = {com: dict_check[com]}
+            except:
+                dict_check = None
+            try:
+                dict_score = {com: dict_score[com]}
+            except:
+                dict_score = None
+
             tempales = 'userexpert/expert_master_detail.html'
         return render(request, tempales,
                       context={'expert': expert, 'application_all': application_all,
@@ -69,7 +105,9 @@ def ExpertOneViews(request, pk):
                                'scores_expert': scores_expert,
                                'check_common': check_common,
                                'check_expert': check_expert,
-                               'check_score': check_score
+                               'check_score': check_score,
+                               'dict_check': dict_check,
+                               'dict_score': dict_score,
                                })
     else:
         expert = Expert.objects.all().get(id=pk)
@@ -156,4 +194,3 @@ class ExpertUpdate(PermissionRequiredMixin, UpdateView):
             return True
         else:
             return False
-

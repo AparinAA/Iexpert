@@ -14,7 +14,9 @@
     {% if all_experts %}
     <ul type="circle">
         {% for expert in all_experts %}
+        {% if not expert.master_group %}
         <li><a href="{% url 'expert-detail' expert.pk%}"> {{expert}}</a>, {{expert.company}}</li>
+        {% endif %}
         {% endfor %}
     </ul>
     {% else%}

@@ -7,23 +7,13 @@
     {% if all_experts %}
     <ul type="circle">
         {% for expert in all_experts %}
+        {% if not expert.master_group %}
         <li><a href="{% url 'expert-detail' expert.pk%}"> {{expert}}</a>, {{expert.company}} {{expert.count_check_app}} из {{expert.count_all_app}}</li>
+        {% endif %}
         {% endfor %}
     </ul>
     {% else%}
     В комиссии нет экспертов
-    {% endif %}
-    <h4>Заявки</h4>
-    {% if all_application %}
-    <ul type="circle">
-        {% for application in all_application %}
-        <li>{{application}} </li>
-        {# {% url 'application-detail' application.pk%} #}
-        {# {% url 'score_expert_all_detail' score.pk %} #}
-        {% endfor %}
-    </ul>
-    {% else%}
-    В комиссии ещё нет заявок на направления
     {% endif %}
 </div>
 {% endblock %}

@@ -3,9 +3,11 @@
 
 {% block content %}
 <h2>Экспертиза заявок на базовые направления олимпиады &laquoЯ - профессионал&raquo 2020/21 учебного года </h2>
-<h4>{{ expert }}</h4>
+<h5>{{ expert }}</h5>
+<br/>
 <hr/>
 <h4>Персональная информация</h4>
+<i> <p>Если вы хотите исправить персональную информацию, напишите нам: <a href="mailto:support@iproficlub.ru"> support@iproficlub.ru </a></p> </i>
 <ul>
     <b style='font-size:15px'> Данные о месте работы </b>
     <ul><p><i> Должность: </i> {{expert.position}}</p></ul>
@@ -18,7 +20,26 @@
 </ul>
 <br/>
 <hr/>
+<h4> Информация об экспертных комиссиях</h4>
 
+<ul>
+    {% for com in commissions %}
+
+    <li><b> {{com}} </b></li>
+    {% if com.master %}
+    <ul><i> Ответственный секретарь:</i>
+        {{com.master}}
+    </ul>
+    <ul><i> Почта ответственного секретаря:</i>
+        <a href="mailto:{{com.master.email}}"> {{com.master.email}}</a></ul>
+    {% else %}
+    <ul><i> Ответственный секретарь пока не назначен </i></ul>
+    {% endif %}
+    {% endfor %}
+</ul>
+
+<br/>
+<hr/>
 <h4>Экспертиза заявок</h4>
 <ul>
     {% if check_score %}
@@ -35,7 +56,8 @@
             {% if com.common_commission %}
             <ul type="None">
                 {% for score_form in scores %}
-                <li>{{score_form.relation_exp_app.application}}  </li>
+                <li><a href="{% url 'score_common_form' score_form.pk %}"> {{score_form.relation_exp_app.application}} </a>
+                </li>
                 {% endfor %}
             </ul>
 
@@ -43,7 +65,8 @@
             <ul type="None">
                 {% for score_form in scores %}
                 {% if score_form.relation_exp_app.application.name.commission == com %}
-                <li>{{score_form.relation_exp_app.application}} </li>
+                <li><a href="{% url 'score_expert_form' score_form.pk %}"> {{score_form.relation_exp_app.application}} </a>
+                </li>
                 {% endif %}
                 {% endfor %}
             </ul>
@@ -68,8 +91,8 @@
             {% if com.common_commission %}
             <ul type="None">
                 {% for score_form in  check %}
-                <li>
-                    {{score_form.relation_exp_app.application}} </li>
+                <li><a href="{% url 'score_common_detail' score_form.pk %}">
+                    {{score_form.relation_exp_app.application}} </a></li>
                 {% endfor %}
             </ul>
 
@@ -77,8 +100,8 @@
             <ul type="None">
                 {% for score_form in check %}
                 {% if score_form.relation_exp_app.application.name.commission == com %}
-                <li>
-                    {{score_form.relation_exp_app.application}} </li>
+                <li><a href="{% url 'score_expert_detail' score_form.pk %}">
+                    {{score_form.relation_exp_app.application}} </a></li>
                 {% endif %}
                 {% endfor %}
             </ul>
