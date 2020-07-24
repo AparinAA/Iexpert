@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.forms import Textarea
 from django.http import HttpResponseRedirect
 from django.urls import path
 
@@ -8,9 +9,15 @@ from score.models import ScoreCommon, ScoreExpert, ScoreAll, ScoreCommonAll, Sco
 from .function_upload import upload_score_common, upload_score_expert, upload_score_all
 from expert.fuction_for_all import reload_scores
 
+from django.db import models
 
 class MyScoreBaseAdmin(ImportExportActionModelAdmin):
     change_list_template = "admin/model_change_list.html"
+    formfield_overrides = {
+        models.TextField: {'widget': Textarea(
+            attrs={'rows': 3,
+                   'cols': 70})},
+    }
 
     def get_urls(self):
         urls = super().get_urls()
@@ -32,6 +39,7 @@ class MyScoreBaseAdmin(ImportExportActionModelAdmin):
 
 @admin.register(ScoreCommon)
 class ScoreCommonCommissionAdmin(MyScoreBaseAdmin):
+
     list_per_page = 15
     list_display = ('id', 'relation_exp_app', 'is_active', 'check', 'score', 'date_last')
     list_display_links = ('relation_exp_app',)

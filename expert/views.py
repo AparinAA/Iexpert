@@ -114,7 +114,7 @@ def index(request):
                 'check_expert': check_expert,
                 'check_score': check_score,
                 'dict_check': dict_check,
-                'dict_score': dict_score
+                'dict_score': dict_score,
             })
     else:
         return render(request, 'index.html',

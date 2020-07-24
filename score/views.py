@@ -1,4 +1,5 @@
 from django.core.exceptions import ImproperlyConfigured, PermissionDenied
+from django.forms import Textarea
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -9,14 +10,18 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from score.models import ScoreExpert, ScoreCommon, ScoreExpertAll, ScoreCommonAll
 from userexpert.models import CustomGroup
+from django.forms.models import modelform_factory
 
 
 class ScoreCommonOne(PermissionRequiredMixin, UpdateView):
     # Форма оценки
     model = ScoreCommon
     template_name = 'score/score_common_form.html'
-    fields = ['score', 'comment']
+    # fields = ['score', 'comment']
+    form_class = modelform_factory(ScoreCommon, fields=['score', 'comment'],
+                                   widgets={"comment": Textarea(attrs={'rows': 6, 'cols': 80})})
     permission_required = ['score.change_scorecommon']
+
 
     def has_permission(self, *args, **kwargs):
         perms = self.get_permission_required()
@@ -44,11 +49,22 @@ def ScoreCommonOneView(request, pk):
     raise PermissionDenied('Нет прав')
 
 
+class ModelFormWidgetMixin(PermissionRequiredMixin):
+    def get_form_class(self):
+        return modelform_factory(self.model, fields=self.fields, widgets=self.widgets)
+
+
 class ScoreExpertOne(PermissionRequiredMixin, UpdateView):
     # Форма оценки
     model = ScoreExpert
+
     template_name = 'score/score_expert_form.html'
-    fields = ['score1', 'score2', 'score3', 'score4', 'score5', 'comment']
+
+    form_class = modelform_factory(ScoreExpert, fields=['score1', 'score2', 'score3', 'score4', 'score5', 'comment'],
+                                   widgets={"comment": Textarea(attrs={'rows': 6, 'cols': 80})})
+
+    # widgets = {"comment": Textarea(attrs={'rows': 2, 'cols': 80})}
+
     permission_required = ['score.change_scoreexpert']
 
     def has_permission(self, *args, **kwargs):
@@ -65,7 +81,10 @@ class ScoreExpertOne(PermissionRequiredMixin, UpdateView):
         else:
             return False
 
+
 from result.models import CheckExpertScore
+
+
 def ScoreExpertOneView(request, pk):
     if request.user.has_perm('score.view_scoreexpert') or request.user.is_staff:
         SEC = ScoreExpert.objects.all().filter(id=pk)[0]
@@ -91,7 +110,9 @@ class ScoreCommonAllForm(PermissionRequiredMixin, UpdateView):
     # Форма оценки
     model = ScoreCommonAll
     template_name = 'score/score_common_all_form.html'
-    fields = ['comment_master']
+    # fields = ['comment_master']
+    form_class = modelform_factory(ScoreCommonAll, fields=['comment_master'],
+                                   widgets={"comment_master": Textarea(attrs={'rows': 6, 'cols': 80})})
     permission_required = ['score.change_scorecommonall']
 
     def has_permission(self, *args, **kwargs):
@@ -120,7 +141,9 @@ class ScoreExpertAllForm(PermissionRequiredMixin, UpdateView):
     # Форма оценки
     model = ScoreExpertAll
     template_name = 'score/score_expert_all_form.html'
-    fields = ['comment_master']
+    #fields = ['comment_master']
+    form_class = modelform_factory(ScoreExpertAll, fields=['comment_master'],
+                                   widgets={"comment_master": Textarea(attrs={'rows': 6, 'cols': 80})})
     permission_required = ['score.change_scoreexpertall']
 
     def has_permission(self, *args, **kwargs):

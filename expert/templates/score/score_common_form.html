@@ -7,13 +7,14 @@
 <ul><b> Заявка: </b> {{ scorecommon.relation_exp_app.application }}</ul>
 <ul><b> Ссылка на документы заявки: </b>  <a href="{{ scorecommon.relation_exp_app.application.link_archiv }}" target="_blank"> {{ scorecommon.relation_exp_app.application.link_archiv }} </a></ul>
 <ul><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_common' %}" target="_blank"> Критерии общей комиссии </a></ul>
+<hr/>
 
 <form action="" method="post">
     {% csrf_token %} {# {{ form.as_table }} class="fieldWrapper"#}
     <p> {{ form.score.help_text }} </p>
     {{ form.score.errors }}
-    <p> <b> Оценка заявки </b>     {{ form.score }} </p>
-
+    <p> <b> Оценка заявки </b>  <b style="color:#B22222; font-size:15px"> * </b>   {{ form.score }} </p>
+    <p style='font-size:14px'><b> Комментарий по заявке: </b> <b style="color:#B22222; font-size:14px"> * </b> </p>
     <p> {{ form.comment.help_text }} </p>
     {{ form.comment.errors }}
     <p> {{ form.comment }} </p>

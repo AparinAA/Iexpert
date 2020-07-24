@@ -8,43 +8,44 @@
 <ul><b> Ссылка на документы заявки: </b> <a href="{{ scoreexpert.relation_exp_app.application.link_archiv }}" target="_blank">  {{ scoreexpert.relation_exp_app.application.link_archiv }}</a></ul>
 <ul><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_expert' %}" target="_blank"> Критерии экспертной комиссии </a></ul>
 
+<hr/>
 
 <form action="" method="post">
     {% csrf_token %} {# {{ form.as_table }} class="fieldWrapper"#}
-    <p><b> Критерий №1 </b></p>
+    <p style='font-size:15px'><b> Критерий №1 </b> <b style="color:#B22222; font-size:15px"> * </b> </p>
     <ul>
         <p> {{ form.score1.help_text }} </p>{{ form.score1.errors }}
-        <p><b> Оценка по первому критерию </b> {{ form.score1 }} </p>
+        <p><b> Выберите оценку по Критерию №1 </b> {{ form.score1 }} </p>
     </ul>
-    <p><b> Критерий №2 </b></p>
+    <p style='font-size:15px'><b> Критерий №2 </b> <b style="color:#B22222; font-size:15px"> * </b> </p>
     <ul>
         <p> {{ form.score2.help_text }} </p>
         {{ form.score2.errors }}
-        <p><b> Оценка по второму критерию </b> {{ form.score2 }} </p>
+        <p><b> Выберите оценку по Критерию №2 </b> {{ form.score2 }} </p>
     </ul>
-    <p><b> Критерий №3 </b></p>
+    <p style='font-size:15px'><b> Критерий №3 </b> <b style="color:#B22222; font-size:15px"> * </b></p>
     <ul>
         <p> {{ form.score3.help_text }} </p>
         {{ form.score3.errors }}
-        <p><b> Оценка по третьему критерию </b> {{ form.score3 }} </p>
+        <p><b> Выберите оценку по Критерию №3 </b> {{ form.score3 }} </p>
     </ul>
-    <p><b> Критерий №4 </b></p>
+    <p style='font-size:15px'><b> Критерий №4 </b> <b style="color:#B22222; font-size:15px"> * </b> </p>
     <ul>
         <p> {{ form.score4.help_text }} </p>
         {{ form.score4.errors }}
-        <p><b> Оценка по четвертому критерию </b> {{ form.score4 }} </p>
+        <p><b> Выберите оценку по Критерию №4 </b> {{ form.score4 }} </p>
     </ul>
-    <p><b> Критерий №5 </b></p>
+    <p style='font-size:15px'><b> Критерий №5 </b> <b style="color:#B22222; font-size:15px"> * </b> </p>
     <ul>
         <p> {{ form.score5.help_text }} </p>
         {{ form.score5.errors }}
-        <p><b> Оценка по пятому критерию </b> {{ form.score5 }} </p>
+        <p><b> Выберите оценку по Критерию №5 </b> {{ form.score5 }} </p>
     </ul>
-    <p><b> Комментарий по заявке </b></p>
+    <p style='font-size:15px'><b> Комментарий по заявке </b> <b style="color:#B22222; font-size:15px"> * </b> </p>
     <ul>
         <p> {{ form.comment.help_text }} </p>
         {{ form.comment.errors }}
-        <p> {{ form.comment }} </p>
+        {{form.comment}}
     </ul>
     <input type="submit" value="Отправить"/>
 
