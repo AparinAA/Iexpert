@@ -6,22 +6,26 @@
 <ul><b> Заявка: </b> {{ scorecommonall.application }}</ul>
 <ul><b> Ссылка на документы заявки: </b> {{ scorecommonall.application.url_archiv }}</ul>
 <ul><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_common' %}" target="_blank"> Критерии общей комиссии </a></ul>
-
+<hr/>
 <h4> Оценки и комментарии экспертов </h4>
 {% for expert, score_and_comment in scorecommonall.get_all_comments_and_scores.items %}
 <ul>
     <li>
-        {{ expert }}
+        <i> {{ expert }} </i>
     </li>
     <ul type="None">
-        <li><b>Оценка: </b> {{ score_and_comment.score }}</li>
-        <li><b>Комментарий: </b> {{ score_and_comment.comment }}</li>
+        <li><b>Оценка: </b> {% if score_and_comment.score is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score }} {% endif %}  </li>
+        <li><b>Комментарий: </b>  {% if score_and_comment.comment is None or score_and_comment.comment == ''%}
+            <font color="#B22222"> отстутствует </font>
+            {% else %}{{ score_and_comment.comment }} {%endif%}</li>
     </ul>
 </ul>
 {% endfor %}
+<hr/>
+<h4> Комментарий ответственного секретаря по заявке  <b style="color:#B22222"> * </b></h4>
 <form action="" method="post">
     {% csrf_token %} {# {{ form.as_table }} class="fieldWrapper"#}
-    Оставьте комменатарий по заявке
+    <p><i> Оставьте небольшой общий комментарий по заявке </i></p>
     <p> {{ form.comment_master.help_text }} </p>
     {{ form.comment_master.errors }}
     <p> {{ form.comment_master }} </p>

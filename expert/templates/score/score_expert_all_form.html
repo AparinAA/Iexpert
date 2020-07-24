@@ -6,40 +6,46 @@
 <ul><b> Заявка: </b> {{ scoreexpertall.application }}</ul>
 <ul><b> Ссылка на документы заявки: </b> {{ scoreexpertall.application.url_archiv }}</ul>
 <ul><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_expert' %}" target="_blank"> Критерии экспертной комиссии </a></ul>
+<hr/>
 
 <h4> Оценки и комментарии экспертов </h4>
 {% for expert, score_and_comment in scoreexpertall.get_all_comments_and_scores.items %}
 <ul>
     <li>
-        {{ expert }}
+        <i> {{ expert }} </i>
     </li>
     <ul type="None">
         <table border="1" cellpadding="0.1" width="750">
             <tr>
                 <td align="center"><i> Итоговая оценка эксперта </i></td>
-                <td align="center"<i> Оценка по критерию №1 </i></td>
+                <td align="center"><i> Оценка по критерию №1 </i></td>
                 <td align="center"><i> Оценка по критерию №2</i></td>
                 <td align="center"><i> Оценка по критерию №3 </i></td>
                 <td align="center"><i> Оценка по критерию №4 </i></td>
                 <td align="center"><i> Оценка по критерию №5 </i></td>
             </tr>
             <tr>
-                <td align="center">{{ score_and_comment.score }}</td>
-                <td align="center">{{ score_and_comment.score1 }}</td>
-                <td align="center">{{ score_and_comment.score2 }}</td>
-                <td align="center">{{ score_and_comment.score3 }}</td>
-                <td align="center">{{ score_and_comment.score4 }}</td>
-                <td align="center">{{ score_and_comment.score5 }}</td>
+                <td align="center"> {% if score_and_comment.score is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score }} {% endif %}  </td>
+                <td align="center"> {% if score_and_comment.score1 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score1 }} {% endif %}  </td>
+                <td align="center"> {% if score_and_comment.score2 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score2 }} {% endif %}  </td>
+                <td align="center"> {% if score_and_comment.score3 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score3 }} {% endif %}  </td>
+                <td align="center"> {% if score_and_comment.score4 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score4 }} {% endif %}  </td>
+                <td align="center"> {% if score_and_comment.score5 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score5 }} {% endif %}  </td>
+
             </tr>
         </table>
-        <li><i>Комментарий: </i> {{ score_and_comment.comment }}</li>
+        <li><i>Комментарий: </i>  {% if score_and_comment.comment is None or score_and_comment.comment == ''%}
+            <font color="#B22222"> отстутствует </font>
+            {% else %}{{ score_and_comment.comment }} {%endif%}</li>
     </ul>
 </ul>
 {% endfor %}
+<hr/>
+<h4> Комментарий ответственного секретаря по заявке  <b style="color:#B22222"> * </b></h4>
+
 <form action="" method="post">
     {% csrf_token %} {# {{ form.as_table }} class="fieldWrapper"#}
 
-    <p><b> Комментарий ответственного секретаря по заявке </b></p>
     <p><i> Оставьте небольшой общий комментарий по заявке </i></p>
     <ul>
         <p> {{ form.comment_master.help_text }} </p>

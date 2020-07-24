@@ -4,18 +4,39 @@
 <h2>Комментарий по заявке</h2>
 
 <ul><b> Заявка: </b> {{ score_all.application }}</ul>
-<ul><b> Оценка общей комиссии: </b> {{ score_all.score }}</ul>
-{% if score_all.comment_master %}
-<ul><b> Комментарий ответственного секретаря общей комиссии: </b> {{ score_all.comment_master }}</ul>
-{% else %}
-<ul><b> Вы не оставили комментарий к заявке </b></ul>
-{% endif %}
+<h4> Оценки и комментарии экспертов </h4>
+{% for expert, score_and_comment in score_all.get_all_comments_and_scores.items %}
+<ul>
+    <li>
+        <i> {{ expert }} </i>
+    </li>
+    <ul type="None">
+        <li><b>Оценка: </b> {% if score_and_comment.score is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score }} {% endif %}  </li>
+        <li><b>Комментарий: </b>  {% if score_and_comment.comment is None or score_and_comment.comment == ''%}
+            <font color="#B22222"> отстутствует </font>
+            {% else %}{{ score_and_comment.comment }} {%endif%}</li>
+    </ul>
+</ul>
+{% endfor %}
+<hr/>
+<h4> Итоговые оценка и комментарий по заявке  </h4>
+<ul><b>Оценка общей комиссии: </b> {% if score_all.score is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score }} {% endif %}  </ul>
+<ul><b>Комментарий ответственного секретаря общей комиссии: </b>  {% if score_all.comment_master is None or score_all.comment_master == ''%}
+            <font color="#B22222"> отстутствует </font>
+            {% else %}{{ score_all.comment_master }} {%endif%}</ul>
 
+<hr/>
 {% if score_all.check %}
-<p> Вы успешно оценили заявку. </p>
+    <p> Вы успешно оценили заявку. </p>
 <p> Если вы хотите исправить комментарий, то перейдите в <a href="{% url 'score_common_all_form' score_all.pk%}" > форму оценки заявки </a></p>
 {% else %}
-Вы не закончили комментировать заявку, пожалуйста, перейдите по ссылке и закончите экспертизу:
-<a href="{% url 'score_common_all_form' score_all.pk%}"> форма оценки заявки </a> {#  #}
+    {% if not score_all.comment_master %}
+    Вы не закончили комментировать заявку, пожалуйста, перейдите по ссылке и закончите экспертизу:
+    <a href="{% url 'score_common_all_form' score_all.pk%}"> форма оценки заявки </a>
+    {% else %}
+    Эксперты назначенные на заявку не закончили экспертизу.
+    <br/>
+    Вы можете перейти в <a href="{% url 'score_common_all_form' score_all.pk%}"> форму </a> для того чтобы оставить комментарий по заявке
+    {% endif %}
 {% endif %}
 {% endblock %}
