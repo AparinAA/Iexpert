@@ -494,36 +494,37 @@ def export_svod_commission(commission):
             "Организация эксперта", "ФО", "Должность", "Почта", "Телефон", "Комментарий в системе"]
     table = []
     for exp in all_expert:
-        ar = []
-        fio = '{} {} {}'.format(exp.last_name, exp.first_name, exp.middle_name)
-        ar.append(fio)
-        ar.append(exp.login)
-        ar.append(commission.group.name)
-        check = CheckExpertScore.objects.get(expert=exp)
+        if not exp.master_group:
+            ar = []
+            fio = '{} {} {}'.format(exp.last_name, exp.first_name, exp.middle_name)
+            ar.append(fio)
+            ar.append(exp.login)
+            ar.append(commission.group.name)
+            check = CheckExpertScore.objects.get(expert=exp)
 
-        rel_exp_app = RelationExpertApplication.objects.filter(expert=exp).filter(is_active=True)
-        if not commission.common_commission:
-            rel_exp_app = rel_exp_app.filter(application__name__commission=commission)
-        count_all = rel_exp_app.count()
+            rel_exp_app = RelationExpertApplication.objects.filter(expert=exp).filter(is_active=True)
+            if not commission.common_commission:
+                rel_exp_app = rel_exp_app.filter(application__name__commission=commission)
+            count_all = rel_exp_app.count()
 
-        if exp.common_commission:
-            exp_scores = ScoreCommon.objects.filter(relation_exp_app__in=rel_exp_app).filter(check=True)
-        else:
-            exp_scores = ScoreExpert.objects.filter(relation_exp_app__in=rel_exp_app).filter(check=True)
-        count_ok = exp_scores.count()
+            if exp.common_commission:
+                exp_scores = ScoreCommon.objects.filter(relation_exp_app__in=rel_exp_app).filter(check=True)
+            else:
+                exp_scores = ScoreExpert.objects.filter(relation_exp_app__in=rel_exp_app).filter(check=True)
+            count_ok = exp_scores.count()
 
-        ar.append(count_ok)
-        ar.append(count_all)
+            ar.append(count_ok)
+            ar.append(count_all)
 
-        ar.append('Да') if check.check_exp else ar.append('Нет')
-        ar.append('Да') if count_ok == count_all else ar.append('Нет')
-        ar.append(exp.company.short_name)
-        ar.append(exp.company.region.federal_district.short_name)
-        ar.append(exp.position)
-        ar.append(exp.email)
-        ar.append(exp.phone)
-        ar.append(exp.comment)
-        table.append(ar)
+            ar.append('Да') if check.check_exp else ar.append('Нет')
+            ar.append('Да') if count_ok == count_all else ar.append('Нет')
+            ar.append(exp.company.short_name)
+            ar.append(exp.company.region.federal_district.short_name)
+            ar.append(exp.position)
+            ar.append(exp.email)
+            ar.append(exp.phone)
+            ar.append(exp.comment)
+            table.append(ar)
     df = pd.DataFrame(table, columns=head)
     return df
 

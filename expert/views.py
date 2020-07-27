@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from score.models import ScoreCommon, ScoreExpert, ScoreCommonAll, ScoreExpertAll
 from userexpert.models import CustomGroup, Expert
@@ -128,3 +128,5 @@ def criteria_expert(request):
 
 def criteria_common(request):
     return render(request, 'criteria_common.html', )
+
+

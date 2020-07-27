@@ -1,19 +1,54 @@
 {% extends "base_generic.html" %}
+{% block style_css%}
+    {% load static %}
+
+   <link rel="stylesheet" type="text/css" href="{% static '/css/styles_table_2.css'%}">
+{{ block.super }}
+{% endblock %}
 
 {% block content %}
 <h1>Комиссия: {{ commission }}</h1>
+
 <div style="margin-left:20px;margin-top:20px">
     <h4>Эксперты</h4>
-    {% if all_experts %}
-    <ul type="circle">
-        {% for expert in all_experts %}
-        {% if not expert.master_group %}
-        <li><a href="{% url 'expert-detail' expert.pk%}"> {{expert}}</a>, {{expert.company}} {{expert.count_check_app}} из {{expert.count_all_app}}</li>
+    {% if check_experts %}
+    <table border="1">
+        <tr>
+            <td align="center"> <b> Эксперт подтвердил экспертизу </b></td>
+            <td align="center"> <b> Готовых заявок </b></td>
+            <td align="center"> <b> Назначенных заявок </b></td>
+            <td align="center"> <b> ФИО </b> </td>
+            <td align="center"> <b> Место работы </b></td>
+        </tr>
+        {% for check in check_experts %}
+        {% if not check.expert.master_group %}
+        <tr>
+            {% if check.check_exp %}
+            <td align="center"> <i style="color:#008000; "> да </i> </td>
+            {% else %}
+            <td align="center"> <i style="color:#B22222;"> нет </i> </td>
+            {% endif %}
+            <td align="center">{{check.count_ok}}</td>
+            <td align="center"> {{check.count_all}}</td>
+            <td><a href="{% url 'expert-detail' check.expert.pk%}"> {{check.expert}}</a></td>
+            <td> {{check.expert.company}}</td>
+        </tr>
         {% endif %}
+
         {% endfor %}
-    </ul>
+    </table>
     {% else%}
     В комиссии нет экспертов
     {% endif %}
+    <hr/>
+    <form action="" method="POST">
+    {% csrf_token %}
+       <ul> <input type="submit" name='pers_data'  value="Скачать персональные данные" > </ul>
+       <ul><input type="submit" name='realtion'  value="Распределение экспертов по заявкам" ></ul>
+       <ul> <input type="submit" name='all_result' value="Скачать полные результаты оценивания экспертов"> </ul>
+    </form>
 </div>
+
+
+
 {% endblock %}

@@ -138,6 +138,25 @@ def ExpertOneViews(request, pk):
         })
 
 
+from result.models import CheckExpertScore
+from expert.func_export import export_request, save_personal_info_to_woorksheet, export_personal_info
+from expert.func_export import export_detailed_all_scores, save_detailed_scores_to_woorksheet
+from expert.func_export import save_relation_s_to_woorksheet, export_relation
+
+dict_commission = {'0': 'Аll',
+                   "1": "Агропромышленный комплекс",
+                   "2": "Вооружение и военная техника",
+                   "3": "Естественные науки",
+                   "4": "Инженерные науки и технологии",
+                   "5": "Искусство и гуманитарные науки",
+                   "6": "Компьютерные науки",
+                   "7": "Медицина и здравоохранение",
+                   "8": "Педагогические науки",
+                   "9": "Социально-экономические науки",
+                   "10": "Общая комиссия"}
+from django.contrib.auth.models import Group
+
+
 def ExperGroupOneViews(request, pk):
     try:
         if request.user.is_authenticated:
@@ -147,15 +166,34 @@ def ExperGroupOneViews(request, pk):
             raise PermissionDenied('Нет прав')
         if current_user.is_admin or current_user.get_commission_master == commission:
             if current_user.get_commission_master == commission:
-                all_direction = Direction.objects.all().filter(commission=commission)
-                all_application = Application.objects.all().filter(name__in=all_direction)
-                all_expert = Expert.objects.all().filter(groups=commission.group)
-                return render(request, 'userexpert/commission_master_detail.html',
-                              context={
-                                  'all_application': all_application,
-                                  'commission': commission,
-                                  'all_experts': all_expert
-                              })
+                if 'pers_data' in request.POST:
+                    name_commission = dict_commission[str(pk)]
+                    commission = CustomGroup.objects.get(group=Group.objects.get(name=name_commission))
+                    return export_request(request, commission, func_for_get_data_all=export_personal_info,
+                                          func_for_woorksheet=save_personal_info_to_woorksheet,
+                                          namefile='Перс. данные', dop_name="Личная информация")
+                elif 'all_result' in request.POST:
+
+                    name_commission = dict_commission[str(pk)]
+                    commission = CustomGroup.objects.get(group=Group.objects.get(name=name_commission))
+                    return export_request(request, commission, func_for_get_data_all=export_detailed_all_scores,
+                                          func_for_woorksheet=save_detailed_scores_to_woorksheet,
+                                          namefile='Подробный рейтинг.', dop_name="Подробный рейтинг")
+                elif 'realtion' in request.POST:
+                    name_commission = dict_commission[str(pk)]
+                    commission = CustomGroup.objects.get(group=Group.objects.get(name=name_commission))
+                    return export_request(request, commission, func_for_get_data_all=export_relation,
+                                          func_for_woorksheet=save_relation_s_to_woorksheet,
+                                          namefile='Распределение', dop_name="Распределение экспертов")
+                else:
+                    all_expert = Expert.objects.all().filter(groups=commission.group)
+                    check_exp_sc = CheckExpertScore.objects.all().filter(expert__in=all_expert)
+                    return render(request, 'userexpert/commission_master_detail.html',
+                                  context={
+                                      'commission': commission,
+                                      'all_experts': all_expert,
+                                      'check_experts': check_exp_sc
+                                  })
             else:
                 all_direction = Direction.objects.all().filter(commission=commission)
                 all_application = Application.objects.all().filter(name__in=all_direction)
