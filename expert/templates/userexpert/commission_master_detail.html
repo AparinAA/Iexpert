@@ -14,15 +14,17 @@
     {% if check_experts %}
     <table border="1">
         <tr>
+            <td align="center"> <b> ФИО </b> </td>
+            <td align="center"> <b> Место работы </b></td>
             <td align="center"> <b> Эксперт подтвердил экспертизу </b></td>
             <td align="center"> <b> Готовых заявок </b></td>
             <td align="center"> <b> Назначенных заявок <br/> (во всех комиссиях) </b></td>
-            <td align="center"> <b> ФИО </b> </td>
-            <td align="center"> <b> Место работы </b></td>
         </tr>
         {% for check in check_experts %}
         {% if not check.expert.master_group %}
         <tr>
+            <td><a href="{% url 'expert-detail' check.expert.pk%}"> {{check.expert}}</a></td>
+            <td> {{check.expert.company}}</td>
             {% if check.check_exp %}
             <td align="center"> <i style="color:#008000; "> да </i> </td>
             {% else %}
@@ -30,8 +32,6 @@
             {% endif %}
             <td align="center">{{check.count_ok}}</td>
             <td align="center"> {{check.count_all}}</td>
-            <td><a href="{% url 'expert-detail' check.expert.pk%}"> {{check.expert}}</a></td>
-            <td> {{check.expert.company}}</td>
         </tr>
         {% endif %}
 
