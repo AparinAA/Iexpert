@@ -97,6 +97,7 @@ def ExpertOneViews(request, pk):
                 dict_score = {com: dict_score[com]}
             except:
                 dict_score = None
+            print(dict_score, dict_check)
 
             tempales = 'userexpert/expert_master_detail.html'
         return render(request, tempales,
