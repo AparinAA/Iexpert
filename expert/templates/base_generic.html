@@ -46,8 +46,8 @@
 
         {% if not user.is_staff and user.master_group%}
         <ul class="sidebar-nav">
-            Ответственный секретарь
             <a href="{% url 'commission-detail' user.get_commission_master.pk %}"> Все эксперты комиссии</a>
+            {# Ответственный секретарь #}
         </ul>
         {% endif %}
         <ul class="sidebar-nav">

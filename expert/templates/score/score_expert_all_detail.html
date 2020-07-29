@@ -42,7 +42,7 @@
 
 
 <h4>Итоговые оценки и комментарий по заявке:</h4>
-<ul><b> <i> Итоговая оценка: </i> </b> {% if score_all.score is None %} <font color="#B22222"><b>  отстутствует <b></font>  {% else %} <b> {{ score_all.score }} </b> {% endif %} </ul>
+<ul><b> <i> Итоговая оценка: </i> </b> {% if score_all.score is None %} <font color="#B22222"><b>  отстутствует </b> </font>  {% else %} <b> {{ score_all.score }} </b> {% endif %} </ul>
 <ul> <i> Критерий №1: </i> {% if score_all.score1 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score1 }} {% endif %}  </ul>
 <ul> <i> Критерий №2: </i> {% if score_all.score2 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score2 }} {% endif %}  </ul>
 <ul> <i> Критерий №3: </i> {% if score_all.score3 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score3 }} {% endif %}  </ul>
