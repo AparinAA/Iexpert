@@ -4,6 +4,8 @@
 <h2>Комментарий по заявке</h2>
 
 <ul><b> Заявка: </b> {{ score_all.application }}</ul>
+<ul><b> Ссылка на документы заявки: </b> <a href="{{ score_all.application.link_archiv }}"  target="_blank" >{{ score_all.application.link_archiv }} </a> </ul>
+
 <h4> Оценки и комментарии экспертов </h4>
 {% for expert, score_and_comment in score_all.get_all_comments_and_scores.items %}
 <ul>

@@ -4,7 +4,7 @@
 <h2>Форма оценки заявки</h2>
 
 <ul><b> Заявка: </b> {{ scoreexpertall.application }}</ul>
-<ul><b> Ссылка на документы заявки: </b> {{ scoreexpertall.application.url_archiv }}</ul>
+<ul><b> Ссылка на документы заявки: </b> <a href="{{ scoreexpertall.application.link_archiv }}"  target="_blank" >{{ scoreexpertall.application.link_archiv }} </a> </ul>
 <ul><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_expert' %}" target="_blank"> Критерии экспертной комиссии </a></ul>
 <hr/>
 

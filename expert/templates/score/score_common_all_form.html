@@ -4,7 +4,7 @@
 <h2>Форма оценки заявки</h2>
 
 <ul><b> Заявка: </b> {{ scorecommonall.application }}</ul>
-<ul><b> Ссылка на документы заявки: </b> {{ scorecommonall.application.url_archiv }}</ul>
+<ul><b> Ссылка на документы заявки: </b> <a href="{{ scorecommonall.application.link_archiv }}"  target="_blank" >{{ scorecommonall.application.link_archiv }} </a> </ul>
 <ul><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_common' %}" target="_blank"> Критерии общей комиссии </a></ul>
 <hr/>
 <h4> Оценки и комментарии экспертов </h4>
