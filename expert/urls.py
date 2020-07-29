@@ -50,7 +50,6 @@ urlpatterns += [
 
 urlpatterns += [
     path('expert/<int:pk>/', exp_views.ExpertOneViews, name='expert-detail'),
-    path('expert/<int:pk>/update/', exp_views.ExpertUpdate.as_view(), name='expert_update'),
     path('experts/', exp_views.ExpertViews, name='experts'),
     path('commission/<int:pk>/', exp_views.ExperGroupOneViews, name='commission-detail'),
 ]

@@ -3,7 +3,6 @@
 {% block content %}
 <h2>Ответственный секретарь: {{ expert }}</h2>
 
-<p><strong></strong> <a href="{% url 'expert_update' expert.pk%}"> Ссылка на изменения персональных данных </a>
 </p> {#  #}
 {% if expert.is_admin == True %}
 <p> Админский доступ</p>

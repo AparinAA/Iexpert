@@ -36,82 +36,91 @@ def ExpertOneViews(request, pk):
         raise PermissionDenied('Нет прав')
     elif not Expert.objects.all().get(id=pk).master_group:
         expert = Expert.objects.all().get(id=pk)
-        all_application_set = RelationExpertApplication.objects.all().filter(expert=expert)
-        application_all = []
-        for app_expert in all_application_set:
-            app = app_expert.get_application()
-            application_all.append(app)
-        if expert.common_commission:
-            scores_common = ScoreCommon.objects.all().filter(relation_exp_app__in=all_application_set).filter(
-                check=False)
-            scores_expert = []
-            check_common = ScoreCommon.objects.all().filter(relation_exp_app__in=all_application_set).filter(
-                check=True)
-            check_expert = []
-        else:
-            scores_expert = ScoreExpert.objects.all().filter(relation_exp_app__in=all_application_set).filter(
-                check=False)
-            scores_common = []
-            check_expert = ScoreExpert.objects.all().filter(relation_exp_app__in=all_application_set).filter(
-                check=True)
-            check_common = []
-
-        dict_score = {}
-        dict_check = {}
-        # Словарь
+        if expert.pk == current_user.pk:
+            return HttpResponseRedirect('../../../index')
         commissions = expert.get_custom_commission
+        if current_user.is_admin or current_user.get_commission_master in commissions:
 
-        for com in commissions:
-            if not com.common_commission:
-                all_dir = Direction.objects.filter(commission=com)
-                all_app = Application.objects.filter(name__in=all_dir)
-                all_rel = RelationExpertApplication.objects.all().filter(application__in=all_app).filter(expert=expert)
+            all_application_set = RelationExpertApplication.objects.all().filter(expert=expert)
+            application_all = []
+            for app_expert in all_application_set:
+                app = app_expert.get_application()
+                application_all.append(app)
+            if expert.common_commission:
+                scores_common = ScoreCommon.objects.all().filter(relation_exp_app__in=all_application_set).filter(
+                    check=False)
+                scores_expert = []
+                check_common = ScoreCommon.objects.all().filter(relation_exp_app__in=all_application_set).filter(
+                    check=True)
+                check_expert = []
             else:
-                all_dir = Direction.objects.all()
-                all_app = Application.objects.filter(name__in=all_dir)
-                all_rel = RelationExpertApplication.objects.all().filter(expert=expert).filter(application__in=all_app)
-            if com.common_commission:
-                sc = ScoreCommon.objects.all().filter(relation_exp_app__in=all_rel)
+                scores_expert = ScoreExpert.objects.all().filter(relation_exp_app__in=all_application_set).filter(
+                    check=False)
+                scores_common = []
+                check_expert = ScoreExpert.objects.all().filter(relation_exp_app__in=all_application_set).filter(
+                    check=True)
+                check_common = []
+
+            dict_score = {}
+            dict_check = {}
+            # Словарь
+
+            for com in commissions:
+                if not com.common_commission:
+                    all_dir = Direction.objects.filter(commission=com)
+                    all_app = Application.objects.filter(name__in=all_dir)
+                    all_rel = RelationExpertApplication.objects.all().filter(application__in=all_app).filter(expert=expert)
+                else:
+                    all_dir = Direction.objects.all()
+                    all_app = Application.objects.filter(name__in=all_dir)
+                    all_rel = RelationExpertApplication.objects.all().filter(expert=expert).filter(application__in=all_app)
+                if com.common_commission:
+                    sc = ScoreCommon.objects.all().filter(relation_exp_app__in=all_rel)
+                else:
+                    sc = ScoreExpert.objects.all().filter(relation_exp_app__in=all_rel)
+                score = sc.filter(check=False)
+                check = sc.filter(check=True)
+                dict_score[com] = score
+                dict_check[com] = check
+
+            # Подтверждение оценок
+            try:
+                check_score = CheckExpertScore.objects.all().get(expert=expert)
+            except:
+                check_score = []
+
+            if current_user.is_admin:
+                tempales = 'userexpert/expert_detail.html'
             else:
-                sc = ScoreExpert.objects.all().filter(relation_exp_app__in=all_rel)
-            score = sc.filter(check=False)
-            check = sc.filter(check=True)
-            dict_score[com] = score
-            dict_check[com] = check
-
-        # Подтверждение оценок
-        try:
-            check_score = CheckExpertScore.objects.all().get(expert=expert)
-        except:
-            check_score = []
-
-        if current_user.is_admin:
-            tempales = 'userexpert/expert_detail.html'
+                com = current_user.get_commission_master
+                try:
+                    dict_check = {com: dict_check[com]}
+                except:
+                    dict_check = None
+                try:
+                    dict_score = {com: dict_score[com]}
+                except:
+                    dict_score = None
+                tempales = 'userexpert/expert_master_detail.html'
+            return render(request, tempales,
+                          context={'expert': expert, 'application_all': application_all,
+                                   'scores_common': scores_common,
+                                   'scores_expert': scores_expert,
+                                   'check_common': check_common,
+                                   'check_expert': check_expert,
+                                   'check_score': check_score,
+                                   'dict_check': dict_check,
+                                   'dict_score': dict_score,
+                                   })
         else:
-            com = current_user.get_commission_master
-            try:
-                dict_check = {com: dict_check[com]}
-            except:
-                dict_check = None
-            try:
-                dict_score = {com: dict_score[com]}
-            except:
-                dict_score = None
-            print(dict_score, dict_check)
-
-            tempales = 'userexpert/expert_master_detail.html'
-        return render(request, tempales,
-                      context={'expert': expert, 'application_all': application_all,
-                               'scores_common': scores_common,
-                               'scores_expert': scores_expert,
-                               'check_common': check_common,
-                               'check_expert': check_expert,
-                               'check_score': check_score,
-                               'dict_check': dict_check,
-                               'dict_score': dict_score,
-                               })
+            raise PermissionDenied('Нет прав')
     else:
         expert = Expert.objects.all().get(id=pk)
+        if expert.pk == current_user.pk:
+            return HttpResponseRedirect('../../../index')
+        else:
+            if not current_user.is_admin:
+                raise  PermissionDenied('Нет прав')
         group = expert.get_commissions()
         cus_gr = CustomGroup.objects.all().get(group__in=group)  # ЗДЕСЬ ИМЕЕМ В ВИДУ, ЧТО ТОЛЬКО ОДНА КОМИССИЯ
         if cus_gr.common_commission:
@@ -215,21 +224,3 @@ def ExperGroupOneViews(request, pk):
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-
-class ExpertUpdate(PermissionRequiredMixin, UpdateView):
-    model = Expert
-    fields = ['email', 'phone', 'position']
-    permission_required = 'userexpert.chage_expert'
-    template_name = 'userexpert/expert_update.html'
-
-    def has_permission(self, *args, **kwargs):
-        perms = self.get_permission_required()
-        pk_ = self.kwargs['pk']
-        if self.request.user.is_staff:
-            return True
-        if self.request.user.has_perms(perms):
-            return True
-        if self.model.objects.all().get(pk=pk_) == self.request.user:
-            return True
-        else:
-            return False
