@@ -12,6 +12,7 @@ class FederalDistrict(models.Model):
     class Meta:
         verbose_name_plural = "Федеральные округа"
         verbose_name = "Федеральный округ"
+        ordering = ["full_name"]
 
 
 class Region(models.Model):
@@ -24,6 +25,8 @@ class Region(models.Model):
     class Meta:
         verbose_name_plural = "Регионы"
         verbose_name = "Регион"
+        ordering = ["name"]
+
 
 
 class Company(models.Model):
@@ -35,6 +38,7 @@ class Company(models.Model):
     class Meta:
         verbose_name_plural = "Вузы/Организации"
         verbose_name = "Вуз/Организация"
+        ordering = ["full_name"]
 
     def __str__(self):
         return '{}, {}'.format(self.short_name, self.region)

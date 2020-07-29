@@ -35,5 +35,5 @@ class CompanyAdmin(ImportExportActionModelAdmin):
     list_display = ('id', 'short_name', 'full_name', 'region', 'is_vuz')
     list_display_links = ('short_name',)
     fields = ['short_name', 'full_name', 'region', 'is_vuz']
-    ordering = ('id',)
+    ordering = ('short_name',)
     search_fields = ['short_name', 'full_name', ]
