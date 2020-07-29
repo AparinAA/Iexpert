@@ -13,7 +13,7 @@
     <ul type="None">
         <table border="1" cellpadding="0.1" width="750">
             <tr>
-                <td align="center"><i> Итоговая оценка эксперта </i></td>
+                <td align="center"><i> <b> Итоговая оценка эксперта </b> </i></td>
                 <td align="center"><i> Оценка по критерию №1 </i></td>
                 <td align="center"><i> Оценка по критерию №2</i></td>
                 <td align="center"><i> Оценка по критерию №3 </i></td>
@@ -21,7 +21,7 @@
                 <td align="center"><i> Оценка по критерию №5 </i></td>
             </tr>
             <tr>
-                <td align="center"> {% if score_and_comment.score is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score }} {% endif %}  </td>
+                <td align="center"> {% if score_and_comment.score is None %} <font color="#B22222"> <b> отстутствует </b> </font>  {% else %}<b> {{ score_and_comment.score }}</b> {% endif %}  </td>
                 <td align="center"> {% if score_and_comment.score1 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score1 }} {% endif %}  </td>
                 <td align="center"> {% if score_and_comment.score2 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score2 }} {% endif %}  </td>
                 <td align="center"> {% if score_and_comment.score3 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score3 }} {% endif %}  </td>
@@ -40,17 +40,17 @@
 
 
 <h4>Итоговые оценки и комментарий по заявке:</h4>
-<ul> <i> Итоговая оценка: </i> {% if score_all.score is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score }} {% endif %}  </ul>
+<ul><b> <i> Итоговая оценка: </i> </b> {% if score_all.score is None %} <font color="#B22222"><b>  отстутствует <b></font>  {% else %} <b> {{ score_all.score }} </b> {% endif %} </ul>
 <ul> <i> Критерий №1: </i> {% if score_all.score1 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score1 }} {% endif %}  </ul>
 <ul> <i> Критерий №2: </i> {% if score_all.score2 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score2 }} {% endif %}  </ul>
 <ul> <i> Критерий №3: </i> {% if score_all.score3 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score3 }} {% endif %}  </ul>
 <ul> <i> Критерий №4: </i> {% if score_all.score4 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score4 }} {% endif %}  </ul>
 <ul> <i> Критерий №5: </i> {% if score_all.score5 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score5 }} {% endif %}  </ul>
-<ul> <i> Комментарий ответственного секретаря: </i> {% if score_all.comment_master is None or score_all.comment_master == '' %}
+<ul> <i> <b>  Комментарий ответственного секретаря:</b>  </i> {% if score_all.comment_master is None or score_all.comment_master == '' %}
     <font color="#B22222"> отстутствует </font>  {% else %} <br/> <ul> {{ score_all.comment_master }} {% endif %}  </ul></ul>
 <hr/>
 {% if score_all.check %}
-    Вы успешно оценили заявку.
+    Ваш комментарий сохранен. Экспертиза заявки завершена. Просмотр всех заявок доступн на <a href="{% url 'index' %}"> странице </a>
 {% else %}
     {% if not score_all.comment_master %}
     Вы не закончили оценивать заявку, пожалуйста, перейдите по ссылке и закончите экспертизу:

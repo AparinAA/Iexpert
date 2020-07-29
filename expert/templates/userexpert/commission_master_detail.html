@@ -16,9 +16,9 @@
         <tr>
             <td align="center"> <b> ФИО </b> </td>
             <td align="center"> <b> Место работы </b></td>
-            <td align="center"> <b> Эксперт подтвердил экспертизу </b></td>
-            <td align="center"> <b> Готовых заявок </b></td>
-            <td align="center"> <b> Назначенных заявок <br/> (во всех комиссиях) </b></td>
+            <td align="center"> <b> Эксперт подтвердил <br/> оценки всех заявок </b></td>
+            <td align="center"> <b> Количество <br/> готовых заявок </b></td>
+            <td align="center"> <b> Всего заявок </b></td>
         </tr>
         {% for check in check_experts %}
         {% if not check.expert.master_group %}
@@ -43,9 +43,9 @@
     <hr/>
     <form action="" method="POST">
     {% csrf_token %}
-       <ul> <input type="submit" name='pers_data'  value="Скачать персональные данные" > </ul>
-       <ul><input type="submit" name='realtion'  value="Распределение экспертов по заявкам" ></ul>
-       <ul> <input type="submit" name='all_result' value="Скачать полные результаты оценивания экспертов"> </ul>
+       <ul> <input type="submit" name='pers_data'  value="Скачать контакты экспертов" > </ul>
+       <ul><input type="submit" name='realtion'  value="Скачать распределение экспертов по заявкам" ></ul>
+       <ul> <input type="submit" name='all_result' value="Скачать подробный рейтинг заявок"> </ul>
     </form>
 </div>
 

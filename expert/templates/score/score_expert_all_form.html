@@ -17,7 +17,7 @@
     <ul type="None">
         <table border="1" cellpadding="0.1" width="750">
             <tr>
-                <td align="center"><i> Итоговая оценка эксперта </i></td>
+                <td align="center"><i> <b> Итоговая оценка эксперта </b> </i></td>
                 <td align="center"><i> Оценка по критерию №1 </i></td>
                 <td align="center"><i> Оценка по критерию №2</i></td>
                 <td align="center"><i> Оценка по критерию №3 </i></td>
@@ -25,7 +25,7 @@
                 <td align="center"><i> Оценка по критерию №5 </i></td>
             </tr>
             <tr>
-                <td align="center"> {% if score_and_comment.score is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score }} {% endif %}  </td>
+                <td align="center"> {% if score_and_comment.score is None %} <font color="#B22222"> <b> отстутствует </b> </font>  {% else %} <b> {{ score_and_comment.score }} {% endif %} </b> </td>
                 <td align="center"> {% if score_and_comment.score1 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score1 }} {% endif %}  </td>
                 <td align="center"> {% if score_and_comment.score2 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score2 }} {% endif %}  </td>
                 <td align="center"> {% if score_and_comment.score3 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score3 }} {% endif %}  </td>
@@ -46,7 +46,7 @@
 <form action="" method="post">
     {% csrf_token %} {# {{ form.as_table }} class="fieldWrapper"#}
 
-    <p><i> Оставьте небольшой общий комментарий по заявке </i></p>
+    <p><i> Оставьте общий комментарий по заявке (не более 2000 символов) </i></p>
     <ul>
         <p> {{ form.comment_master.help_text }} </p>
         {{ form.comment_master.errors }}
