@@ -21,25 +21,34 @@
 <hr/>
 <h4>Просмотр и комментирование заявок</h4>
     <ul> <b style='font-size:15px'>Нерассмотренные заявки </b> </ul>
-
     {% if scores_common %}
     <ul type="circle">
-        {% for score_form in scores_common %}
-        <ul><li><a href="{% url 'score_common_all_form' score_form.pk %}"> {{score_form.application}} </a></li></ul> {#  #}
+        {% for score_form, counts in dict_score.items %}
+        <ul>
+            <li>
+                <a href="{% url 'score_common_all_form' score_form.pk %}"> {{score_form.application}} </a>
+                 (экспертизу провел(-и) <b> {{counts.0}} </b> из <b> {{counts.1}} </b>  экспертов)
+            </li>
+        </ul>
         {% endfor %}
     </ul>
     {% else %}
         {% if scores_expert %}
         <ul type="circle">
-            {% for score_form in scores_expert %}
-            <ul><li><a href="{% url 'score_expert_all_form' score_form.pk %}"> {{score_form.application}} </a></li></ul> {#  #}
+            {% for score_form, counts in dict_score.items %}
+            <ul>
+                <li>
+                <a href="{% url 'score_expert_all_form' score_form.pk %}"> {{score_form.application}} </a>
+                    (экспертизу провел(-и) <b> {{counts.0}} </b> из <b> {{counts.1}} </b> экспертов)
+                </li>
+            </ul> {#  #}
+
             {% endfor %}
         </ul>
         {% else %}
              <ul> <ul> <i>  Нет заявок  </i> </ul></ul>
         {% endif %}
     {% endif %}
-
 
     <ul><b style='font-size:15px'>Завершенные экспертные оценки </b></ul>
 
@@ -60,6 +69,4 @@
             <ul> <ul> <i> Экспертиза заявок не завершена </i> </ul></ul>
         {% endif %}
     {% endif %}
-
-
 {% endblock %}

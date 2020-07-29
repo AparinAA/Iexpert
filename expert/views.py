@@ -15,31 +15,56 @@ def index(request):
     num_visits = request.session.get('num_visits', 0)
     request.session['num_visits'] = num_visits + 1
 
-    if request.user.is_authenticated:
-        if request.user.is_master_group:
+    if request.user.is_authenticated:  # Если человек авторизован
+        if request.user.is_master_group:  # Отправляем на страницу ответственного секретаря
             expert = Expert.objects.all().filter(id=request.user.pk)[0]
             group = expert.get_commissions()
-            cus_gr = CustomGroup.objects.all().get(group__in=group)  # ЗДЕСЬ ИМЕЕМ В ВИДУ, ЧТО ТОЛЬКО ОДНА КОМИССИЯ
+            cus_gr = CustomGroup.objects.all().get(
+                group__in=group)  # ЗДЕСЬ ИМЕЕМ В ВИДУ, ЧТО ТОЛЬКО ОДНА КОМИССИЯ у секретаря
+
             if cus_gr.common_commission:
                 all_application = Application.objects.all()
                 scores_common = ScoreCommonAll.objects.all().filter(application__in=all_application).filter(
                     check=False)
-                scores_expert = []
                 check_common = ScoreCommonAll.objects.all().filter(application__in=all_application).filter(
                     check=True)
+
+                # Строим словарь по оценке определять сколько экспертов начали и всего есть
+                all_relation = RelationExpertApplication.objects.filter(common_commission=True).filter(
+                    application__in=all_application)
+                all_score = ScoreCommon.objects.filter(relation_exp_app__in=all_relation)
+                dict_score = {}
+                for sc_app in scores_common:
+                    rel_app = all_relation.filter(application=sc_app.application)
+                    score_app = all_score.filter(relation_exp_app__in=rel_app)
+                    dict_score[sc_app] = (score_app.filter(check=True).count(), score_app.count())
+
+                dict_check = {}
+
+                scores_expert = []
                 check_expert = []
             else:
                 all_application = Application.objects.all().filter(name__commission__group__in=group)
                 scores_expert = ScoreExpertAll.objects.all().filter(application__in=all_application).filter(
                     check=False)
-                scores_common = []
                 check_expert = ScoreExpertAll.objects.all().filter(application__in=all_application).filter(
                     check=True)
+
+                # Строим словарь по оценке определять сколько экспертов начали и всего есть
+                all_relation = RelationExpertApplication.objects.filter(common_commission=False).filter(
+                    application__in=all_application)
+                all_score = ScoreExpert.objects.filter(relation_exp_app__in=all_relation)
+                dict_score = {}
+                for sc_app in scores_expert:
+                    rel_app = all_relation.filter(application=sc_app.application)
+                    score_app = all_score.filter(relation_exp_app__in=rel_app)
+                    dict_score[sc_app] = (score_app.filter(check=True).count(), score_app.count())
+
+                # Строим словарь по оценке определять сколько экспертов всего есть
+                dict_check = {}
+
+                scores_common = []
                 check_common = []
-            try:
-                check_score = CheckExpertScore.objects.all().get(expert=expert)
-            except:
-                check_score = []
 
             return render(request, 'index_master.html', context={
                 'expert': expert,
@@ -47,9 +72,11 @@ def index(request):
                 'scores_expert': scores_expert,
                 'check_common': check_common,
                 'check_expert': check_expert,
-                'check_score': check_score
+                'dict_score': dict_score,
+                'dict_check': dict_check,
+
             })
-        else:
+        else:  # Все остальные
             expert = Expert.objects.all().filter(id=request.user.pk)[0]
             commissions = expert.get_custom_commission
             all_application_set = RelationExpertApplication.objects.all().filter(expert=expert)
@@ -67,7 +94,6 @@ def index(request):
                 scores_common = []
                 check_common = []
 
-
             # Эксперт экспертной комиссии и его оценки
             try:
                 sc_exp = ScoreExpert.objects.all().filter(relation_exp_app__in=all_application_set)
@@ -84,11 +110,13 @@ def index(request):
                 if not com.common_commission:
                     all_dir = Direction.objects.filter(commission=com)
                     all_app = Application.objects.filter(name__in=all_dir)
-                    all_rel = RelationExpertApplication.objects.all().filter(application__in=all_app).filter(expert=expert)
+                    all_rel = RelationExpertApplication.objects.all().filter(application__in=all_app).filter(
+                        expert=expert)
                 else:
                     all_dir = Direction.objects.all()
                     all_app = Application.objects.filter(name__in=all_dir)
-                    all_rel = RelationExpertApplication.objects.all().filter(expert=expert).filter(application__in=all_app)
+                    all_rel = RelationExpertApplication.objects.all().filter(expert=expert).filter(
+                        application__in=all_app)
                 if com.common_commission:
                     sc = ScoreCommon.objects.all().filter(relation_exp_app__in=all_rel)
                 else:
@@ -103,7 +131,6 @@ def index(request):
                 check_score = CheckExpertScore.objects.all().get(expert=expert)
             except:
                 check_score = []
-
 
             return render(request, 'index_expert.html', context={
                 'expert': expert, 'application_all': application_all,
@@ -126,7 +153,6 @@ def index(request):
 def criteria_expert(request):
     return render(request, 'criteria_expert.html', )
 
+
 def criteria_common(request):
     return render(request, 'criteria_common.html', )
-
-
