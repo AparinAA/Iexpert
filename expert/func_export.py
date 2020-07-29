@@ -73,16 +73,17 @@ def export_personal_info_commission(commission):
     head = ['Эксперт', 'Организация', 'Должность', 'Логин', 'Телефон', 'Почта']
     res = []
     for exp in all_experts:
-        ar = []
-        fio = '{} {} {}'.format(exp.last_name, exp.first_name, exp.middle_name)
-        ar.append(fio)
-        org = exp.company.short_name
-        ar.append(org)
-        ar.append(exp.position)
-        ar.append(exp.login)
-        ar.append(exp.phone)
-        ar.append(exp.email)
-        res.append(ar)
+        if not exp.master_group:
+            ar = []
+            fio = '{} {} {}'.format(exp.last_name, exp.first_name, exp.middle_name)
+            ar.append(fio)
+            org = exp.company.short_name
+            ar.append(org)
+            ar.append(exp.position)
+            ar.append(exp.login)
+            ar.append(exp.phone)
+            ar.append(exp.email)
+            res.append(ar)
     df = pd.DataFrame(res, columns=head)
     return df
 

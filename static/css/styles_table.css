@@ -1,9 +1,16 @@
 table {
-            border: 1px double;
-            font-size: 13px;
+       border: 1px double;
+       font-size: 13px;
 }
 th, td {
       border: 1px solid;
       padding: 10px;
       text-align: left;
+
+}
+tr2, td2 {
+      border: 1px solid;
+      padding: 10px;
+      text-align: center;
+
 }

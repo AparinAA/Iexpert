@@ -122,7 +122,10 @@ class ScoreCommonAllForm(PermissionRequiredMixin, UpdateView):
             return True
         master_gr = CustomGroup.objects.all().get(master=self.request.user)
         if master_gr.common_commission:
-            return self.request.user.has_perms(perms)
+            if self.model.objects.all().get(pk=pk_).check:
+                return False
+            else:
+                return self.request.user.has_perms(perms)
         else:
             return False
 
@@ -152,6 +155,9 @@ class ScoreExpertAllForm(PermissionRequiredMixin, UpdateView):
         if self.request.user.is_staff:
             return True
         if self.model.objects.all().get(pk=pk_).application.name.commission.master == self.request.user:
-            return self.request.user.has_perms(perms)
+            if self.model.objects.all().get(pk=pk_).check:
+                return False
+            else:
+                return self.request.user.has_perms(perms)
         else:
             return False

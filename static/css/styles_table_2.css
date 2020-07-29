@@ -1,0 +1,19 @@
+table {
+            border: 1px double;
+            font-size: 13px;
+}
+th, td {
+      border: 1px solid;
+      padding: 10px;
+}
+.b1 {
+    boarder: 3px solid;
+    background: navy; /* Синий цвет фона */
+    color: white; /* Белые буквы */
+}
+table2 {
+            font-size: 13px;
+}
+th2, td2 {
+      padding: 10px;
+}
