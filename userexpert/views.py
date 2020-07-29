@@ -34,6 +34,8 @@ def ExpertOneViews(request, pk):
         raise PermissionDenied('Нет прав')
     if not current_user.is_admin and not current_user.master_group:
         raise PermissionDenied('Нет прав')
+    elif not Expert.objects.all().filter(id=pk).count():
+        raise PermissionDenied('НЕТ')
     elif not Expert.objects.all().get(id=pk).master_group:
         expert = Expert.objects.all().get(id=pk)
         if expert.pk == current_user.pk:
