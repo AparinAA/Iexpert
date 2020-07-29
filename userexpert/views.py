@@ -1,4 +1,5 @@
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -200,11 +201,15 @@ def ExperGroupOneViews(request, pk):
                 else:
                     all_expert = Expert.objects.all().filter(groups=commission.group)
                     check_exp_sc = CheckExpertScore.objects.all().filter(expert__in=all_expert)
+                    experts_exist = check_exp_sc.filter(~Q(count_all=0)).order_by("check_exp", "expert__last_name")
+                    experts_null = check_exp_sc.filter(count_all=0).order_by("expert__last_name")
                     return render(request, 'userexpert/commission_master_detail.html',
                                   context={
                                       'commission': commission,
                                       'all_experts': all_expert,
-                                      'check_experts': check_exp_sc
+                                      'check_experts': check_exp_sc,
+                                      'experts_exist': experts_exist,
+                                      'experts_null': experts_null
                                   })
             else:
                 all_direction = Direction.objects.all().filter(commission=commission)

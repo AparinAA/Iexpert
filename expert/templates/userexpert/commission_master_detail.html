@@ -11,7 +11,7 @@
 
 <div style="margin-left:20px;margin-top:20px">
     <h4>Эксперты</h4>
-    {% if check_experts %}
+    {% if experts_exist %}
     <table border="1">
         <tr align="center">
             <td align="center"> <b> ФИО </b> </td>
@@ -20,7 +20,7 @@
             <td align="center"> <b> Количество <br/> готовых заявок </b></td>
             <td align="center"> <b> Всего заявок </b></td>
         </tr>
-        {% for check in check_experts %}
+        {% for check in experts_exist %}
         {% if not check.expert.master_group %}
         <tr>
             <td><a href="{% url 'expert-detail' check.expert.pk%}"> {{check.expert}}</a></td>
@@ -37,8 +37,26 @@
 
         {% endfor %}
     </table>
-    {% else%}
-    В комиссии нет экспертов
+    {% endif %}
+
+    <hr/>
+    <h4>Эксперты без назначенных заявок</h4>
+    {% if experts_null %}
+    <table border="1">
+        <tr align="center">
+            <td align="center"> <b> ФИО </b> </td>
+            <td align="center"> <b> Место работы </b></td>
+        </tr>
+        {% for check in experts_null %}
+        {% if not check.expert.master_group %}
+        <tr>
+            <td><a href="{% url 'expert-detail' check.expert.pk%}"> {{check.expert}}</a></td>
+            <td> {{check.expert.company}}</td>
+        </tr>
+        {% endif %}
+
+        {% endfor %}
+    </table>
     {% endif %}
     <hr/>
     <form action="" method="POST">
