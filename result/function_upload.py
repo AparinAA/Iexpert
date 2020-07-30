@@ -1,5 +1,5 @@
 from app.models import Application
-from result.models import CheckExpertScore, CheckGroups, CheckApplication
+from result.models import CheckExpertScore
 from userexpert.models import Expert, CustomGroup
 
 def upload_all_result():

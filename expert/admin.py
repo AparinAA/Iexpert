@@ -6,7 +6,7 @@ from django.contrib import messages
 from score.models import ScoreCommon, ScoreExpert, ScoreAll, ScoreCommonAll, ScoreExpertAll
 from score.function_upload import upload_all_score
 from result.function_upload import upload_all_result
-from result.models import CheckExpertScore, CheckGroups, CheckApplication
+from result.models import CheckExpertScore
 from expert.fuction_for_all import reload_scores
 
 from .func_export import export_personal_info_request
