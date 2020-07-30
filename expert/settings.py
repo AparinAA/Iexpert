@@ -30,7 +30,7 @@ except (IOError, TypeError):
     url = False
 
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', False))
-DEBUG = True
+# DEBUG = True
 ALLOWED_HOSTS = ['iexpert.herokuapp.com', '127.0.0.1', 'iexpert.team', 'www.iexpert.team', 'expert-olymp.ru',
                  'www.expert-olymp.ru']
 
