@@ -7,15 +7,17 @@ from score.function_score import scalar_product_exp_scores, mean_any, MyError, s
 import json
 from datetime import datetime
 import os
+
 # Create your models here.
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 class ScoreCommon(models.Model):
     """
     Оценки общей комиссии в связке с экспертами и заявками (самая подробная информация)
     """
-    with open(os.path.join(BASE_DIR , 'score/info.json'), 'r', encoding='utf-8') as file:
+    with open(os.path.join(BASE_DIR, 'score/info.json'), 'r', encoding='utf-8') as file:
         data_score = json.load(file)
     can_score = ((1, 1), (2, 2), (3, 3), (4, 4), (5, 5),
                  (6, 6), (7, 7), (8, 8), (9, 9), (10, 10))
@@ -64,7 +66,7 @@ class ScoreExpert(models.Model):
     """
     Оценки общей комиссии в связке с экспертами и заявками (самая подробная информация)
     """
-    with open(os.path.join(BASE_DIR , 'score/info.json'), 'r', encoding='utf-8') as file:
+    with open(os.path.join(BASE_DIR, 'score/info.json'), 'r', encoding='utf-8') as file:
         data_score = json.load(file)
     can_score = ((1, 1), (2, 2), (3, 3), (4, 4), (5, 5),
                  (6, 6), (7, 7), (8, 8), (9, 9), (10, 10))
@@ -173,15 +175,21 @@ class ScoreCommonAll(models.Model):
         scores_common = ScoreCommon.objects.all().filter(relation_exp_app__in=rel_exp_app)
         comments = []
         scores = []
+        check_comments = True
         for sc in scores_common:
             comments.append(sc.comment)
+            if sc.comment != sc.comment or sc.comment is None:
+                check_comments = False
+            if str(sc.comment) == '':
+                check_comments = False
             scores.append(sc.score)
         try:
             self.score = mean_any(scores)
         except MyError:
             pass
 
-        if not (self.score is None or self.comment_master is None or len(self.comment_master) == 0):
+        if not (self.score is None or self.comment_master is None or len(
+                self.comment_master) == 0 or not check_comments):
             self.check = True
         else:
             self.check = False
@@ -254,7 +262,7 @@ class ScoreExpertAll(models.Model):
         scores4 = []
         scores5 = []
         scores = []
-
+        check_comments = True
         for sc in scores_common:
             comments.append(sc.comment)
             scores1.append(sc.score1)
@@ -263,7 +271,10 @@ class ScoreExpertAll(models.Model):
             scores4.append(sc.score4)
             scores5.append(sc.score5)
             scores.append(sc.score)
-
+            if sc.comment != sc.comment or sc.comment is None:
+                check_comments = False
+            if str(sc.comment) == '':
+                check_comments = False
         try:
             self.score1 = mean_any(scores1)
             self.score2 = mean_any(scores2)
@@ -273,7 +284,8 @@ class ScoreExpertAll(models.Model):
             self.score = mean_any(scores)
         except MyError:
             pass
-        if not (self.score is None or self.comment_master is None or len(self.comment_master) == 0):
+        if not (self.score is None or self.comment_master is None or len(self.comment_master) == 0
+                or not check_comments):
             self.check = True
         else:
             self.check = False
@@ -315,5 +327,3 @@ class ScoreAll(models.Model):
             self.check = False
         self.date_last = datetime.now(tz=None)
         super(ScoreAll, self).save(*args, **kwargs)
-
-
