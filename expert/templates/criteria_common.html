@@ -1,8 +1,7 @@
 {% extends "base_generic.html" %}
 {% block style_css%}
-    {% load static %}
-
-   <link rel="stylesheet" type="text/css" href="{% static '/css/styles_table.css'%}">
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static '/css/styles_table.css'%}">
 {{ block.super }}
 {% endblock %}
 

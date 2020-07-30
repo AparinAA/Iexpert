@@ -1,30 +1,23 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h1>Эксперт: {{ expert }}</h1>
-
-</p> {#  #}
-{% if expert.is_admin == True %}
-<p> Админский доступ</p>
-{% endif %}
+<h2>Информация об экперте комиссии</h2>
+<h4>{{ expert }}</h4>
 <hr/>
+<h4>Персональная информация</h4>
+<ul>
+    <b style='font-size:15px'> Данные о месте работы </b>
+    <ul><p><i> Должность: </i> {{expert.position}}</p></ul>
+    <ul><p><i> Место работы: </i> {{expert.company.full_name}} </p></ul>
 
-
-<p><b> Место работы: </b>
-    <a href="{% url 'company-detail' expert.company.pk%}"> {{expert.company.full_name}}</a>,
-    {{expert.company.region.federal_district}}
-</p>
-<p><b> Должность: </b> {{expert.position}}</p>
-<hr/>
-
-<h4> Контактная информация:</h4>
-<ul type="none">
-    <li><b> Почта: </b> {{expert.email}}</li>
-    <li><b> Телефон: </b> {{expert.phone}}</li>
+    <b style='font-size:15px'> Контакты: </b>
+    <ul><p><i> Почта: </i> {{expert.email}}</p></ul>
+    <ul><p><i> Телефон: </i> {% if expert.phone is None or expert.phone == '-'%} <font color="#B22222">
+        отстутствует </font> {% else %} {{ expert.phone }} {% endif %}</p></ul>
 </ul>
-{% if expert.get_commission %}
+<br/>
 <hr/>
-
+{% if expert.get_commission %}
 <h4> Комиссии в которых состоит эксперт:</h4>
 
 <ul type="circle">
@@ -47,7 +40,8 @@
 {% endif %}
 <hr/>
 
-<h4>Ссылки на формы оценки:</h4>
+<h4>Экспертиза заявок </h4>
+<ul> <h5> <b> Нерассмотренные заявки </b></h5></ul>
     {% if scores_common%}
         <ul type="none">
             <b>Общая комиссия: </b>
@@ -66,12 +60,12 @@
                 {% endfor %}
             </ul>
         {% else %}
-            Нет назначенных заявок для оценки
+ <ul> <ul> Нет назначенных заявок для оценки </ul> </ul>
         {% endif %}
     {% endif %}
-<hr/>
 
-<h4>Готовые оценки:</h4>
+<ul> <h5><b> Завершенные экспертные оценки </b></h5> </ul>
+<ul>
     {% if check_common %}
         <ul type="none">
             <b>Общая комиссия: </b>
@@ -93,7 +87,7 @@
             Нет готовых заявок эксперта
         {% endif %}
     {% endif %}
-
+    </ul>
 <hr/>
 
 {% if check_score %}
@@ -103,4 +97,7 @@
 <br/>
  <a href="{% url 'all_score_for_expert_form' check_score.pk %}">Ссылка на форму подтверждения оценок </a>
 {% endif %}
+
+
+
 {% endblock %}

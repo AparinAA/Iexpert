@@ -178,7 +178,9 @@ def ExperGroupOneViews(request, pk):
         else:
             raise PermissionDenied('Нет прав')
         if current_user.is_admin or current_user.get_commission_master == commission:
-            if current_user.get_commission_master == commission:
+            if current_user.get_commission_master == commission or current_user.is_admin:
+
+
                 if 'pers_data' in request.POST:
                     name_commission = dict_commission[str(pk)]
                     commission = CustomGroup.objects.get(group=Group.objects.get(name=name_commission))
@@ -199,28 +201,27 @@ def ExperGroupOneViews(request, pk):
                                           func_for_woorksheet=save_relation_s_to_woorksheet,
                                           namefile='Распределение', dop_name="Распределение экспертов")
                 else:
+                    if current_user.is_admin:
+                        temp_ = 'userexpert/commission_detail.html'
+                    else:
+                        temp_ = 'userexpert/commission_master_detail.html'
                     all_expert = Expert.objects.all().filter(groups=commission.group)
+                    all_direction = Direction.objects.all().filter(commission=commission)
+                    all_application = Application.objects.all().filter(name__in=all_direction)
                     check_exp_sc = CheckExpertScore.objects.all().filter(expert__in=all_expert)
                     experts_exist = check_exp_sc.filter(~Q(count_all=0)).order_by("check_exp", "expert__last_name")
                     experts_null = check_exp_sc.filter(count_all=0).order_by("expert__last_name")
-                    return render(request, 'userexpert/commission_master_detail.html',
+                    return render(request, temp_,
                                   context={
                                       'commission': commission,
+                                      'all_application': all_application,
                                       'all_experts': all_expert,
                                       'check_experts': check_exp_sc,
                                       'experts_exist': experts_exist,
                                       'experts_null': experts_null
                                   })
             else:
-                all_direction = Direction.objects.all().filter(commission=commission)
-                all_application = Application.objects.all().filter(name__in=all_direction)
-                all_expert = Expert.objects.all().filter(groups=commission.group)
-                return render(request, 'userexpert/commission_detail.html',
-                              context={
-                                  'all_application': all_application,
-                                  'commission': commission,
-                                  'all_experts': all_expert
-                              })
+                raise PermissionDenied('Нет прав')
         else:
             raise PermissionDenied('Нет прав')
 

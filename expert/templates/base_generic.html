@@ -29,7 +29,7 @@
             {% else %}
             <a href="{% url 'index' %}"> Экспертиза заявок </a>
             {% if not user.is_admin and not user.is_master_group %}
-            <a href="{% url 'check_score' %}"> Подтверждение оценок</a>
+            <a href="{% url 'check_score' %}" style="color:#B22222;"> Подтверждение оценок</a>
             {% endif %}
             {% endif%}
         </ul>
