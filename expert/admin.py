@@ -6,7 +6,7 @@ from django.contrib import messages
 from score.models import ScoreCommon, ScoreExpert, ScoreAll, ScoreCommonAll, ScoreExpertAll
 from score.function_upload import upload_all_score
 from result.function_upload import upload_all_result
-from result.models import CheckExpertScore
+from result.models import CheckExpertScore, ResultMaster
 from expert.fuction_for_all import reload_scores
 
 from .func_export import export_personal_info_request
@@ -22,42 +22,29 @@ class MyAdminSite(AdminSite):
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [
-            # path('update_score/', self.update_score),
             path('upload_score/', self.upload_score),
-            # path('export_score/', self.export_score),
-            # path('update_result/', self.update_result),
             path('upload_result/', self.upload_result),
-            # path('export_result/', self.export_result),
             path('export_all/', self.export_all),
-            # path('export_users/', self.export_users),
             path('load_users/', self.load_users),
-            # path('export_relation/', self.export_relation),
             path('load_relation/', self.load_relation),
         ]
         return my_urls + urls
 
     def load_users(self, request):
         # Загружает экспертов
-        #log = 'Якобы загрузили экспертов'
-        #messages.success(request, log)
-        #return HttpResponseRedirect("../")
         return func_load_expert(request)
 
     def load_relation(self, request):
         # Загружает распределение экспертов
-        # log = 'Якобы загрузили распределение экспертов'
-        # messages.success(request, log)
         return func_load_relation(request)
 
     def update_score(self):
         # Подгружает новые объекты в score
         log = upload_all_score()
-        # messages.success(request, log)
         return log
 
     def upload_score(self, request):
         log = self.update_score()
-        # Обновляет оценки
         for mod in [ScoreCommon, ScoreExpert, ScoreCommonAll, ScoreExpertAll, ScoreAll]:
             reload_scores(mod)
 
@@ -71,7 +58,7 @@ class MyAdminSite(AdminSite):
     def upload_result(self, request):
         log = self.update_result()
         # Обновляем оценки
-        for mod in [CheckExpertScore, CheckGroups, CheckApplication]:
+        for mod in [CheckExpertScore, ResultMaster, ]:
             reload_scores(mod)
         messages.success(request, 'Обновили результаты ' + log)
         return HttpResponseRedirect("../")

@@ -7,8 +7,9 @@ from django.db import models
 from django.http import HttpResponseRedirect
 
 from app.models import RelationExpertApplication, Direction, Application
-from score.models import ScoreExpert, ScoreCommon
+from score.models import ScoreExpert, ScoreCommon, ScoreExpertAll, ScoreCommonAll
 from userexpert.models import Expert, CustomGroup
+
 
 
 class CheckExpertScore(models.Model):
@@ -59,3 +60,46 @@ class CheckExpertScore(models.Model):
 
     def get_absolute_url(self):
         return reverse('all_score_for_expert_form', args=[str(self.id)])
+
+
+class ResultMaster(models.Model):
+    STATUS_CHOICES = (('b', 'begin'),
+                      ('r', 'look_only_relation'),
+                      ('w', 'can_write_comment'))
+
+    master = models.ForeignKey(Expert, verbose_name='Ответственный секретарь',
+                               on_delete=models.CASCADE, default=None, limit_choices_to={'master_group': True}, )
+    status = models.CharField(max_length=2, choices=STATUS_CHOICES, default='b', verbose_name='Статус доступа')
+
+    check = models.BooleanField(default=False, verbose_name='Готовность ответственного секретаря')
+
+    count_all = models.IntegerField(default=0, verbose_name='Кол-во всего заявок')
+
+    count_ok = models.IntegerField(default=0, verbose_name='Кол-во готовых комментариев')
+
+    date_last = models.DateField(default=None, verbose_name='Последнее обновление', null=True, blank=True)
+
+    comment = models.TextField(max_length=2000, verbose_name='Любое примичание', null=True, blank=True)
+
+    def __str__(self):
+        return '{} {} {}'.format(self.master.last_name, self.master.first_name, self.master.middle_name)
+
+    class Meta:
+        verbose_name_plural = 'Готовность ответственных секретарей'
+        verbose_name = 'Готовность ответственных секретарей'
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        self.date_last = datetime.now(tz=None)
+        commission = self.master.get_commission_master
+        if self.master.common_commission:
+            all_app = Application.objects.all()
+            scores = ScoreCommonAll.objects.all()
+            self.count_all = scores.count()
+            self.count_ok = scores.filter(check=True).count()
+        else:
+            all_app = Application.objects.filter(name__commission=commission)
+            scores = ScoreExpertAll.objects.filter(application__in=all_app)
+            self.count_all = scores.count()
+            self.count_ok = scores.filter(check=True).count()
+        super(ResultMaster, self).save(*args, **kwargs)
