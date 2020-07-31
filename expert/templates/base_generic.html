@@ -60,11 +60,15 @@
             <a href="{% url 'criteria_expert' %}" target="_blank"> Критерии экспертной комиссии </a>
             <a href="{% url 'criteria_common' %}" target="_blank"> Критерии общей комиссии </a>
             {% else %}
-            {% if user.is_common_commission %}
-            <a href="{% url 'criteria_common' %}" target="_blank"> Критерии общей комиссии </a>
-            {% else %}
-            <a href="{% url 'criteria_expert' %}" target="_blank"> Критерии экспертной комиссии </a>
+                {% if user.is_common_commission %}
+                <a href="{% url 'criteria_common' %}" target="_blank"> Критерии общей комиссии </a>
+                {% else %}
+                <a href="{% url 'criteria_expert' %}" target="_blank"> Критерии экспертной комиссии </a>
+                {% endif %}
             {% endif %}
+            {% if user.is_admin or user.master_group %}
+            <br/>
+            <a href="https://yandex.ru/profi/applications_selection_2020" target="_blank"> Положение об отборе и другая конкурсная документация </a>
             {% endif %}
             <hr/>
             <a href="/accounts/logout/">Выйти из аккаунта </a>

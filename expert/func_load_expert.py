@@ -76,7 +76,7 @@ def func_load_expert(request):
         for row in table:
             ar = []
             data_row = [item[1] for item in row]
-            f, i, o, commissions, work, possition, fo, phone, email, comment = data_row[1:]
+            f, i, o, gender, commissions, work, possition, fo, phone, email, comment = data_row[1:]
             exp = Expert.objects.filter(last_name=f).filter(first_name=i).filter(middle_name=o)
             last_num = 1
             if exp.count() == 0:
@@ -91,8 +91,18 @@ def func_load_expert(request):
                     exp.last_name = f
                     exp.first_name = i
                     exp.middle_name = o
+
                 for it in (f, i, o):
                     ar.append(('green', it))
+
+                if gender.lower() == 'м':
+                    ar.append(('green', 'м'))
+                    if save:
+                        exp.gender = 'm'
+                else:
+                    ar.append(('green', 'ж'))
+                    if save:
+                        exp.gender = 'f'
 
                 for com in commissions.split(', '):
                     cl_com = clear_word(com)
@@ -131,7 +141,7 @@ def func_load_expert(request):
                 ar.append(('orange', 'not new expert'))
                 ar.append(('orange', exp.get().login))
                 ar.append(('orange', '-'))
-                for it in f, i, o, commissions, work, possition, fo, phone, email, comment:
+                for it in f, i, o, gender, commissions, work, possition, fo, phone, email, comment:
                     ar.append(('orange', it))
                 new_table.append(ar)
         return new_table, count
@@ -141,14 +151,16 @@ def func_load_expert(request):
         df = pd.read_excel(myfile)
         check = True
         count = df.shape[0]
-        head = ['Фамилия', 'Имя', 'Отчество', 'Комиссия', 'Место работы', 'Должность', 'ФО', 'Телефон', 'Почта',
+        head = ['Фамилия', 'Имя', 'Отчество', 'Пол', 'Комиссия', 'Место работы', 'Должность', 'ФО', 'Телефон', 'Почта',
                 'Примечание']
-        if head != list(df):
-            return False, None, None, 0
+        for el in head:
+            if el not in list(df):
+                messages.error(request, 'Нет нужных столбцов')
+                return False, None, None, 0
 
         result = []
-        for row in df.values:
-            f, i, o, commissions, work, possition, fo, phone, email, comment = row
+        for row in df[head].values:
+            f, i, o, gender, commissions, work, possition, fo, phone, email, comment = row
             f, i, o = clear_word(f), clear_word(i), clear_word(o)
             commissions = clear_word(commissions)
             ar = []
@@ -170,6 +182,11 @@ def func_load_expert(request):
                 if gr.count() == 0:
                     ch = 'red'
                     check = False
+            if gender.lower() in ('м', 'ж'):
+                ar.append(('green', gender))
+            else:
+                check = False
+                ar.append(('red', gender))
             ar.append((ch, commissions))
 
             work = clear_word(work)

@@ -26,10 +26,9 @@ from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField, PasswordResetForm
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.http import HttpResponseRedirect
-from django.urls import path, re_path
+from django.urls import path
 from django.shortcuts import render
-import pyperclip
-import clipboard
+
 
 class UserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput)
@@ -82,9 +81,8 @@ class UserAdmin(BaseUserAdmin):
     fieldsets = (
         (None, {'fields': (('login', 'password'),)}),
         ('Контактная информация', {'fields': (('email', 'phone'),)}),
-        ('Персональные данные', {'fields': (('last_name', 'first_name', 'middle_name'),
-                                            ('company', 'position'
-                                             ),)}),
+        ('Персональные данные', {'fields': (('last_name', 'first_name', 'middle_name', 'gender'),
+                                            ('company', 'position'),)}),
         ('Доступ', {'fields': ('is_admin', 'is_active',)}),
         ('Права', {'fields': ('user_permissions',)}),
         ('Группы', {'fields': ('groups',)}),

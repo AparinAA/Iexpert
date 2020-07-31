@@ -44,6 +44,8 @@ class MyUserManager(BaseUserManager):
 
 
 class Expert(AbstractBaseUser, PermissionsMixin):
+    GENDER_CHOICES = (('m', 'Муж'),
+                      ('f', 'Жен'),)
     login = models.CharField(verbose_name='Логин пользователя', max_length=100, unique=True)
     email = models.EmailField(verbose_name='Электронная почта', max_length=255)
     is_active = models.BooleanField(default=True, verbose_name='Активная запись')
@@ -61,7 +63,7 @@ class Expert(AbstractBaseUser, PermissionsMixin):
     common_commission = models.BooleanField(verbose_name='Общая комиссия', default=False)
     #expert_commission = models.BooleanField(verbose_name='Общая комиссия', default=True)
     master_group = models.BooleanField(verbose_name='Ответственный секретарь', default=False)
-
+    gender = models.CharField(max_length=2, choices=GENDER_CHOICES, default='m', verbose_name='Пол')
     comment = models.TextField(verbose_name="Примичание/Комментарий", default="", blank=True, null=True)
     objects = MyUserManager()
 
