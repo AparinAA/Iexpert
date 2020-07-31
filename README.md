@@ -30,8 +30,9 @@ git push origin master
    source ~/djangoenv/bin/activate
 ```
 + Зайти в директорию с проектом 
+```
    cd ~/www/expert-olymp.ru/Iexpert
-
+```
 + Перезапустить сервер
 ```
    rm ~/www/expert-olymp.ru/tmp/restart.txt
