@@ -21,11 +21,11 @@
                 <td align="center"> <b> Количество <br/> готовых заявок </b></td>
                 <td align="center"> <b> Всего заявок </b></td>
             </tr>
-            {% for check in experts_exist %}
+            {% for check in count_app %}
             {% if not check.expert.master_group %}
             <tr>
                 <td><a href="{% url 'expert-detail' check.expert.pk%}"> {{check.expert}}</a></td>
-                <td> {{check.expert.company}}</td>
+                <td> {{check.company}}</td>
                 {% if check.check_exp %}
                 <td align="center"> <i style="color:#008000; "> да </i> </td>
                 {% else %}

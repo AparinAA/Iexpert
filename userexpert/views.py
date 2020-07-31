@@ -182,8 +182,6 @@ def ExperGroupOneViews(request, pk):
             raise PermissionDenied('Нет прав')
         if current_user.is_admin or current_user.get_commission_master == commission:
             if current_user.get_commission_master == commission or current_user.is_admin:
-
-
                 if 'pers_data' in request.POST:
                     name_commission = dict_commission[str(pk)]
                     commission = CustomGroup.objects.get(group=Group.objects.get(name=name_commission))
@@ -211,10 +209,34 @@ def ExperGroupOneViews(request, pk):
                         temp_ = 'userexpert/commission_master_detail.html'
                         result_master = ResultMaster.objects.get(master=current_user)
                     all_expert = Expert.objects.all().filter(groups=commission.group)
-                    all_direction = Direction.objects.all().filter(commission=commission)
+                    if commission.common_commission:
+                        all_direction = Direction.objects.all()
+                    else:
+                        all_direction = Direction.objects.all().filter(commission=commission)
                     all_application = Application.objects.all().filter(name__in=all_direction)
                     check_exp_sc = CheckExpertScore.objects.all().filter(expert__in=all_expert).order_by( "expert__last_name")
                     experts_exist = check_exp_sc.filter(~Q(count_all=0)).order_by("check_exp", "expert__last_name")
+                    count_app = []
+                    for check in experts_exist:
+                        d = {}
+                        d['expert'] = check.expert
+                        d['company'] = check.expert.company
+                        d['check_exp'] = check.check_exp
+
+                        if commission.common_commission:
+                            rel = RelationExpertApplication.objects.filter(expert=check.expert).filter(
+                                application__in=all_application).filter(common_commission=True)
+                            sc = ScoreCommon.objects.filter(relation_exp_app__in=rel)
+                            d['count_ok'] = sc.filter(check=True).count()
+                            d['count_all'] = sc.count()
+                        else:
+                            rel = RelationExpertApplication.objects.filter(expert=check.expert).filter(
+                                application__in=all_application)
+                            sc = ScoreExpert.objects.filter(relation_exp_app__in=rel)
+                            d['count_ok'] = sc.filter(check=True).count()
+                            d['count_all'] = sc.count()
+                        count_app.append(d)
+
                     experts_null = check_exp_sc.filter(count_all=0).order_by("expert__last_name")
                     return render(request, temp_,
                                   context={
@@ -225,6 +247,7 @@ def ExperGroupOneViews(request, pk):
                                       'experts_exist': experts_exist,
                                       'experts_null': experts_null,
                                       'result_master': result_master,
+                                      'count_app': count_app
                                   })
             else:
                 raise PermissionDenied('Нет прав')
