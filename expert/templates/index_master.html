@@ -19,7 +19,37 @@
 </ul>
 <br/>
 <hr/>
-<h4>Просмотр и комментирование заявок</h4>
+
+{% if result_master.status == "b" %}
+    <h4>Список заявок</h4>
+        <ul type="circle">
+            {% for score_form, counts in dict_all_score.items %}
+            <ul>
+                <li>
+                {{score_form.application}}
+                </li>
+            </ul>
+            {% endfor %}
+{% endif %}
+{% if result_master.status == 'r' %}
+    <h4>Просмотр заявок</h4>
+        <ul type="circle">
+            {% for score_form, counts in dict_all_score.items %}
+            <ul>
+                <li>
+                    {% if result_master.master.common_commission %}
+                    <a href="{% url 'score_common_all_detail' score_form.pk %}"> {{score_form.application}} </a>
+                        (экспертизу провел(-и) <b> {{counts.0}} </b> из <b> {{counts.1}} </b> экспертов)
+                    {% else %}
+                    <a href="{% url 'score_expert_all_detail' score_form.pk %}"> {{score_form.application}} </a>
+                        (экспертизу провел(-и) <b> {{counts.0}} </b> из <b> {{counts.1}} </b> экспертов)
+                    {% endif %}
+                </li>
+            </ul>
+            {% endfor %}
+{% endif %}
+{% if result_master.status == 'w' %}
+    <h4>Просмотр и комментирование заявок</h4>
     <ul> <b style='font-size:15px'>Нерассмотренные заявки </b> </ul>
     {% if scores_common %}
     <ul type="circle">
@@ -69,4 +99,6 @@
             <ul> <ul> <i> Экспертиза заявок не завершена </i> </ul></ul>
         {% endif %}
     {% endif %}
+{% endif %}
+
 {% endblock %}

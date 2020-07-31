@@ -5,7 +5,7 @@ from userexpert.models import CustomGroup, Expert
 from app.models import Direction, Application, RelationExpertApplication
 from info.models import Company, FederalDistrict, Region
 from django.views import generic
-from result.models import CheckExpertScore
+from result.models import CheckExpertScore, ResultMaster
 
 
 def index(request):
@@ -21,6 +21,7 @@ def index(request):
             group = expert.get_commissions()
             cus_gr = CustomGroup.objects.all().get(
                 group__in=group)  # ЗДЕСЬ ИМЕЕМ В ВИДУ, ЧТО ТОЛЬКО ОДНА КОМИССИЯ у секретаря
+            res = ResultMaster.objects.get(master=expert)
 
             if cus_gr.common_commission:
                 all_application = Application.objects.all()
@@ -33,6 +34,7 @@ def index(request):
                 all_relation = RelationExpertApplication.objects.filter(common_commission=True).filter(
                     application__in=all_application)
                 all_score = ScoreCommon.objects.filter(relation_exp_app__in=all_relation)
+                # Словарь с заявками для оценки
                 dict_score = {}
                 for sc_app in scores_common:
                     rel_app = all_relation.filter(application=sc_app.application)
@@ -40,6 +42,13 @@ def index(request):
                     dict_score[sc_app] = (score_app.filter(check=True).count(), score_app.count())
 
                 dict_check = {}
+                # Словарь со всеми заявками
+                dict_all_score = {}
+                for sc_app in ScoreCommonAll.objects.all().filter(application__in=all_application):
+                    rel_app = all_relation.filter(application=sc_app.application)
+                    score_app = all_score.filter(relation_exp_app__in=rel_app)
+                    dict_all_score[sc_app] = (score_app.filter(check=True).count(), score_app.count())
+
 
                 scores_expert = []
                 check_expert = []
@@ -54,11 +63,17 @@ def index(request):
                 all_relation = RelationExpertApplication.objects.filter(common_commission=False).filter(
                     application__in=all_application)
                 all_score = ScoreExpert.objects.filter(relation_exp_app__in=all_relation)
-                dict_score = {}
+                dict_score = {} # Словарь с заявками для оценки
                 for sc_app in scores_expert:
                     rel_app = all_relation.filter(application=sc_app.application)
                     score_app = all_score.filter(relation_exp_app__in=rel_app)
                     dict_score[sc_app] = (score_app.filter(check=True).count(), score_app.count())
+                # Словарь со всеми заявками
+                dict_all_score = {}
+                for sc_app in ScoreExpertAll.objects.all().filter(application__in=all_application):
+                    rel_app = all_relation.filter(application=sc_app.application)
+                    score_app = all_score.filter(relation_exp_app__in=rel_app)
+                    dict_all_score[sc_app] = (score_app.filter(check=True).count(), score_app.count())
 
                 # Строим словарь по оценке определять сколько экспертов всего есть
                 dict_check = {}
@@ -74,7 +89,8 @@ def index(request):
                 'check_expert': check_expert,
                 'dict_score': dict_score,
                 'dict_check': dict_check,
-
+                'result_master': res,
+                'dict_all_score': dict_all_score
             })
         else:  # Все остальные
             expert = Expert.objects.all().filter(id=request.user.pk)[0]

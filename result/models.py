@@ -63,9 +63,9 @@ class CheckExpertScore(models.Model):
 
 
 class ResultMaster(models.Model):
-    STATUS_CHOICES = (('b', 'begin'),
-                      ('r', 'look_only_relation'),
-                      ('w', 'can_write_comment'))
+    STATUS_CHOICES = (('b', 'Начальный статус'),
+                      ('r', 'Может смотреть распределение'),
+                      ('w', 'Может писать комментарии'))
 
     master = models.ForeignKey(Expert, verbose_name='Ответственный секретарь',
                                on_delete=models.CASCADE, default=None, limit_choices_to={'master_group': True}, )

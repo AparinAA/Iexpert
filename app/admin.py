@@ -14,7 +14,7 @@ class DirectionAdmin(ImportExportActionModelAdmin):
     list_display_links = ('name',)
     fields = ['name', 'commission', ]
     search_fields = ['name', 'commission__name']
-    ordering = ('id',)
+    ordering = ('name',)
     # TODO поиск не работает
 
 
@@ -30,7 +30,7 @@ class ApplicationAdmin(ImportExportActionModelAdmin):
     )
     # filter_horizontal = ['experts']
     search_fields = ['name__name', 'vuz__full_name', 'vuz__short_name', ]
-    ordering = ('id',)
+    ordering = ('name__name',)
 
 
 from django import forms

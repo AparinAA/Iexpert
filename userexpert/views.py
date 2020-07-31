@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.views.generic import CreateView, UpdateView
 
 from app.models import RelationExpertApplication, Application, Direction
-from result.models import CheckExpertScore
+from result.models import CheckExpertScore, ResultMaster
 from userexpert.models import CustomGroup, Expert
 
 from score.models import ScoreExpert, ScoreCommon, ScoreCommonAll, ScoreExpertAll
@@ -94,6 +94,7 @@ def ExpertOneViews(request, pk):
 
             if current_user.is_admin:
                 tempales = 'userexpert/expert_detail.html'
+                result_master = None
             else:
                 com = current_user.get_commission_master
                 try:
@@ -105,6 +106,7 @@ def ExpertOneViews(request, pk):
                 except:
                     dict_score = None
                 tempales = 'userexpert/expert_master_detail.html'
+                result_master = ResultMaster.objects.get(master=current_user)
             return render(request, tempales,
                           context={'expert': expert, 'application_all': application_all,
                                    'scores_common': scores_common,
@@ -114,6 +116,7 @@ def ExpertOneViews(request, pk):
                                    'check_score': check_score,
                                    'dict_check': dict_check,
                                    'dict_score': dict_score,
+                                   'result_master': result_master
                                    })
         else:
             raise PermissionDenied('Нет прав')
@@ -203,12 +206,14 @@ def ExperGroupOneViews(request, pk):
                 else:
                     if current_user.is_admin:
                         temp_ = 'userexpert/commission_detail.html'
+                        result_master = None
                     else:
                         temp_ = 'userexpert/commission_master_detail.html'
+                        result_master = ResultMaster.objects.get(master=current_user)
                     all_expert = Expert.objects.all().filter(groups=commission.group)
                     all_direction = Direction.objects.all().filter(commission=commission)
                     all_application = Application.objects.all().filter(name__in=all_direction)
-                    check_exp_sc = CheckExpertScore.objects.all().filter(expert__in=all_expert)
+                    check_exp_sc = CheckExpertScore.objects.all().filter(expert__in=all_expert).order_by( "expert__last_name")
                     experts_exist = check_exp_sc.filter(~Q(count_all=0)).order_by("check_exp", "expert__last_name")
                     experts_null = check_exp_sc.filter(count_all=0).order_by("expert__last_name")
                     return render(request, temp_,
@@ -218,7 +223,8 @@ def ExperGroupOneViews(request, pk):
                                       'all_experts': all_expert,
                                       'check_experts': check_exp_sc,
                                       'experts_exist': experts_exist,
-                                      'experts_null': experts_null
+                                      'experts_null': experts_null,
+                                      'result_master': result_master,
                                   })
             else:
                 raise PermissionDenied('Нет прав')

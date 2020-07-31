@@ -6,7 +6,11 @@
 <ul><b> Заявка: </b> {{ score_all.application.name.name }} - {{ score_all.application.vuz.short_name }}</ul>
 <ul><b> Ссылка на документы заявки: </b> <a href="{{ score_all.application.link_archiv }}"  target="_blank" >{{ score_all.application.link_archiv }} </a> </ul>
 
-<h4> Оценки и комментарии экспертов </h4>
+{% if result_master.status == 'w' %}
+    <h4> Оценки и комментарии экспертов </h4>
+{% else %}
+    <h4> Готовность оценок и комментариев экспертов </h4>
+{% endif %}
 {% for expert, score_and_comment in score_all.get_all_comments_and_scores.items %}
 <ul>
     <li>
@@ -23,47 +27,124 @@
                 <td align="center"><i> Оценка по критерию №5 </i></td>
             </tr>
             <tr>
-                <td align="center"> {% if score_and_comment.score is None %} <font color="#B22222"> <b> отстутствует </b> </font>  {% else %}<b> {{ score_and_comment.score }}</b> {% endif %}  </td>
-                <td align="center"> {% if score_and_comment.score1 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score1 }} {% endif %}  </td>
-                <td align="center"> {% if score_and_comment.score2 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score2 }} {% endif %}  </td>
-                <td align="center"> {% if score_and_comment.score3 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score3 }} {% endif %}  </td>
-                <td align="center"> {% if score_and_comment.score4 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score4 }} {% endif %}  </td>
-                <td align="center"> {% if score_and_comment.score5 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score5 }} {% endif %}  </td>
+                <td align="center">
+                    {% if score_and_comment.score is None %}
+                        <font color="#B22222"> <b> отстутствует </b> </font>
+                    {% else %}
+                        {% if result_master.status == 'w' %}
+                            <b> {{ score_and_comment.score }}</b>
+                        {% else %}
+                            <b>  &#9989; </b>
+                        {% endif %}
+
+                    {% endif %}
+                </td>
+                <td align="center">
+                    {% if score_and_comment.score1 is None %}
+                        <font color="#B22222"> отсутствует </font>
+                    {% else %}
+                        {% if result_master.status == 'w' %}
+                            {{ score_and_comment.score1 }}
+                        {% else %}
+                            &#9989;
+                        {% endif %}
+
+                    {% endif %}
+                </td>
+                <td align="center">
+                    {% if score_and_comment.score2 is None %}
+                        <font color="#B22222"> отстутствует </font>
+                    {% else %}
+                        {% if result_master.status == 'w' %}
+                            {{ score_and_comment.score2 }}
+                        {% else %}
+                             &#9989;
+                        {% endif %}
+
+                    {% endif %}
+                </td>
+                <td align="center">
+                    {% if score_and_comment.score3 is None %}
+                        <font color="#B22222"> отстутствует </font>
+                    {% else %}
+                        {% if result_master.status == 'w' %}
+                            {{ score_and_comment.score3 }}
+                        {% else %}
+                             &#9989;
+                        {% endif %}
+
+                    {% endif %}
+                </td>
+                <td align="center">
+                    {% if score_and_comment.score4 is None %}
+                        <font color="#B22222">  отстутствует </font>
+                    {% else %}
+                        {% if result_master.status == 'w' %}
+                            {{ score_and_comment.score4 }}
+                        {% else %}
+                             &#9989;
+                        {% endif %}
+
+                    {% endif %}
+                </td>
+                <td align="center">
+                    {% if score_and_comment.score5 is None %}
+                        <font color="#B22222"> отстутствует </font>
+                    {% else %}
+                        {% if result_master.status == 'w' %}
+                            {{ score_and_comment.score5 }}
+                        {% else %}
+                            &#9989;
+                        {% endif %}
+
+                    {% endif %}
+                </td>
 
             </tr>
         </table>
-        <li><i>Комментарий: </i>  {% if score_and_comment.comment is None or score_and_comment.comment == ''%}
-            <font color="#B22222"> отстутствует </font>
-            {% else %}{{ score_and_comment.comment }} {%endif%}</li>
+        <li><i>Комментарий: </i>
+            {% if score_and_comment.comment is None or score_and_comment.comment == ''%}
+                 <font color="#B22222"> отстутствует </font>
+            {% else %}
+                {% if result_master.status == 'w' %}
+                    {{ score_and_comment.comment }}
+            {% else %}
+                &#9989;
+            {% endif %}
+            {%endif%}
+        </li>
     </ul>
 </ul>
 {% endfor %}
 <hr/>
+{% if result_master.status == 'w' %}
 
+    <h4>Итоговые оценки и комментарий по заявке:</h4>
+    <ul><b> <i> Итоговая оценка: </i> </b> {% if score_all.score is None %} <font color="#B22222"><b>  отстутствует </b> </font>  {% else %} <b> {{ score_all.score }} </b> {% endif %} </ul>
+    <ul> <i> Критерий №1: </i> {% if score_all.score1 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score1 }} {% endif %}  </ul>
+    <ul> <i> Критерий №2: </i> {% if score_all.score2 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score2 }} {% endif %}  </ul>
+    <ul> <i> Критерий №3: </i> {% if score_all.score3 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score3 }} {% endif %}  </ul>
+    <ul> <i> Критерий №4: </i> {% if score_all.score4 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score4 }} {% endif %}  </ul>
+    <ul> <i> Критерий №5: </i> {% if score_all.score5 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score5 }} {% endif %}  </ul>
+    <ul> <i> <b>  Комментарий ответственного секретаря:</b>  </i> {% if score_all.comment_master is None or score_all.comment_master == '' %}
+        <font color="#B22222"> отстутствует </font>  {% else %} <br/> <ul> {{ score_all.comment_master }} {% endif %}  </ul></ul>
+    <hr/>
 
-<h4>Итоговые оценки и комментарий по заявке:</h4>
-<ul><b> <i> Итоговая оценка: </i> </b> {% if score_all.score is None %} <font color="#B22222"><b>  отстутствует </b> </font>  {% else %} <b> {{ score_all.score }} </b> {% endif %} </ul>
-<ul> <i> Критерий №1: </i> {% if score_all.score1 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score1 }} {% endif %}  </ul>
-<ul> <i> Критерий №2: </i> {% if score_all.score2 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score2 }} {% endif %}  </ul>
-<ul> <i> Критерий №3: </i> {% if score_all.score3 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score3 }} {% endif %}  </ul>
-<ul> <i> Критерий №4: </i> {% if score_all.score4 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score4 }} {% endif %}  </ul>
-<ul> <i> Критерий №5: </i> {% if score_all.score5 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score5 }} {% endif %}  </ul>
-<ul> <i> <b>  Комментарий ответственного секретаря:</b>  </i> {% if score_all.comment_master is None or score_all.comment_master == '' %}
-    <font color="#B22222"> отстутствует </font>  {% else %} <br/> <ul> {{ score_all.comment_master }} {% endif %}  </ul></ul>
-<hr/>
-{% if score_all.check %}
-    Ваш комментарий сохранен. Экспертиза заявки завершена. Просмотр всех заявок доступен на <a href="{% url 'index' %}"> странице </a>
-{% else %}
-    {% if not score_all.comment_master %}
-    Вы не закончили оценивать заявку, пожалуйста, перейдите по ссылке и закончите экспертизу:
-    <a href="{% url 'score_expert_all_form' score_all.pk%}"> форма оценки заявки </a>
+    {% if score_all.check %}
+        Ваш комментарий сохранен. Экспертиза заявки завершена. Просмотр всех заявок доступен на <a href="{% url 'index' %}"> странице </a>
+        <br/>
+        Если вы хотите внести изменения в комментарий, то напишите на почту <a href="mailto:support@iproficlub.ru"> support@iproficlub.ru </a>
     {% else %}
-    Эксперты назначенные на заявку не закончили экспертизу.
-    <br/>
-    Вы можете перейти в <a href="{% url 'score_expert_all_form' score_all.pk%}"> форму </a> для того чтобы оставить комментарий по заявке
+        {% if not score_all.comment_master %}
+        Вы не закончили оценивать заявку, пожалуйста, перейдите по ссылке и закончите экспертизу:
+        <a href="{% url 'score_expert_all_form' score_all.pk%}"> форма оценки заявки </a>
+        {% else %}
+        Эксперты назначенные на заявку не закончили экспертизу.
+        <br/>
+        Вы можете перейти в <a href="{% url 'score_expert_all_form' score_all.pk%}"> форму </a> для того чтобы оставить комментарий по заявке
+        {% endif %}
+
     {% endif %}
 
 {% endif %}
-
-
 {% endblock %}

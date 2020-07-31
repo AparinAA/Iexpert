@@ -22,7 +22,6 @@ class ScoreCommonOne(PermissionRequiredMixin, UpdateView):
                                    widgets={"comment": Textarea(attrs={'rows': 6, 'cols': 80})})
     permission_required = ['score.change_scorecommon']
 
-
     def has_permission(self, *args, **kwargs):
         perms = self.get_permission_required()
         pk_ = self.kwargs['pk']
@@ -82,7 +81,7 @@ class ScoreExpertOne(PermissionRequiredMixin, UpdateView):
             return False
 
 
-from result.models import CheckExpertScore
+from result.models import CheckExpertScore, ResultMaster
 
 
 def ScoreExpertOneView(request, pk):
@@ -100,8 +99,14 @@ def ScoreExpertOneView(request, pk):
 def ScoreCommonAllView(request, pk):
     if request.user.has_perm('score.view_scorecommonall') or request.user.is_staff:
         sco_all = ScoreCommonAll.objects.all().filter(id=pk)[0]
+        if request.user.master_group:
+            result_master = ResultMaster.objects.get(master=request.user)
+        else:
+            result_master = {}
+            result_master['status'] = 'w'
         return render(request, 'score/score_common_all_detail.html',
-                      context={'score_all': sco_all})
+                      context={'score_all': sco_all,
+                               'result_master': result_master})
     else:
         raise PermissionDenied('Нет прав')
 
@@ -122,6 +127,8 @@ class ScoreCommonAllForm(PermissionRequiredMixin, UpdateView):
             return True
         master_gr = CustomGroup.objects.all().get(master=self.request.user)
         if master_gr.common_commission:
+            if ResultMaster.objects.get(master=self.request.user).status != 'w':
+                return False
             if self.model.objects.all().get(pk=pk_).check:
                 return False
             else:
@@ -133,9 +140,15 @@ class ScoreCommonAllForm(PermissionRequiredMixin, UpdateView):
 def ScoreExpertAllView(request, pk):
     if request.user.has_perm('score.view_scoreexpertall'):
         sco_all = ScoreExpertAll.objects.all().filter(id=pk)[0]
+        if request.user.master_group:
+            result_master = ResultMaster.objects.get(master=request.user)
+        else:
+            result_master = {}
+            result_master['status'] = 'w'
         if sco_all.application.name.commission.master == request.user or request.user.is_staff:
             return render(request, 'score/score_expert_all_detail.html',
-                          context={'score_all': sco_all})
+                          context={'score_all': sco_all,
+                                   'result_master': result_master})
     else:
         raise PermissionDenied('Нет прав')
 
@@ -144,7 +157,7 @@ class ScoreExpertAllForm(PermissionRequiredMixin, UpdateView):
     # Форма оценки
     model = ScoreExpertAll
     template_name = 'score/score_expert_all_form.html'
-    #fields = ['comment_master']
+    # fields = ['comment_master']
     form_class = modelform_factory(ScoreExpertAll, fields=['comment_master'],
                                    widgets={"comment_master": Textarea(attrs={'rows': 6, 'cols': 80})})
     permission_required = ['score.change_scoreexpertall']
@@ -155,6 +168,8 @@ class ScoreExpertAllForm(PermissionRequiredMixin, UpdateView):
         if self.request.user.is_staff:
             return True
         if self.model.objects.all().get(pk=pk_).application.name.commission.master == self.request.user:
+            if ResultMaster.objects.get(master=self.request.user).status != 'w':
+                return False
             if self.model.objects.all().get(pk=pk_).check:
                 return False
             else:
