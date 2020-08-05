@@ -28,6 +28,10 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.http import HttpResponseRedirect
 from django.urls import path
 from django.shortcuts import render
+from django.urls import reverse
+from django.contrib import messages
+import pyperclip
+import clipboard
 
 
 class UserCreationForm(forms.ModelForm):
@@ -108,8 +112,10 @@ class UserAdmin(BaseUserAdmin):
         new_password = BaseUserManager().make_random_password(length=8)
         user.set_password(new_password)
         user.save()
-        self.message_user(request, "Новый пароль скопирован в буфер обмена: {}".format(new_password))
-        return HttpResponseRedirect("../")
+        #pyperclip.copy(str(new_password))
+        clipboard.copy(str(new_password))
+        messages.add_message(request, 80, str(new_password), fail_silently=True)
+        return HttpResponseRedirect('../#iw-modal')
 
     def get_urls(self):
         urls = super().get_urls()
@@ -118,7 +124,6 @@ class UserAdmin(BaseUserAdmin):
             path('update_users/', self.update_users),
             path('load_users/', self.load_users),
             path('export_users/', self.export_users),
-
             path('<int:user_id>/my_reset_password/', self.my_reset_password, name='my_reset_password')
         ]
         return my_urls + urls

@@ -48,8 +48,9 @@ INSTALLED_APPS = [
     'import_export',
     'app',
     'score',
-    'result',
+    'result',  
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -78,6 +79,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'expert.wsgi.application'
 

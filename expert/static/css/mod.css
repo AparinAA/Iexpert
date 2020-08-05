@@ -44,13 +44,13 @@ margin-top:25vh; /*отступ сверху можно задавать в px, 
 position: relative;
 background: #fff; /*цвет фона*/
 border: 1px solid #ccc; /*цвет и толщина рамки*/
-border-radius: 0px; /*радиус скругления углов*/
+border-radius: 4px; /*радиус скругления углов*/
 }
 /*CSS-свойства заголовка модального окна */
 .iw-modal-header {
-padding: 15px;/*внутренний отступ*/
-background:#f1f1f1;/*цвет фона*/
-position:relative;
+padding: 10px;/*внутренний отступ*/
+background: #DFF2BF;/*цвет фона*/
+position: relative;
 }
 .iw-modal-title {
 font-size: 18px; /*размер шрифта*/
