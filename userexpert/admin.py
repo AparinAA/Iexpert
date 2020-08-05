@@ -113,7 +113,8 @@ class UserAdmin(BaseUserAdmin):
         user.set_password(new_password)
         user.save()
         #pyperclip.copy(str(new_password))
-        clipboard.copy(str(new_password))
+        #clipboard.copy(str(new_password))
+        xerox.copy(u'{}'.format(new_password), xsel=True)
         messages.add_message(request, 80, str(new_password), fail_silently=True)
         return HttpResponseRedirect('../')
 
