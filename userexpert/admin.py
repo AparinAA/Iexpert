@@ -32,7 +32,7 @@ from django.urls import reverse
 from django.contrib import messages
 #import pyperclip
 import clipboard
-
+import xerox
 
 class UserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput)
