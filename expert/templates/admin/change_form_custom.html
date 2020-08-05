@@ -14,11 +14,15 @@
 				<div class="iw-modal-wrapper">
 					<div class="iw-CSS-modal-inner">
 						<div class="iw-modal-header">
-							<h3>Пароль обновлен!</h3>
+							<h3>Пароль успешно обновлен!</h3>
 							<a href="#" title="Закрыть" class="iw-close">×</a>
 						</div>
 						<div class="iw-modal-text">    
-							<p>Новый пароль: <b>{{ message }}</b></p>
+							<p>Новый пароль: <b>{{ message }}</b>
+								<button onclick="window.location.href = '/admin/userexpert/expert/';" class="iw-modal-btn">
+									Вернуться к экспертам
+								</button>
+							</p>	
 						</div>
 					</div>
 				</div>	
