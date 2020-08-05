@@ -115,7 +115,7 @@ class UserAdmin(BaseUserAdmin):
         #pyperclip.copy(str(new_password))
         clipboard.copy(str(new_password))
         messages.add_message(request, 80, str(new_password), fail_silently=True)
-        return HttpResponseRedirect('../#iw-modal')
+        return HttpResponseRedirect('../')
 
     def get_urls(self):
         urls = super().get_urls()
