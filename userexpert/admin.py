@@ -30,7 +30,7 @@ from django.urls import path
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib import messages
-import pyperclip
+#import pyperclip
 import clipboard
 
 
