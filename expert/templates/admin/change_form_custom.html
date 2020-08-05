@@ -7,7 +7,7 @@
 
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static '/css/mod.css' %}">
-<!--
+
 {% if messages %}
         {% for message in messages %}
 			<div id="iw-modal" class="iw-modal">
@@ -25,7 +25,7 @@
 			</div>
         {% endfor %}
 {% endif %}
--->
+
 <form action="../my_reset_password/" method="POST">
     {% csrf_token %}
 	<input type="submit" class="btn" value="Сменить пароль">

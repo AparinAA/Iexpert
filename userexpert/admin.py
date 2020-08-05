@@ -30,9 +30,6 @@ from django.urls import path
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib import messages
-#import pyperclip
-import clipboard
-import xerox
 
 class UserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput)
@@ -114,9 +111,8 @@ class UserAdmin(BaseUserAdmin):
         user.save()
         #pyperclip.copy(str(new_password))
         #clipboard.copy(str(new_password))
-        xerox.copy(u'{}'.format(new_password), xsel=True)
         messages.add_message(request, 80, str(new_password), fail_silently=True)
-        return HttpResponseRedirect('../')
+        return HttpResponseRedirect('../#iw-modal')
 
     def get_urls(self):
         urls = super().get_urls()
