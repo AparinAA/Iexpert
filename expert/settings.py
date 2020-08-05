@@ -29,7 +29,7 @@ except (IOError, TypeError):
     SECRET_KEY = "sadsfz#$#@_231dsfs&#$^123_1"
     url = False
 
-DEBUG = False
+DEBUG = True
 # bool(os.environ.get('DJANGO_DEBUG', False))
 ALLOWED_HOSTS = ['iexpert.herokuapp.com', '127.0.0.1', 'iexpert.team', 'www.iexpert.team', 'expert-olymp.ru',
                  'www.expert-olymp.ru']
@@ -48,9 +48,10 @@ INSTALLED_APPS = [
     'import_export',
     'app',
     'score',
-    'result',  
+    'result',
+    'crispy_forms',
 ]
-
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
