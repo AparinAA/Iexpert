@@ -31,6 +31,7 @@
 
 </head>
 <body>
+<div class="container-fluid row">
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -38,7 +39,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" ></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-    <nav class="navbar fixed-top navbar-light bg-white">
+    <nav class="navbar fixed-top navbar-light bg-white ">
         <a class="navbar-brand mx-0 " href="{% url 'index' %}">
             <img src="{% static 'img/icon.png' %}" width="40" height="40" class="d-inline-block align-top" loading="lazy">
             <span class="navbar-brand mb-0 display-4">Эксперт</span>
@@ -53,10 +54,9 @@
         {% endif %}
         </ul>
     </nav>
-
-<div class="container-fluid">
-
-    <div id="menu" class="d-none d-md-block">
+</div>
+<div class="container-fluid row">
+    <div class="mt-5 pt-4 col-md-2">
         <!--<p><a href="{% url 'index' %}"><img src="{% static 'img/basic.png' %}" width="180" height="60" ></a></p> -->
         {% block sidebar %}
         <div class="list-group">
@@ -126,7 +126,7 @@
         {% endblock %}
     </div>
 
-    <div class="mt-3" id="content">
+    <div class="mt-5 pt-4 col-md-8">
         {% block content %}
 
         {% endblock %}
