@@ -2,32 +2,50 @@
 
 {% block content %}
 
-<h1>Заявки</h1>
-<a href="{% url 'application_create' %}"> Форма для добавления новой заявки </a>
-{% if all_group %}
-<ul type="circle">
-    {% for commission in all_group %}
-    {% if commission.common_commission == False%}
+<h1 class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded d-flex"><small>Заявки</small></h1>
+
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+    <a href="{% url 'application_create' %}" class="btn btn-light mb-2 ml-2"> Добавить заявку </a>
+    {% if all_group %}
+    <div class="list-group row d-flex">
+        {% for commission in all_group %}
         {% if commission.common_commission == False%}
-            <li> {{ commission.name }}
-                {% for application in all_application%}
-                <ul type="disc">
-                    {% if application.name.commission == commission%}
-                    <li> <a href="{% url 'application-detail' application.pk%}"> {{application.name}} - {{application.vuz.short_name}} </a> </li>
-                    {% endif %}
-                </ul>
-                {% endfor %}
+            {% if commission.common_commission == False%}
+                <div class="card border-0 flex-fill p-1 ml-3 mr-3">
 
+                    <a href="#collapse_{{ commission.id }}" class="card-header border-0 text-dark d-flex" style="text-decoration: none" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">
+                            {{ commission.name }} <span class="ml-auto remov_{{ commission.id }}"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 12.796L4.519 8 10 3.204v9.592zm-.659.753l-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/></svg></span>
+                    </a>
 
-            </li>
+                    <div class="collapse" id="collapse_{{ commission.id }}">
+                            {% for application in all_application %}
+                                    {% if application.name.commission == commission %}
+                                        <a href="{% url 'application-detail' application.pk%}" class="list-group-item border-0 list-group-item-action"> {{application.name}} - {{application.vuz.short_name}} </a> 
+                                    {% endif %}
+                            {% endfor %}
+                    </div>
+                </div>
+
+                <script>
+                    $(document).ready(function($){
+                      $("#collapse_{{ commission.id }}").on("hide.bs.collapse", function(){
+                        $(".remov_{{ commission.id }}").html('<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 12.796L4.519 8 10 3.204v9.592zm-.659.753l-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/></svg>');
+                      });
+                      $("#collapse_{{ commission.id }}").on("show.bs.collapse", function(){
+                        $(".remov_{{ commission.id }}").html('<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.204 5L8 10.481 12.796 5H3.204zm-.753.659l4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z"/></svg>');
+                      });
+                    });
+                </script>
+            {% endif %}
         {% endif %}
+        {% endfor %}
+
+    </div>
+
+
+    {% else %}
+    <p class= "text-muted ml-1 p-2">Нет направлений</p>
     {% endif %}
-    {% endfor %}
-
-</ul>
-{% else %}
-<p>Нет направлений</p>
-{% endif %}
-
+</div>
 
 {% endblock %}

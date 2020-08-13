@@ -1,91 +1,106 @@
 {% extends "base_generic.html" %}
 {% block style_css%}
-    {% load static %}
-
-   <link rel="stylesheet" type="text/css" href="{% static '/css/styles_table.css'%}">
+  
+   
 {{ block.super }}
 {% endblock %}
 
 {% block content %}
-<h1>Комиссия: {{ commission }}</h1>
-<div style="margin-left:20px;margin-top:20px">
-    <h4>Ответственный секретарь</h4>
-    {% if commission.master %}
-    <a href="{% url 'expert-detail' commission.master.pk%}"> {{commission.master}} </a>
-    {% else %}
-    В комиссии пока нет ответственного секретаря
-    {% endif %}
+<h1 class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded d-flex"><small class="align-middle">Комиссия</small></h1>
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+    <h4 class="text-muted"> {{ commission }} </h4>
+    <hr/>
+    <div class="ml-2 mt-2 mb-2">
+        <h4 class="mt-3">Ответственный секретарь</h4>
+        {% if commission.master %}
+            <a href="{% url 'expert-detail' commission.master.pk%}" class="text-info ml-3"> {{commission.master}} </a>
+        {% else %}
+            <span class="text-muted ml-3">В комиссии пока нет ответственного секретаря</span>
+        {% endif %}
 
 
-<div style="margin-left:20px;margin-top:20px">
-    <h4>Эксперты</h4>
-    {% if experts_exist %}
-    <table border="1">
-        <tr align="center">
-            <td align="center"> <b> ФИО </b> </td>
-            <td align="center"> <b> Место работы </b></td>
-            <td align="center"> <b> Эксперт подтвердил <br/> оценки всех заявок </b></td>
-            <td align="center"> <b> Количество <br/> готовых заявок </b></td>
-            <td align="center"> <b> Всего заявок </b></td>
-        </tr>
-        {% for check in count_app %}
-        {% if not check.expert.master_group %}
-        <tr>
-            <td><a href="{% url 'expert-detail' check.expert.pk%}"> {{check.expert}}</a></td>
-            <td> {{check.company}}</td>
-            {% if check.check_exp %}
-            <td align="center"> <i style="color:#008000; "> да </i> </td>
-            {% else %}
-            <td align="center"> <i style="color:#B22222;"> нет </i> </td>
+        <div class="mt-4 mb-4">
+            <h4>Эксперты</h4>
+            {% if experts_exist %}
+            <table class="table table-hover table-sm table-responsive-lg">
+                <thead class="bg-light">
+                <tr>
+                    <th scope="col" class="text-left text-wrap align-middle">  ФИО </th>
+                    <th scope="col" class="text-center align-middle">  Место работы </th>
+                    <th scope="col" class="text-center text-wrap w-25align-middle ">  Эксперт подтвердил  оценки всех заявок </th>
+                    <th scope="col" class="text-center text-wrap w-25 align-middle">  Количество готовых заявок </th>
+                    <th scope="col" class="text-center align-middle">  Всего заявок </th>
+                </tr>
+                </thead>
+                {% for check in count_app %}
+                {% if not check.expert.master_group %}
+                <tbody>
+                <tr>
+                    <td class="text-wrap" style="width: 13rem"><a href="{% url 'expert-detail' check.expert.pk%}" class="text-info"> {{check.expert}}</a></td>
+                    <td class="text-center text-wrap w-25"> {{check.company}}</td>
+                    {% if check.check_exp %}
+                        <td class="text-success font-italic text-center"> да </td>
+                    {% else %}
+                    <td class="text-danger font-italic text-center"> нет </td>
+                        {% endif %}
+                    <td class="text-center">{{check.count_ok}}</td>
+                    <td class="text-center"> {{check.count_all}} </td>
+                </tr>
+                </tbody>
+                {% endif %}
+
+                {% endfor %}
+            </table>
             {% endif %}
-            <td align="center">{{check.count_ok}}</td>
-            <td align="center"> {{check.count_all}} </td>
-        </tr>
-        {% endif %}
 
-        {% endfor %}
-    </table>
-    {% endif %}
+            <hr/>
+            {% if experts_null %}
+                <h4 class="mt-5">Эксперты без назначенных заявок</h4>
+                <table class="table table-hover table-sm table-responsive-lg">
+                    <thead class="bg-light">
+                    <tr>
+                        <th scope="col"> ФИО </th>
+                        <th scope="col"> Место работы </th>
+                    </tr>
+                    </thead>
+                    {% for check in experts_null %}
+                    {% if not check.expert.master_group %}
+                        <tbody>
+                        <tr>
+                            <td><a href="{% url 'expert-detail' check.expert.pk%}" class="text-info"> {{check.expert}}</a></td>
+                            <td> {{check.expert.company}}</td>
+                        </tr>
+                        </tbody>
+                    {% endif %}
+                    {% endfor %}
+                </table>
 
-    <hr/>
-    <h4>Эксперты без назначенных заявок</h4>
-    {% if experts_null %}
-    <table border="1">
-        <tr align="center">
-            <td align="center"> <b> ФИО </b> </td>
-            <td align="center"> <b> Место работы </b></td>
-        </tr>
-        {% for check in experts_null %}
-        {% if not check.expert.master_group %}
-        <tr>
-            <td><a href="{% url 'expert-detail' check.expert.pk%}"> {{check.expert}}</a></td>
-            <td> {{check.expert.company}}</td>
-        </tr>
-        {% endif %}
+            <hr/>
+            {% endif %}
 
-        {% endfor %}
-    </table>
-    {% endif %}
-    <hr/>
-    <form action="" method="POST">
-    {% csrf_token %}
-       <ul> <input type="submit" name='pers_data'  value="Скачать контакты экспертов" > </ul>
-       <ul><input type="submit" name='realtion'  value="Скачать распределение экспертов по заявкам" ></ul>
-       <ul> <input type="submit" name='all_result' value="Скачать подробный рейтинг заявок"> </ul>
-    </form>
+
+            <form action="" method="POST" class="mt-5">
+                {% csrf_token %}
+                <input type="submit" name='pers_data'  value="Скачать контакты экспертов" class="btn btn-secondary">
+                <input type="submit" name='realtion'  value="Скачать распределение экспертов по заявкам" class="btn btn-secondary">
+                <input type="submit" name='all_result' value="Скачать подробный рейтинг заявок" class="btn btn-secondary">
+            </form>
+            
+        </div>
+    </div>
 </div>
-
-
-    <h4>Заявки</h4>
-    {% if all_application %}
-    <ul type="circle">
-        {% for application in all_application %}
-        <li><a href=""> {{application}} </a></li>
-        {# {% url 'application-detail' application.pk%} #}
-        {% endfor %}
-    </ul>
-    {% else%}
-    В комиссии ещё нет заявок на направления
-    {% endif %}
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+    <div class="ml-2 mt-2 mb-2">
+        <h4>Заявки</h4>
+        {% if all_application %}
+        <div class="list-group list-unstyle">
+            {% for application in all_application %}
+                <a href="{% url 'application-detail' application.pk%}" class="text-info col-4 ml-2 border-1 p-1"> {{application}} </a>
+            {% endfor %}
+        </div>
+        {% else%}
+            <span class="text-muted ml-4">В комиссии ещё нет заявок на направления</span>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

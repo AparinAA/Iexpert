@@ -1,59 +1,87 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h2>Форма оценки заявки</h2>
 
-<ul><b> Заявка: </b> {{ scoreexpertall.application }}</ul>
-<ul><b> Ссылка на документы заявки: </b> <a href="{{ scoreexpertall.application.link_archiv }}"  target="_blank" >{{ scoreexpertall.application.link_archiv }} </a> </ul>
-<ul><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_expert' %}" target="_blank"> Критерии экспертной комиссии </a></ul>
-<hr/>
+<h1 class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded d-flex"><small>Форма оценки заявки</small></h1>
 
-<h4> Оценки и комментарии экспертов </h4>
-{% for expert, score_and_comment in scoreexpertall.get_all_comments_and_scores.items %}
-<ul>
-    <li>
-        <i> {{ expert }} </i>
-    </li>
-    <ul type="None">
-        <table border="1" cellpadding="0.1" width="750">
-            <tr>
-                <td align="center"><i> <b> Итоговая оценка эксперта </b> </i></td>
-                <td align="center"><i> Оценка по критерию №1 </i></td>
-                <td align="center"><i> Оценка по критерию №2</i></td>
-                <td align="center"><i> Оценка по критерию №3 </i></td>
-                <td align="center"><i> Оценка по критерию №4 </i></td>
-                <td align="center"><i> Оценка по критерию №5 </i></td>
-            </tr>
-            <tr>
-                <td align="center"> {% if score_and_comment.score is None %} <font color="#B22222"> <b> отстутствует </b> </font>  {% else %} <b> {{ score_and_comment.score }} {% endif %} </b> </td>
-                <td align="center"> {% if score_and_comment.score1 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score1 }} {% endif %}  </td>
-                <td align="center"> {% if score_and_comment.score2 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score2 }} {% endif %}  </td>
-                <td align="center"> {% if score_and_comment.score3 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score3 }} {% endif %}  </td>
-                <td align="center"> {% if score_and_comment.score4 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score4 }} {% endif %}  </td>
-                <td align="center"> {% if score_and_comment.score5 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_and_comment.score5 }} {% endif %}  </td>
-
-            </tr>
-        </table>
-        <li><i>Комментарий: </i>  {% if score_and_comment.comment is None or score_and_comment.comment == ''%}
-            <font color="#B22222"> отстутствует </font>
-            {% else %}{{ score_and_comment.comment }} {%endif%}</li>
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+    <div class="p-2 ml-1"> <b> Заявка: </b> {{ scoreexpertall.application }} </div>
+    <div class="p-2 ml-1"><b> Ссылка на документы заявки: </b> <a href="{{ scoreexpertall.application.link_archiv }}"  target="_blank" class="text-info">{{ scoreexpertall.application.link_archiv }} </a></div>
+    <div class="p-2 ml-1"><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_expert' %}" target="_blank" class="text-info"> Критерии экспертной комиссии </a></div>
+</div>
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+    <h4> Оценки и комментарии экспертов </h4>
+    {% for expert, score_and_comment in scoreexpertall.get_all_comments_and_scores.items %}
+    <ul class="list-unstyled">
+        <p class="p-2 font-italic"> {{ expert }} </p>
+        <div class="mr-5 ml-4">
+            <table class="table table-sm table-responsive-lg">
+                <thead class="bg-light">
+                <tr>
+                    <td scope="col" class="text-center"><i> Итоговая оценка эксперта </i></td>                
+                    <td scope="col" class="text-center"><i> Оценка по критерию №1 </i></td>
+                    <td scope="col" class="text-center"><i> Оценка по критерию №2 </i></td>
+                    <td scope="col" class="text-center"><i> Оценка по критерию №3 </i></td>
+                    <td scope="col" class="text-center"><i> Оценка по критерию №4 </i></td>
+                    <td scope="col" class="text-center"><i> Оценка по критерию №5 </i></td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    {% if score_and_comment.score is None %} 
+                        <td class="table-danger text-white text-center"> отстутствует </font> </td>
+                    {% else %} 
+                        <td class="table-success text-center"> <b>{{ score_and_comment.score }}</b></td> 
+                    {% endif %}
+                    {% if score_and_comment.score1 is None %} 
+                        <td class="table-danger text-white text-center"> отстутствует </font> </td>
+                    {% else %} 
+                        <td class="table-success text-center"> <b>{{ score_and_comment.score1 }}</b></td> 
+                    {% endif %}
+                    {% if score_and_comment.score2 is None %} 
+                        <td class="table-danger text-white text-center"> отстутствует </font> </td>
+                    {% else %} 
+                        <td class="table-success text-center"> <b>{{ score_and_comment.score2 }}</b></td> 
+                    {% endif %}
+                    {% if score_and_comment.score3 is None %} 
+                        <td class="table-danger text-white text-center"> отстутствует </font> </td>
+                    {% else %} 
+                        <td class="table-success text-center"> <b>{{ score_and_comment.score3 }}</b></td> 
+                    {% endif %}
+                    {% if score_and_comment.score4 is None %} 
+                        <td class="table-danger text-white text-center"> отстутствует </font> </td>
+                    {% else %} 
+                        <td class="table-success text-center"> <b>{{ score_and_comment.score4 }}</b></td> 
+                    {% endif %}
+                    {% if score_and_comment.score5 is None %} 
+                        <td class="table-danger text-white text-center"> отстутствует </font> </td>
+                    {% else %} 
+                        <td class="table-success text-center"> <b>{{ score_and_comment.score5 }}</b></td> 
+                    {% endif %}
+                </tr>
+                </tbody>
+            </table>
+            <p><span class="font-italic">Комментарий:</span>  {% if score_and_comment.comment is None or score_and_comment.comment == ''%}
+                <span class="text-danger"> отстутствует </span>
+                {% else %}{{ score_and_comment.comment }} {%endif%} </p>
+        </div>
+        
     </ul>
-</ul>
-{% endfor %}
-<hr/>
-<h4> Комментарий ответственного секретаря по заявке  <b style="color:#B22222"> * </b></h4>
+    {% endfor %}
+</div>
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+    <h4> Комментарий ответственного секретаря по заявке  <b style="color:#B22222"> * </b></h4>
 
-<form action="" method="post">
-    {% csrf_token %} {# {{ form.as_table }} class="fieldWrapper"#}
-
+    {% load crispy_forms_tags %}
     <p><i> Оставьте общий комментарий по заявке (не более 2000 символов) </i></p>
-    <ul>
-        <p> {{ form.comment_master.help_text }} </p>
+        
+    <form action="" method="post">
+        {% csrf_token %} {# {{ form.as_table }} class="fieldWrapper"#}
         {{ form.comment_master.errors }}
-        <p> {{ form.comment_master }} </p>
-    </ul>
-    <p><i> Проверьте ваш комментарий перед отправкой, после отправки редактирование будет недоступно </i></p>
-    <input type="submit" value="Отправить"/>
+        {{ form | crispy }}   
 
-</form>
+        <p><i> Проверьте ваш комментарий перед отправкой, после отправки редактирование будет недоступно </i></p>
+        <input type="submit" value="Отправить" class="btn btn-light">
+    </form>
+</div>
 {% endblock %}

@@ -1,17 +1,17 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h1>Изменение данных пользователя </h1>
-<p> <b> ФИО:</b> {{ expert}} </p>
-<p> <b> Организация: </b> {{ expert.company.full_name }}</p>
+<h2 class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded"><small>Изменение данных пользователя </small></h2>
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+	<p> <b> ФИО:</b> {{ expert}} </p>
+	<p> <b> Организация: </b> {{ expert.company.full_name }}</p>
 
-<form action="" method="post">
-    {% csrf_token %}
-    <table>
-    {{ form.as_table }}
-    </table>
-    <input type="submit" value="Отправить" />
-</form>
+	<form action="" method="post">
+	    {% csrf_token %}
+	    <!--{{ form.as_crispy_table }} -->
+	    <input type="submit" value="Отправить" />
+	</form>
 
-Если вы хотите исправить фио или организацию, напишите нам: <a href="support@iproficlub.ru">support@iproficlub.ru</a>
+	Если вы хотите исправить фио или организацию, напишите нам: <a href="support@iproficlub.ru">support@iproficlub.ru</a>
+</div>
 {% endblock %}

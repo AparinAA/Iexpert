@@ -31,8 +31,7 @@ except (IOError, TypeError):
 
 DEBUG = False
 # bool(os.environ.get('DJANGO_DEBUG', False))
-ALLOWED_HOSTS = ['iexpert.herokuapp.com', '127.0.0.1', 'iexpert.team', 'www.iexpert.team', 'expert-olymp.ru',
-                 'www.expert-olymp.ru']
+ALLOWED_HOSTS = ['127.0.0.1', 'expert-olymp.ru', 'www.expert-olymp.ru']
 
 # Application definition
 
@@ -51,7 +50,9 @@ INSTALLED_APPS = [
     'result',
     'crispy_forms',
 ]
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -76,6 +77,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'result.checkExpert.checkexpertscore_almost',
+
             ],
         },
     },

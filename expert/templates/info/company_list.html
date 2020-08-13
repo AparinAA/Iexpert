@@ -1,30 +1,56 @@
 {% extends "base_generic.html" %}
 
+
 {% block content %}
 
-<h1>Организации</h1>
-<a href="{% url 'company_create' %}"> Форма для добавления новой организации </a>
+<h1 class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded d-flex"><small class="align-middle">Организации</small></h1>
+
 {% if all_company %}
-<ul type="circle">
-    {% for fo in all_fo %}
-    <li>
-        {{ fo.full_name }} федеральный округ
-        {% for company in all_company%}
-        <ul type="disc">
-        {% if company.region.federal_district == fo%}
-            <li> <a href="{% url 'company-detail' company.pk%}">  {{company.full_name}} </a> </li>
-        {% endif %}
-        </ul>
+
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+
+    <a href="{% url 'company_create' %}" class="btn btn-light mb-2 ml-2">Добавить организацию</a>
+
+    <div class="list-group row d-flex">
+
+        {% for fo in all_fo %}
+        <div class="card border-0 flex-fill p-1 ml-3 mr-3">
+            
+            <a href="#collapse_{{ fo.id }}" class="text-dark card-header border-0 d-flex" style="text-decoration: none"  data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">
+                {{ fo.full_name }} федеральный округ <span class="ml-auto remov_{{ fo.id }}"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 12.796L4.519 8 10 3.204v9.592zm-.659.753l-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/></svg></span>
+            </a>
+            <div class="collapse" id="collapse_{{ fo.id }}">
+                {% for company in all_company%}
+                    {% if company.region.federal_district == fo%}
+                        <a href="{% url 'company-detail' company.pk%}" class="list-group-item border-0 list-group-item-action"> {{company.full_name}} </a>
+                    {% endif %}
+
+                </ul>
+
+                {% endfor %}
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function($){
+              $("#collapse_{{ fo.id }}").on("hide.bs.collapse", function(){
+                $(".remov_{{ fo.id }}").html('<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 12.796L4.519 8 10 3.204v9.592zm-.659.753l-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/></svg>');
+              });
+              $("#collapse_{{ fo.id }}").on("show.bs.collapse", function(){
+                $(".remov_{{ fo.id }}").html('<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.204 5L8 10.481 12.796 5H3.204zm-.753.659l4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z"/></svg>');
+              });
+            });
+        </script>
+
         {% endfor %}
 
+    </div>
 
-    </li>
-    {% endfor %}
-
-</ul>
-{% else %}
-<p>Нет организаций</p>
-{% endif %}
-
+    {% else %}
+    <div class="p-2 mb-4 mt-0 ml-0">
+        <p class="text-muted">Нет организаций</p>
+    </div>
+    {% endif %}
+</div>
 
 {% endblock %}

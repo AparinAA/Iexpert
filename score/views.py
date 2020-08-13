@@ -159,7 +159,7 @@ class ScoreExpertAllForm(PermissionRequiredMixin, UpdateView):
     template_name = 'score/score_expert_all_form.html'
     # fields = ['comment_master']
     form_class = modelform_factory(ScoreExpertAll, fields=['comment_master'],
-                                   widgets={"comment_master": Textarea(attrs={'rows': 6, 'cols': 80})})
+                                   widgets={"comment_master": Textarea(attrs={'rows': 6, 'cols': 80}),})
     permission_required = ['score.change_scoreexpertall']
 
     def has_permission(self, *args, **kwargs):

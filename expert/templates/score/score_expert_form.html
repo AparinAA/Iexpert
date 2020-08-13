@@ -1,21 +1,41 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h2>Форма оценки заявки</h2>
 
-<ul><b> Эксперт: </b> {{ scoreexpert.relation_exp_app.expert }}</ul>
-<ul><b> Заявка: </b> {{ scoreexpert.relation_exp_app.application }}</ul>
-<ul><b> Ссылка на документы заявки: </b> <a href="{{ scoreexpert.relation_exp_app.application.link_archiv }}" target="_blank">  {{ scoreexpert.relation_exp_app.application.link_archiv }}</a></ul>
-<ul><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_expert' %}" target="_blank"> Критерии экспертной комиссии </a></ul>
+<h2 class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded d-flex"><small>Форма оценки заявки</small></h2>
 
-<hr/>
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+    <ul><b> Эксперт: </b> {{ scoreexpert.relation_exp_app.expert }}</ul>
+    <ul><b> Заявка: </b> {{ scoreexpert.relation_exp_app.application }}</ul>
+    <ul><b> Ссылка на документы заявки: </b> <a href="{{ scoreexpert.relation_exp_app.application.link_archiv }}" target="_blank" class="text-info">  {{ scoreexpert.relation_exp_app.application.link_archiv }}</a></ul>
+    <ul><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_expert' %}" target="_blank" class="text-info"> Критерии экспертной комиссии </a></ul>
+</div>
+{% load crispy_forms_tags %}
 
-<form action="" method="post">
+<form action="" method="post" class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
     {% csrf_token %} {# {{ form.as_table }} class="fieldWrapper"#}
-    <p style='font-size:15px'><b> Критерий №1 </b> <b style="color:#B22222; font-size:15px"> * </b> </p>
+    
+    {{ form.score1.errors }}
+    {{ form.score1|as_crispy_field }}
+
+    {{ form.score2.errors }}
+    {{ form.score2|as_crispy_field }}
+
+    {{ form.score3.errors }}
+    {{ form.score3|as_crispy_field }}
+
+    {{ form.score4.errors }}
+    {{ form.score4|as_crispy_field }}
+
+    {{ form.score5.errors }}
+    {{ form.score5|as_crispy_field }}
+
+    {{ form.comment.errors }}
+    {{ form.comment|as_crispy_field }}
+    <!--<p style='font-size:15px'><b> Критерий №1 </b> <b style="color:#B22222; font-size:15px"> * </b> </p>
     <ul>
         <p> {{ form.score1.help_text }} </p>{{ form.score1.errors }}
-        <p><b> Выберите оценку по Критерию №1 </b> {{ form.score1 }} </p>
+        <p><b> Выберите оценку по Критерию №1 </b> {{ form.score1}} </p>
     </ul>
     <p style='font-size:15px'><b> Критерий №2 </b> <b style="color:#B22222; font-size:15px"> * </b> </p>
     <ul>
@@ -41,13 +61,15 @@
         {{ form.score5.errors }}
         <p><b> Выберите оценку по Критерию №5 </b> {{ form.score5 }} </p>
     </ul>
+
     <p style='font-size:15px'><b> Комментарий по заявке </b> <b style="color:#B22222; font-size:15px"> * </b> </p>
     <ul>
         <p> {{ form.comment.help_text }} </p>
         {{ form.comment.errors }}
         {{form.comment}}
     </ul>
-    <input type="submit" value="Отправить"/>
+-->
+    <input type="submit" value="Отправить" class="btn btn-light">
 
 </form>
 {% endblock %}

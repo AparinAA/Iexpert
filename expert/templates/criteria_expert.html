@@ -8,11 +8,11 @@
 {% block title %}<title> Я - Эксперт </title>{% endblock %}
 
 {% block content %}
-<h4>Качественные критерии оценки заявки на включение в перечень вузов-организаторов
-    Всероссийской олимпиады студентов «Я – профессионал»</h4>
+<h3 class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded"> <small>Качественные критерии оценки заявки на включение в перечень вузов-организаторов
+    Всероссийской олимпиады студентов «Я – профессионал»</small></h3>
 
-<br/>
-<i>Скачать документ в формате word можно по <a href="https://yadi.sk/i/Io0QEGHzF86w-w" target="_blank"> ссылке </a>
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+<i>Скачать документ в формате word можно по <a href="https://yadi.sk/i/Io0QEGHzF86w-w" target="_blank" class="text-info"> ссылке </a>
 </i>
 <br/>
 <br/>
@@ -211,7 +211,8 @@
     </tr>
 </table>
 
-<br/><br/><br/>
+<br/><br/>
 
-<p> Вернуться на <a href="{% url 'index' %}">страницу экспертизы заявок </a></p>
+<a href="{% url 'index' %}" class="btn btn-light">Вернуться на страницу экспертизы заявок </a>
+</div>
 {% endblock %}

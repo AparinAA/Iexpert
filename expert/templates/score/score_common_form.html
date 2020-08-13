@@ -1,25 +1,37 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h2>Форма оценки заявки</h2>
 
-<ul><b> Эксперт: </b> {{ scorecommon.relation_exp_app.expert }}</ul>
-<ul><b> Заявка: </b> {{ scorecommon.relation_exp_app.application }}</ul>
-<ul><b> Ссылка на документы заявки: </b>  <a href="{{ scorecommon.relation_exp_app.application.link_archiv }}" target="_blank"> {{ scorecommon.relation_exp_app.application.link_archiv }} </a></ul>
-<ul><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_common' %}" target="_blank"> Критерии общей комиссии </a></ul>
-<hr/>
+<h1 class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded d-flex"><small>Форма оценки заявки</small></h1>
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+    <ul><b> Эксперт: </b> {{ scorecommon.relation_exp_app.expert }}</ul>
+    <ul><b> Заявка: </b> {{ scorecommon.relation_exp_app.application }}</ul>
+    <ul><b> Ссылка на документы заявки: </b>  <a href="{{ scorecommon.relation_exp_app.application.link_archiv }}" target="_blank" class="text-info"> {{ scorecommon.relation_exp_app.application.link_archiv }} </a></ul>
+    <ul><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_common' %}" target="_blank" class="text-info"> Критерии общей комиссии </a></ul>
+</div>
+{% load crispy_forms_tags %}
 
-<form action="" method="post">
-    {% csrf_token %} {# {{ form.as_table }} class="fieldWrapper"#}
-    <p> {{ form.score.help_text }} </p>
-    {{ form.score.errors }}
-    <p> <b> Оценка заявки </b>  <b style="color:#B22222; font-size:15px"> * </b>   {{ form.score }} </p>
-    <p style='font-size:14px'><b> Комментарий по заявке: </b> <b style="color:#B22222; font-size:14px"> * </b> </p>
-    <p> {{ form.comment.help_text }} </p>
-    {{ form.comment.errors }}
-    <p> {{ form.comment }} </p>
-    <input type="submit" value="Отправить"/>
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+    <form action="" method="post" class="ml-2">
+        {% csrf_token %} {# {{ form.as_table }} class="fieldWrapper"#}
 
-</form>
+        {{ form.score.errors }}
+        {{ form.score|as_crispy_field }}
+
+        {{ form.comment.errors }}
+        {{ form.comment|as_crispy_field }}
+        <!--
+        <p> {{ form.score.help_text }} </p>
+        {{ form.score.errors }}
+        <p> <b> Оценка заявки </b>  <b style="color:#B22222; font-size:15px"> * </b>   {{ form.score }} </p>
+        <p style='font-size:14px'><b> Комментарий по заявке: </b> <b style="color:#B22222; font-size:14px"> * </b> </p>
+        <p> {{ form.comment.help_text }} </p>
+        {{ form.comment.errors }}
+        <p> {{ form.comment }} </p>
+    	-->
+        <input type="submit" value="Отправить" class="btn btn-light">
+
+    </form>
+</div>
 
 {% endblock %}

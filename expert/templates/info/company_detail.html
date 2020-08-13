@@ -1,29 +1,29 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h1>Организация: {{ company.full_name }}</h1>
-<p>{{company.region.federal_district.full_name}} федеральный округ</p> <!-- author detail link not yet defined -->
-<div style="margin-left:20px;margin-top:20px">
-    <h4>Эксперты</h4>
-    {% if all_expert %}
-    <ul type="circle">
-        {% for expert in all_expert %}
-        <li><a href="{% url 'expert-detail' expert.pk%}"> {{expert}} </a></li>
-        {% endfor %}
-    </ul>
-    {% else%}
-    Нет экспертов у данной организации
-    {% endif %}
+<h1 class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded d-flex"><small class="align-middle">Организация</small></h1>
 
-    <h4>Заявки</h4>
-    {% if all_application %}
-    <ul type="circle">
-        {% for application in all_application %}
-        <li><a href="{% url 'application-detail' application.pk%}"> {{application}} </a></li>
-        {% endfor %}
-    </ul>
-    {% else%}
-    Нет заявок на направления у данной организации
-    {% endif %}
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+    <h4>{{ company.full_name }}</h4>
+    <p>{{company.region.federal_district.full_name}} федеральный округ</p> <!-- author detail link not yet defined -->
+    <div class="list-group ml-3">
+        <h4 class="">Эксперты</h4>
+        {% if all_expert %}
+            {% for expert in all_expert %}
+                <a href="{% url 'expert-detail' expert.pk%}" class="list-group-item text-info ml-3 border-0 p-1"> {{expert}} </a>
+            {% endfor %}
+        {% else%}
+            <span class="ml-3 p-1"> Нет экспертов у данной организации </span>
+        {% endif %}
+
+        <h4 class="mt-1">Заявки</h4>
+        {% if all_application %}
+            {% for application in all_application %}
+                <a href="{% url 'application-detail' application.pk%}" class="list-group-item text-info ml-3 border-0 p-1"> {{application}} </a>
+            {% endfor %}
+        {% else%}
+            <span class="ml-3 p-1">Нет заявок на направления у данной организации</span>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

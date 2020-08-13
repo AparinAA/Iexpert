@@ -1,7 +1,8 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<p>Вы вышли из своего аккаунта</p>
-
-<a href="{% url 'login'%}">Нажмите здесь, чтобы авторизоваться.</a>
+<p class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">Вы вышли из своего аккаунта</p>
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+<a href="{% url 'login'%}" class="text-info">Нажмите здесь, чтобы авторизоваться.</a>
+</div>
 {% endblock %}

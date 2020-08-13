@@ -2,103 +2,114 @@
 {% block title %}<title> Я - Эксперт </title>{% endblock %}
 
 {% block content %}
-<h2>Информация для ответственного секретаря комиссии</h2>
-<h5> {{ expert }}</h5>
-<hr/>
-<h4> Персональная информация </h4>
-<i> <p>Если вы хотите исправить персональную информацию, напишите нам: <a href="mailto:support@iproficlub.ru"> support@iproficlub.ru </a></p> </i>
-<ul>
-    <b style='font-size:15px'> Данные о месте работы </b>
-    <ul><p><i> Должность: </i> {{expert.position}}</p></ul>
-    <ul><p><i> Место работы: </i> {{expert.company.full_name}} </p></ul>
+<h1 class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded d-flex"> <small>Информация для ответственного секретаря комиссии</small></h1>
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+    <h5 class="text-muted"> {{ expert }}</h5>
+    <hr/>
+    <h4> Персональная информация </h4>
+    <i> <p>Если вы хотите исправить персональную информацию, напишите нам: <a href="mailto:support@iproficlub.ru" class="text-info"> support@iproficlub.ru </a></p> </i>
+    <ul>
+        <b style='font-size:15px'> Данные о месте работы </b>
+        <ul><p><i> Должность: </i> {{expert.position}}</p></ul>
+        <ul><p><i> Место работы: </i> {{expert.company.full_name}} </p></ul>
 
-    <b style='font-size:15px'> Контакты: </b>
-    <ul><p><i> Почта: </i> {{expert.email}}</p></ul>
-    <ul><p><i> Телефон: </i> {% if expert.phone is None or expert.phone == '-'%} <font color="#B22222">
-        отстутствует </font> {% else %} {{ expert.phone }} {% endif %}</p></ul>
-</ul>
-<br/>
-<hr/>
+        <b style='font-size:15px'> Контакты: </b>
+        <ul><p><i> Почта: </i> {{expert.email}}</p></ul>
+        <ul><p><i> Телефон: </i> 
+        {% if expert.phone is None or expert.phone == '-'%}
+            <span class="text-danger">отстутствует</span> 
+        {% else %} 
+            {{ expert.phone }}
+        {% endif %}
+        </p></ul>
+    </ul>
+</div>
 
-{% if result_master.status == "b" %}
-    <h4>Список заявок</h4>
-        <ul type="circle">
-            {% for score_form, counts in dict_all_score.items %}
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+    {% if result_master.status == "b" %}
+        <h4>Список заявок</h4>
             <ul>
-                <li>
-                {{score_form.application}}
-                </li>
+                {% for score_form, counts in dict_all_score.items %}
+                <ul class="list-unstyled">
+                    <li>
+                        {{score_form.application}}
+                    </li>
+                </ul>
+                {% endfor %}
             </ul>
-            {% endfor %}
-{% endif %}
-{% if result_master.status == 'r' %}
-    <h4>Просмотр заявок</h4>
-        <ul type="circle">
-            {% for score_form, counts in dict_all_score.items %}
+    {% endif %}
+    {% if result_master.status == 'r' %}
+        <h4>Просмотр заявок</h4>
             <ul>
-                <li>
-                    {% if result_master.master.common_commission %}
-                    <a href="{% url 'score_common_all_detail' score_form.pk %}"> {{score_form.application}} </a>
-                        (экспертизу провел(-и) <b> {{counts.0}} </b> из <b> {{counts.1}} </b> экспертов)
-                    {% else %}
-                    <a href="{% url 'score_expert_all_detail' score_form.pk %}"> {{score_form.application}} </a>
-                        (экспертизу провел(-и) <b> {{counts.0}} </b> из <b> {{counts.1}} </b> экспертов)
-                    {% endif %}
-                </li>
+                {% for score_form, counts in dict_all_score.items %}
+                <ul class="list-unstyled">
+                    <li>
+                        {% if result_master.master.common_commission %}
+                        <a href="{% url 'score_common_all_detail' score_form.pk %}" class="text-info"> {{score_form.application}} </a>
+                            (экспертизу провел(-и) <b> {{counts.0}} </b> из <b> {{counts.1}} </b> экспертов)
+                        {% else %}
+                        <a href="{% url 'score_expert_all_detail' score_form.pk %}" class="text-info"> {{score_form.application}} </a>
+                            (экспертизу провел(-и) <b> {{counts.0}} </b> из <b> {{counts.1}} </b> экспертов)
+                        {% endif %}
+                    </li>
+                </ul>
+                {% endfor %}
             </ul>
-            {% endfor %}
-{% endif %}
-{% if result_master.status == 'w' %}
-    <h4>Просмотр и комментирование заявок</h4>
-    <ul> <b style='font-size:15px'>Нерассмотренные заявки </b> </ul>
-    {% if scores_common %}
-    <ul type="circle">
-        {% for score_form, counts in dict_score.items %}
+    {% endif %}
+    {% if result_master.status == 'w' %}
+        <h4>Просмотр и комментирование заявок</h4>
+        <ul> <b style='font-size:15px'>Нерассмотренные заявки </b> </ul>
+        {% if scores_common %}
         <ul>
-            <li>
-                <a href="{% url 'score_common_all_form' score_form.pk %}"> {{score_form.application}} </a>
-                 (экспертизу провел(-и) <b> {{counts.0}} </b> из <b> {{counts.1}} </b>  экспертов)
-            </li>
-        </ul>
-        {% endfor %}
-    </ul>
-    {% else %}
-        {% if scores_expert %}
-        <ul type="circle">
             {% for score_form, counts in dict_score.items %}
-            <ul>
+            <ul class="list-unstyled">
                 <li>
-                <a href="{% url 'score_expert_all_form' score_form.pk %}"> {{score_form.application}} </a>
-                    (экспертизу провел(-и) <b> {{counts.0}} </b> из <b> {{counts.1}} </b> экспертов)
+                    <a href="{% url 'score_common_all_form' score_form.pk %}" class="text-info"> {{score_form.application}} </a>
+                     (экспертизу провел(-и) <b> {{counts.0}} </b> из <b> {{counts.1}} </b>  экспертов)
                 </li>
-            </ul> {#  #}
-
+            </ul>
             {% endfor %}
         </ul>
         {% else %}
-             <ul> <ul> <i>  Нет заявок  </i> </ul></ul>
+            {% if scores_expert %}
+            <ul>
+                {% for score_form, counts in dict_score.items %}
+                <ul class="list-unstyled">
+                    <li>
+                    <a href="{% url 'score_expert_all_form' score_form.pk %}" class="text-info"> {{score_form.application}} </a>
+                        (экспертизу провел(-и) <b> {{counts.0}} </b> из <b> {{counts.1}} </b> экспертов)
+                    </li>
+                </ul>
+                {% endfor %}
+            </ul>
+            {% else %}
+                 <ul> <ul> <i>  Нет заявок  </i> </ul></ul>
+            {% endif %}
         {% endif %}
-    {% endif %}
 
-    <ul><b style='font-size:15px'>Завершенные экспертные оценки </b></ul>
+        <ul><b style='font-size:15px'>Завершенные экспертные оценки </b></ul>
 
-    {% if check_common %}
-    <ul type="circle">
-        {% for score in check_common %}
-           <ul></uk> <li><a href="{% url 'score_common_all_detail' score.pk %}"> {{score.application}} </a></li></ul>
-        {% endfor %}
-    </ul>
-    {% else %}
-        {% if check_expert %}
-        <ul type="circle">
-            {% for score in check_expert %}
-                <ul><li><a href="{% url 'score_expert_all_detail' score.pk %}"> {{score.application}} </a></li></ul>
+        {% if check_common %}
+        <ul>
+            {% for score in check_common %}
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'score_common_all_detail' score.pk %}" class="text-info"> {{score.application}} </a></li>
+                </ul>
             {% endfor %}
         </ul>
         {% else %}
-            <ul> <ul> <i> Экспертиза заявок не завершена </i> </ul></ul>
+            {% if check_expert %}
+            <ul>
+                {% for score in check_expert %}
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'score_expert_all_detail' score.pk %}" class="text-info"> {{score.application}} </a></li>
+                    </ul>
+                {% endfor %}
+            </ul>
+            {% else %}
+                <ul> <ul> <i> Экспертиза заявок не завершена </i> </ul></ul>
+            {% endif %}
         {% endif %}
     {% endif %}
-{% endif %}
-
+</div>
 {% endblock %}

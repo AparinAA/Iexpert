@@ -1,41 +1,80 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h2>Оценки по заявке</h2>
+<h2 class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded d-flex"><small>Оценки по заявке</small></h2>
 
-<ul><b> Эксперт: </b> {{ scoreexpert.relation_exp_app.expert }}</ul>
-<ul><b> Заявка: </b> {{ scoreexpert.relation_exp_app.application.name.name }} - {{ scoreexpert.relation_exp_app.application.vuz.short_name }}</ul>
-<ul><b> Ссылка на документы заявки: </b> <a href="{{ scoreexpert.relation_exp_app.application.link_archiv }}" target="_blank">  {{ scoreexpert.relation_exp_app.application.link_archiv }}</a></ul>
-<ul><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_expert' %}" target="_blank"> Критерии экспертной комиссии </a> </ul>
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+	<ul class="list-unstyled ml-2">
+		<li class="p-1"><b> Эксперт: </b> {{ scoreexpert.relation_exp_app.expert }}</li>
+		<li class="p-1"><b> Заявка: </b> {{ scoreexpert.relation_exp_app.application.name.name }} - {{ scoreexpert.relation_exp_app.application.vuz.short_name }}</li>
+		<li class="p-1"><b> Ссылка на документы заявки: </b> <a href="{{ scoreexpert.relation_exp_app.application.link_archiv }}" target="_blank" class="text-info">  {{ scoreexpert.relation_exp_app.application.link_archiv }}</a></li>
+		<li class="p-1"><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_expert' %}" target="_blank" class="text-info"> Критерии экспертной комиссии </a> </li>
+	</ul>
+</div>
 
-<h4>Оценки:</h4>
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+	<h4>Оценки</h4>
+    <ul type="None" class="mr-5">
+	    <table class="table table-sm table-responsive-lg">
+		    <thead class="bg-light">
+		    <tr>
+		        <td scope="col" class="text-center"><i> Оценка по критерию №1 </i></td>
+		        <td scope="col" class="text-center"><i> Оценка по критерию №2</i></td>
+		        <td scope="col" class="text-center"><i> Оценка по критерию №3 </i></td>
+		        <td scope="col" class="text-center"><i> Оценка по критерию №4 </i></td>
+		        <td scope="col" class="text-center"><i> Оценка по критерию №5 </i></td>
+		    </tr>
+		    </thead>
+		    <tbody>
+		    <tr>
+		        {% if scoreexpert.score1 is None %} 
+		            <td class="table-danger text-white text-center"> отстутствует </font> </td>
+		        {% else %} 
+		            <td class="table-success text-center"> <b>{{ scoreexpert.score1 }}</b></td> 
+		        {% endif %}
+		        {% if scoreexpert.score2 is None %} 
+		            <td class="table-danger text-white text-center"> отстутствует </font> </td>
+		        {% else %} 
+		            <td class="table-success text-center"> <b>{{ scoreexpert.score2 }}</b></td> 
+		        {% endif %}
+		        {% if scoreexpert.score3 is None %} 
+		            <td class="table-danger text-white text-center"> отстутствует </font> </td>
+		        {% else %} 
+		            <td class="table-success text-center"> <b>{{ scoreexpert.score3 }}</b></td> 
+		        {% endif %}
+		        {% if scoreexpert.score4 is None %} 
+		            <td class="table-danger text-white text-center"> отстутствует </font> </td>
+		        {% else %} 
+		            <td class="table-success text-center"> <b>{{ scoreexpert.score4 }}</b></td> 
+		        {% endif %}
+		        {% if scoreexpert.score5 is None %} 
+		            <td class="table-danger text-white text-center"> отстутствует </font> </td>
+		        {% else %} 
+		            <td class="table-success text-center"> <b>{{ scoreexpert.score5 }}</b></td> 
+		        {% endif %}
+		    </tr>
+		    </tbody>
+		</table>
+	</ul>
+	<h4>Комментарий</h4>
+	{% if scoreexpert.comment %}
+		<ul>{{ scoreexpert.comment }}</ul>
+	{% else %}
+		<ul> <font color="#B22222"> Вы не оставили комментарий к заявке </font></ul>
+	{% endif %}
 
-<ul> Критерий №1:  {% if scoreexpert.score1 is None %} <font color="#B22222"> отстутствует </font>  {% else %}  <b>{{ scoreexpert.score1 }}</b>{% endif %}  </ul>
-<ul> Критерий №2:  {% if scoreexpert.score2 is None %} <font color="#B22222"> отстутствует </font>  {% else %}  <b>{{ scoreexpert.score2 }}</b>{% endif %}  </ul>
-<ul> Критерий №3:  {% if scoreexpert.score3 is None %} <font color="#B22222"> отстутствует </font>  {% else %}  <b>{{ scoreexpert.score3 }}</b>{% endif %}  </ul>
-<ul> Критерий №4:  {% if scoreexpert.score4 is None %} <font color="#B22222"> отстутствует </font>  {% else %}  <b>{{ scoreexpert.score4 }}</b>{% endif %}  </ul>
-<ul> Критерий №5:  {% if scoreexpert.score5 is None %} <font color="#B22222"> отстутствует </font>  {% else %}  <b>{{ scoreexpert.score5 }}</b>{% endif %}  </ul>
-
-<h4>Комментарий:</h4>
-{% if scoreexpert.comment %}
-<ul>{{ scoreexpert.comment }}</ul>
-{% else %}
-<ul> <font color="#B22222"> Вы не оставили комментарий к заявке </font></ul>
-{% endif %}
-
-{% if scoreexpert.check %}
-<br/>
-{% if not check_exp.check_exp %}
-Вы успешно оценили заявку.<br/>
-Если вы хотите изменить оценки по критериям и/или текст комментария, перейдите по ссылке в <a href="{% url 'score_expert_form' scoreexpert.pk%}"> форму оценки заявки </a> <br/>
-<b> Также вам необходимо подтвердить свои оценки на <a href="{% url 'check_score' %}"> странице подтверждения</a>  после окончания экспертизы всех заявок </b>
-{% else %}
-Вы подтвердили окончание экспертизы. Если вы хотите внести изменения в оценки, то напишите на почту <a href="mailto:support@iproficlub.ru"> support@iproficlub.ru </a>
-{% endif %}
-{% else %}
-Вы не закончили оценивание заявки. Пожалуйста, перейдите по ссылке и закончите экспертизу:
-<a href="{% url 'score_expert_form' scoreexpert.pk%}"> форма оценки заявки </a>
-{% endif %}
-
+	{% if scoreexpert.check %}
+	<br/>
+		{% if not check_exp.check_exp %}
+			Вы успешно оценили заявку.<br/>
+			Если вы хотите изменить оценки по критериям и/или текст комментария, перейдите по ссылке в <a href="{% url 'score_expert_form' scoreexpert.pk%}" class="text-info"> форму оценки заявки </a> <br/>
+			<b> Также вам необходимо подтвердить свои оценки на <a href="{% url 'check_score' %}" class="text-info"> странице подтверждения</a>  после окончания экспертизы всех заявок </b>
+		{% else %}
+			Вы подтвердили окончание экспертизы. Если вы хотите внести изменения в оценки, то напишите на почту <a href="mailto:support@iproficlub.ru"> support@iproficlub.ru </a>
+		{% endif %}
+	{% else %}
+		Вы не закончили оценивание заявки. Пожалуйста, перейдите по ссылке и закончите экспертизу: <b><a href="{% url 'score_expert_form' scoreexpert.pk%}" class="text-info">форма оценки заявки </a></b>
+	{% endif %}
+</div>
 
 {% endblock %}

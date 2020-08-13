@@ -2,43 +2,39 @@
 
 {% block content %}
 
-<h1>Все эксперты</h1>
+<h1 class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded d-flex"><small>Все эксперты</small></h1>
+<div class="list-group drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+
 {% if all_group %}
-<ul type="circle">
+    
     {% for commission in all_group %}
     {% if commission.common_commission == False%}
-    <li>
-        <a href="{% url 'commission-detail' commission.pk%}"> {{ commission.name }} </a>
+        <a href="{% url 'commission-detail' commission.pk%}" class="list-group-item text-dark border-0 p-1" style="text-decoration: none;"> {{ commission.name }} </a>
         {% for expert in all_expert%}
             {% if commission.group in expert.get_commission%}
-                <ul type="disc">
-                    <li><a href="{% url 'expert-detail' expert.pk%}"> {{expert}} </a></li>
-                </ul>
+                <a href="{% url 'expert-detail' expert.pk%}" class="list-group-item text-info ml-3 border-0 p-1"> {{expert}} </a>
             {% endif %}
         {% endfor %}
-    </li>
     {% endif %}
     {% endfor %}
 
     {% for commission in all_group %}
     {% if commission.common_commission == True%}
-    <li>
-         <a href="{% url 'commission-detail' commission.pk%}"> {{ commission.name }} </a>
+        <a href="{% url 'commission-detail' commission.pk%}" class="list-group-item text-dark border-0 p-1" style="text-decoration: none;"> {{ commission.name }} </a>
         {% for expert in all_expert%}
             {% if commission.group in expert.get_commission%}
-                <ul type="disc">
-                    <li><a href="{% url 'expert-detail' expert.pk%}"> {{expert}} </a></li>
-                </ul>
+                <a href="{% url 'expert-detail' expert.pk%}" class="list-group-item text-info ml-3 border-0 p-1"> {{expert}} </a>
             {% endif %}
         {% endfor %}
-    </li>
     {% endif %}
     {% endfor %}
 
-</ul>
-{% else %}
-<p>Нет экспертных групп</p>
-{% endif %}
 
+{% else %}
+        <div class="p-2 mb-4 mt-0">
+            <p class="text-muted">Нет экспертных групп</p>
+        </div>
+{% endif %}
+</div>
 
 {% endblock %}

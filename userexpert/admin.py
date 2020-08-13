@@ -3,6 +3,7 @@ from sys import path
 import io
 import os
 from xlsxwriter import Workbook
+import random
 
 import patterns as patterns
 from django.core.exceptions import PermissionDenied
@@ -106,12 +107,10 @@ class UserAdmin(BaseUserAdmin):
 
     def my_reset_password(self, request, user_id):
         user = get_object_or_404(self.model, pk=user_id)
-        new_password = BaseUserManager().make_random_password(length=8)
+        new_password = str(random.randint(0, 9)) + BaseUserManager().make_random_password(length=8)
         user.set_password(new_password)
         user.save()
-        #pyperclip.copy(str(new_password))
-        #clipboard.copy(str(new_password))
-        messages.add_message(request, 80, str(new_password), fail_silently=True)
+        messages.add_message(request, 80, new_password, fail_silently=True)
         return HttpResponseRedirect('../#iw-modal')
 
     def get_urls(self):

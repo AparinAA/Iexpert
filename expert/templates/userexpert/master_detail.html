@@ -1,33 +1,33 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h2>Ответственный секретарь: {{ expert }}</h2>
+<h1 class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded d-flex"> <small class="align-middle">Ответственный секретарь</small></h1>
 
-</p> {#  #}
-{% if expert.is_admin == True %}
-<p> Админский доступ</p>
+{% if expert.is_admin %}
+    <p> Админский доступ</p>
 {% endif %}
 
-
-<p><b> Место работы: </b>
-    <a href="{% url 'company-detail' expert.company.pk%}"> {{expert.company.full_name}}</a>,
-    {{expert.company.region.federal_district}}
-</p>
-<p><b> Должность: </b> {{expert.position}}</p>
-<h4> Контактная информация:</h4>
-<ul type="none">
-    <li><b> Почта: </b> {{expert.email}}</li>
-    <li><b> Телефон: </b> {{expert.phone}}</li>
-</ul>
-
-
-<h4>Ссылки на формы оценки:</h4>
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+    <h5 class="text-muted"> {{ expert }} </h5>
+    <hr/>
+    <p><b> Место работы: </b>
+        <a href="{% url 'company-detail' expert.company.pk%}" class="text-info"> {{expert.company.full_name}}</a>,
+        {{expert.company.region.federal_district}}
+    </p>
+    <p><b> Должность: </b> {{expert.position}}</p>
+    <h4> Контактная информация:</h4>
+    <ul type="none">
+        <li><b> Почта: </b> {{expert.email}}</li>
+        <li><b> Телефон: </b> {{expert.phone}}</li>
+    </ul>
+</div>
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+    <h4>Ссылки на формы оценки:</h4>
     {% if scores_common%}
         <ul type="none">
             <b>Общая комиссия: </b>
             {% for score_form in scores_common %}
-            <li><a href="{% url 'score_common_all_form' score_form.pk %}"> {{score_form.application}} </a></li>
-            {#  #}
+                <li><a href="{% url 'score_common_all_form' score_form.pk %}" class="text-info"> {{score_form.application}} </a></li>
             {% endfor %}
         </ul>
     {% else %}
@@ -35,35 +35,36 @@
             <ul type="none">
                 <b>Экспертная комиссия: </b>
                 {% for score_form in scores_expert %}
-                <li><a href="{% url 'score_expert_all_form' score_form.pk %}"> {{score_form.application}} </a></li>
-                {#  #}
+                    <li><a href="{% url 'score_expert_all_form' score_form.pk %}" class="text-info"> {{score_form.application}} </a></li>
                 {% endfor %}
             </ul>
         {% else %}
             Нет назначенных заявок для оценки
         {% endif %}
     {% endif %}
+</div>
 
-<h4>Готовые оценки:</h4>
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+    <h4>Готовые оценки:</h4>
     {% if check_common%}
         <ul type="none">
             <b>Общая комиссия: </b>
             {% for score_form in check_common %}
-            <li><a href="{% url 'score_common_all_detail' score_form.pk %}"> {{score_form.application}} </a></li>
-            {#  #}
+                <li><a href="{% url 'score_common_all_detail' score_form.pk %}" class="text-info"> {{score_form.application}} </a></li>
             {% endfor %}
         </ul>
     {% else %}
-        {% if check_expert %}
+        {% if check_e
+            xpert %}
             <ul type="none">
                 <b>Экспертная комиссия: </b>
                 {% for score_form in check_expert %}
-                <li><a href="{% url 'score_expert_all_detail' score_form.pk %}"> {{score_form.application}} </a></li>
-                {#  #}
+                    <li><a href="{% url 'score_expert_all_detail' score_form.pk %}" class="text-info"> {{score_form.application}} </a></li>
                 {% endfor %}
             </ul>
         {% else %}
             Нет готовых заявок эксперта
         {% endif %}
     {% endif %}
+</div>
 {% endblock %}

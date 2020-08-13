@@ -2,99 +2,103 @@
 {% block title %}<title> Я - Эксперт </title>{% endblock %}
 
 {% block content %}
-<h2>Информация об экперте комиссии</h2>
-<h4>{{ expert }}</h4>
-<hr/>
-<h4>Персональная информация</h4>
-<ul>
-    <b style='font-size:15px'> Данные о месте работы </b>
-    <ul><p><i> Должность: </i> {{expert.position}}</p></ul>
-    <ul><p><i> Место работы: </i> {{expert.company.full_name}} </p></ul>
-
-    <b style='font-size:15px'> Контакты: </b>
-    <ul><p><i> Почта: </i> {{expert.email}}</p></ul>
-    <ul><p><i> Телефон: </i> {% if expert.phone is None or expert.phone == '-'%} <font color="#B22222">
-        отстутствует </font> {% else %} {{ expert.phone }} {% endif %}</p></ul>
-</ul>
-<br/>
-<hr/>
-<h4>Экспертиза заявок</h4>
-{% if result_master.status != 'b' %}
-
-<ul>
-    {% if check_score.check_exp %}
-    <b style='font-size:15px'>Экспертиза завершена </b>
-
-    {% else %}
-    <b style='font-size:15px'>Нерассмотренные заявки </b>
-    <br/>
-
-    {% for com, scores in dict_score.items %}
-    <ul>
-        <i> {{com}}</i>
-        {% if scores %}
-            {% if com.common_commission %}
-            <ul type="None">
-                {% for score_form in scores %}
-                <li>{{score_form.relation_exp_app.application}}  </li>
-                {% endfor %}
-            </ul>
-
-            {% else %}
-            <ul type="None">
-                {% for score_form in scores %}
-                {% if score_form.relation_exp_app.application.name.commission == com %}
-                <li>{{score_form.relation_exp_app.application}} </li>
-                {% endif %}
-                {% endfor %}
-            </ul>
-            {% endif %}
-        {% else %}
-        <ul type="None">
-        <li> Нет назначенных заявок в этой комиссии </li>
-        </ul>
-        {% endif %}
-    </ul>
-    {% endfor %}
-        {% endif %}
+<h1 class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded d-flex"><small class="align-middle">Информация об экперте комиссии</small></h1>
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+    <h5 class="text-muted">{{ expert }}</h5>
     <hr/>
-
-
-
-    <b style='font-size:15px'>Завершенные экспертные оценки </b>
-    {% for com, check in dict_check.items %}
+    <h4>Персональная информация</h4>
     <ul>
-        <i> {{com}}</i>
-        {% if check %}
-            {% if com.common_commission %}
-            <ul type="None">
-                {% for score_form in  check %}
-                <li>
-                    {{score_form.relation_exp_app.application}} </li>
-                {% endfor %}
-            </ul>
+        <b style='font-size:15px'> Данные о месте работы </b>
+        <ul><p><i> Должность: </i> {{expert.position}}</p></ul>
+        <ul><p><i> Место работы: </i> {{expert.company.full_name}} </p></ul>
 
-            {% else %}
-            <ul type="None">
-                {% for score_form in check %}
-                {% if score_form.relation_exp_app.application.name.commission == com %}
-                <li>
-                    {{score_form.relation_exp_app.application}} </li>
+        <b style='font-size:15px'> Контакты: </b>
+        <ul><p><i> Почта: </i> {{expert.email}}</p></ul>
+        <ul><p><i> Телефон: </i> {% if expert.phone is None or expert.phone == '-'%} <span class="text-danger">
+            отстутствует </span> {% else %} {{ expert.phone }} {% endif %}</p></ul>
+    </ul>
+</div>
+
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+    <h4>Экспертиза заявок</h4>
+    {% if result_master.status != 'b' %}
+
+    <ul>
+        {% if check_score.check_exp %}
+        <b style='font-size:15px'>Экспертиза завершена </b>
+
+        {% else %}
+        <b style='font-size:15px'>Нерассмотренные заявки </b>
+        <br/>
+
+        {% for com, scores in dict_score.items %}
+        <ul>
+            <i> {{com}}</i>
+            {% if scores %}
+                {% if com.common_commission %}
+                <ul type="None">
+                    {% for score_form in scores %}
+                    <li>{{score_form.relation_exp_app.application}}  </li>
+                    {% endfor %}
+                </ul>
+
+                {% else %}
+                <ul type="None">
+                    {% for score_form in scores %}
+                    {% if score_form.relation_exp_app.application.name.commission == com %}
+                    <li>{{score_form.relation_exp_app.application}} </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
                 {% endif %}
-                {% endfor %}
+            {% else %}
+            
+            <ul type="None">
+            <li> Нет назначенных заявок в этой комиссии </li>
             </ul>
             {% endif %}
-        {% else %}
-        <ul type="None">
-        <li> Экспертиза заявок не завершена </li>
         </ul>
-        {% endif %}
-    </ul>
-    {% endfor %}
+        {% endfor %}
+            {% endif %}
+        <hr/>
 
-</ul>
-{% else %}
-<ul> Распределение экспертов по заявкам ещё не загружено </ul>
-{% endif %}
+
+
+        <b style='font-size:15px'>Завершенные экспертные оценки </b>
+        {% for com, check in dict_check.items %}
+        <ul>
+            <i> {{com}}</i>
+            {% if check %}
+                {% if com.common_commission %}
+                <ul type="None">
+                    {% for score_form in  check %}
+                    <li>
+                        {{score_form.relation_exp_app.application}} </li>
+                    {% endfor %}
+                </ul>
+
+                {% else %}
+                <ul type="None">
+                    {% for score_form in check %}
+                    {% if score_form.relation_exp_app.application.name.commission == com %}
+                    <li>
+                        {{score_form.relation_exp_app.application}} </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            {% else %}
+            <ul type="None">
+            <li> Экспертиза заявок не завершена </li>
+            </ul>
+            {% endif %}
+        </ul>
+        {% endfor %}
+
+    </ul>
+    {% else %}
+        <ul> Распределение экспертов по заявкам ещё не загружено </ul>
+    {% endif %}
+</div>
 
 {% endblock %}

@@ -1,91 +1,140 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h2>Подтверждение оценок </h2>
-<h4> <p> Эксперт: {{checkexpertscore.expert}}</p> </h4>
-{% for item in checkexpertscore.get_all_score %}
-<ul>
-    <li>
-        <b> {{ item.relation_exp_app.application }} </b>
+<h1 class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded d-flex"><small>Подтверждение оценок</small></h1>
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+    <h4> <p> Эксперт: {{checkexpertscore.expert}}</p> </h4>
+    {% if checkexpertscore.count_all == 0 %}
+        <p class="ml-4"> У данного эксперта нет назначенных заявок </p>
+    {% else %}
+        {% for item in checkexpertscore.get_all_score %}
+        <div class="list-unstyled ml-2">
+            <div class="m-auto">
+                <b> {{ item.relation_exp_app.application }} </b>
+                {% if not checkexpertscore.check_exp %}
+                    - <a href="{% url 'score_expert_form' item.pk %}" class="btn btn-light btn-sm"> Изменить оценки </a>
+                {% endif %}
+            </div>
+            <br/>
+
+            <ul type="None" class="mr-5">
+                <table class="table table-sm table-responsive-lg">
+                    <thead class="bg-light">
+                    <tr>
+                        <td scope="col" class="text-center"><i> Оценка по критерию №1 </i></td>
+                        <td scope="col" class="text-center"><i> Оценка по критерию №2</i></td>
+                        <td scope="col" class="text-center"><i> Оценка по критерию №3 </i></td>
+                        <td scope="col" class="text-center"><i> Оценка по критерию №4 </i></td>
+                        <td scope="col" class="text-center"><i> Оценка по критерию №5 </i></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        {% if item.score1 is None %} 
+                            <td class="table-danger text-white text-center"> отстутствует </font> </td>
+                        {% else %} 
+                            <td class="table-success text-center"> <b>{{ item.score1 }}</b></td> 
+                        {% endif %}
+                        {% if item.score2 is None %} 
+                            <td class="table-danger text-white text-center"> отстутствует </font> </td>
+                        {% else %} 
+                            <td class="table-success text-center"> <b>{{ item.score2 }}</b></td> 
+                        {% endif %}
+                        {% if item.score3 is None %} 
+                            <td class="table-danger text-white text-center"> отстутствует </font> </td>
+                        {% else %} 
+                            <td class="table-success text-center"> <b>{{ item.score3 }}</b></td> 
+                        {% endif %}
+                        {% if item.score4 is None %} 
+                            <td class="table-danger text-white text-center"> отстутствует </font> </td>
+                        {% else %} 
+                            <td class="table-success text-center"> <b>{{ item.score4 }}</b></td> 
+                        {% endif %}
+                        {% if item.score5 is None %} 
+                            <td class="table-danger text-white text-center"> отстутствует </font> </td>
+                        {% else %} 
+                            <td class="table-success text-center"> <b>{{ item.score5 }}</b></td> 
+                        {% endif %}
+                    </tr>
+                    </tbody>
+                </table>
+                {% if item.comment is None or item.comment == "" %}
+                <li><i>Комментарий: </i> <span class="text-danger">  Вы не оставили комментарий по заявке </span> </li>
+                {% else %}
+                <li><i>Комментарий: </i> {{ item.comment }}</li>
+                {% endif %}
+            </ul>
+            <br/>
+
+        </div>
+        {% endfor %}
+
+        {% for item in checkexpertscore.get_all_score_common %}
+        <div class="list-unstyled ml-2">
+            <div class="m-auto">
+                <b> {{ item.relation_exp_app.application }} </b>
+                {% if not checkexpertscore.check_exp %}
+                    - <a href="{% url 'score_common_form' item.pk %}" class="btn btn-light btn-sm"> Изменить оценки </a>
+                {% endif %}
+            </div>
+            <br/>
+
+            <ul type="None">
+                <div class="row">
+                    <div class="col-md-2 font-italic bg-light text-center"> Оценка: </div> 
+                    {% if item.score is None %} 
+                        <div class="table-danger col-md-2 text-center "> отстутствует </div>  
+                    {% else %}
+                        <div class="table-success col-md-2 text-center "><b>{{ item.score }}</b></div>
+                    {% endif %}
+                </div>
+                <div class="row">
+                    <div class="col-md-2 font-italic bg-light text-center ">
+                    Комментарий:
+                    </div> 
+                    {% if item.comment is None or item.comment == "" %}
+                        <div class="table-danger col-md-2 text-center">
+                            отстутствует
+                        </div>
+                    {% else %}
+                        <div class="col-md-10 text-left">
+                            <b>{{ item.comment }}</b>
+                        </div> 
+                    {% endif %}
+                </div>
+            </ul>
+            <br/>
+
+        </div>
+        {% endfor %}
+
+        {% load crispy_forms_tags %}
+
         {% if not checkexpertscore.check_exp %}
-            - <a href="{% url 'score_expert_form' item.pk %}"> Изменить оценки </a>
-        {% endif %}
-    </li>
-    <br/>
-
-    <ul type="None">
-        <table border="1" cellpadding="0.1" width="750">
-            <tr>
-                <td align="center"><i> Оценка по критерию №1 </i></td>
-                <td align="center"><i> Оценка по критерию №2</i></td>
-                <td align="center"><i> Оценка по критерию №3 </i></td>
-                <td align="center"><i> Оценка по критерию №4 </i></td>
-                <td align="center"><i> Оценка по критерию №5 </i></td>
-            </tr>
-            <tr>
-                {% if item.score1 is None %} <td align="center"> <font color="#B22222"> отстутствует </font> </td> {% else %} <td align="center"> <b>{{ item.score1 }}</b></td> {% endif %}</b>
-                {% if item.score2 is None %} <td align="center">  <font color="#B22222"> отстутствует </font>  </td> {% else %} <td align="center"> <b>{{ item.score2 }}</b></td> {% endif %}</b>
-                {% if item.score3 is None %} <td align="center"> <font color="#B22222"> отстутствует </font>   </td> {% else %} <td align="center"> <b>{{ item.score3 }}</b></td> {% endif %}</b>
-                {% if item.score4 is None %} <td align="center"> <font color="#B22222"> отстутствует </font>  </td> {% else %} <td align="center"> <b>{{ item.score4 }}</b></td> {% endif %}</b>
-                {% if item.score5 is None %} <td align="center"> <font color="#B22222"> отстутствует </font>    </td> {% else %} <td align="center"> <b>{{ item.score5 }}</b></td> {% endif %}</b>
-            </tr>
-        </table>
-        {% if item.comment is None or item.comment == "" %}
-        <li><i>Комментарий: </i> <font color="#B22222">  Вы не оставили комментарий по заявке  </font></li>
-        {% else %}
-        <li><i>Комментарий: </i> {{ item.comment }}</li>
-        {% endif %}
-    </ul>
-    <br/>
-
-</ul>
-{% endfor %}
+            {% if checkexpertscore.count_all == checkexpertscore.count_ok %}
+            <form action="" method="post" class="ml-1">
+                {% csrf_token %} {# {{ form.as_table }} class="fieldWrapper"#}
+                   <b style='color: #000000; font-size: 15px'> Подтвердите свои оценки:</b>
+                     {{ form.check_exp.help_text }}
+                    {{ form.check_exp.errors }}
+                     {{ form.check_exp }}
+                <br/>
+                <br/>
 
 
-{% for item in checkexpertscore.get_all_score_common %}
-<ul>
-    <li>
-        <b> {{ item.relation_exp_app.application }} </b>
-        {% if not checkexpertscore.check_exp %}
-            - <a href="{% url 'score_common_form' item.pk %}"> Изменить оценки </a>
-        {% endif %}
-    </li>
-    <br/>
+                <i> Просьба перед отправкой подтверждения убедиться, что оценки по заявкам указаны корректно. Вы не сможете самостоятельно изменить выбранные оценки после их подтверждения</i>
+                <br/>        <br/>
 
-    <ul type="None">
-        <li><i>Оценка: </i>  {% if item.score is None %}  <font color="#B22222"> отстутствует </font>  {% else %}  <b>{{ item.score }}</b> {% endif %}</b></li>
-        <li><i>Комментарий: </i> {% if item.comment is None or item.comment == "" %}  <font color="#B22222"> отстутствует </font>  {% else %}  <b>{{ item.comment }}</b> {% endif %}</b></li>
-    </ul>
-    <br/>
-
-</ul>
-{% endfor %}
-
-
-{% if not checkexpertscore.check_exp %}
-    {% if checkexpertscore.count_all == checkexpertscore.count_ok %}
-    <form action="" method="post">
-        {% csrf_token %} {# {{ form.as_table }} class="fieldWrapper"#}
-           <b style='color: #000000; font-size: 15px'> Подтвердите свои оценки:</b>
-             {{ form.check_exp.help_text }}
-            {{ form.check_exp.errors }}
-             {{ form.check_exp }}
-        <br/>
-        <br/>
-
-
-        <i> Просьба перед отправкой подтверждения убедиться, что оценки по заявкам указаны корректно. Вы не сможете самостоятельно изменить выбранные оценки после их подтверждения </i>
-        <br/>        <br/>
-
-        <input type="submit" value="Отправить"/>
-    </form>
+                <input type="submit" value="Отправить" class="btn btn-light">
+            </form>
+                {%else%}
+        <b> Вы не завершили экспертную оценку заявок. Пожалуйста, вернитесь к <a href="{% url 'index' %}" class="text-info"> нерассмотренным заявкам</a>, выставите оценки и вернитесь на эту страницу после </b>
+            {%endif%}
         {%else%}
-<b> Вы не завершили экспертную оценку заявок. Пожалуйста, вернитесь к <a href="{% url 'index' %}"> нерассмотренным заявкам</a>, выставите оценки и вернитесь на эту страницу после </b>
-    {%endif%}
-{%else%}
-<b>Вы завершили экспертную оценку заявок.<br/>
-Если вы хотите внести изменения, то напишите на почту
- <a href="mailto:support@iproficlub.ru"> support@iproficlub.ru </a></b>
-{%endif%}
-
+        <b>Вы завершили экспертную оценку заявок.<br/>
+        Если вы хотите внести изменения, то напишите на почту
+         <a href="mailto:support@iproficlub.ru"> support@iproficlub.ru </a></b>
+        {%endif%}
+    {% endif %}
+</div>
 {% endblock %}

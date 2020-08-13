@@ -1,15 +1,18 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h2>Форма для изменения заявки</h2>
-<p> <b> Направление: </b> {{ application.name }} </p>
-<p> <b> ВУЗ: </b> {{ application.vuz.full_name }} </p>
-<form action="" method="post">
-    {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-    </table>
-    <input type="submit" value="Отправить"/>
+<h1 class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded d-flex"><small class="align-middle">Форма для изменения заявки</small></h1>
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+	<p class="ml-1"> <b> Направление: </b> {{ application.name }} </p>
+	<p class="ml-1"> <b> ВУЗ: </b> {{ application.vuz.full_name }} </p>
 
-</form>
+	{% load crispy_forms_tags %}
+
+	<form action="" method="post" class="ml-1">
+	    {% csrf_token %}
+	    {{ form|crispy }}
+	    <input type="submit" value="Отправить" class="btn btn-light">
+
+	</form>
+</div>
 {% endblock %}
