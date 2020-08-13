@@ -131,9 +131,10 @@
         <b> Вы не завершили экспертную оценку заявок. Пожалуйста, вернитесь к <a href="{% url 'index' %}" class="text-info"> нерассмотренным заявкам</a>, выставите оценки и вернитесь на эту страницу после </b>
             {%endif%}
         {%else%}
-        <b>Вы завершили экспертную оценку заявок.<br/>
-        Если вы хотите внести изменения, то напишите на почту
-         <a href="mailto:support@iproficlub.ru"> support@iproficlub.ru </a></b>
+        <div class="ml-2">
+        <p><b>Вы завершили экспертную оценку заявок.</p>
+        Если вы хотите внести изменения, то напишите на почту <a href="mailto:support@iproficlub.ru" class="text-info"> support@iproficlub.ru </a></b>
+        </div>
         {%endif%}
     {% endif %}
 </div>

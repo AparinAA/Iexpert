@@ -20,8 +20,8 @@
 
 
         <div class="mt-4 mb-4">
-            <h4>Эксперты</h4>
             {% if experts_exist %}
+            <h4>Эксперты</h4>            
             <table class="table table-hover table-sm table-responsive-lg">
                 <thead class="bg-light">
                 <tr>
@@ -95,7 +95,7 @@
         {% if all_application %}
         <div class="list-group list-unstyle">
             {% for application in all_application %}
-                <a href="{% url 'application-detail' application.pk%}" class="text-info col-4 ml-2 border-1 p-1"> {{application}} </a>
+                <a href="{% url 'application-detail' application.pk%}" class="text-info ml-2 border-1 p-1"> {{application}} </a>
             {% endfor %}
         </div>
         {% else%}

@@ -5,10 +5,10 @@
 <h2 class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded d-flex"><small>Форма оценки заявки</small></h2>
 
 <div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
-    <ul><b> Эксперт: </b> {{ scoreexpert.relation_exp_app.expert }}</ul>
-    <ul><b> Заявка: </b> {{ scoreexpert.relation_exp_app.application }}</ul>
-    <ul><b> Ссылка на документы заявки: </b> <a href="{{ scoreexpert.relation_exp_app.application.link_archiv }}" target="_blank" class="text-info">  {{ scoreexpert.relation_exp_app.application.link_archiv }}</a></ul>
-    <ul><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_expert' %}" target="_blank" class="text-info"> Критерии экспертной комиссии </a></ul>
+    <div class="p-2 ml-1"><b> Эксперт: </b> {{ scoreexpert.relation_exp_app.expert }}</div>
+    <div class="p-2 ml-1"><b> Заявка: </b> {{ scoreexpert.relation_exp_app.application }}</div>
+    <div class="p-2 ml-1"><b> Ссылка на документы заявки: </b> <a href="{{ scoreexpert.relation_exp_app.application.link_archiv }}" target="_blank" class="text-info">  {{ scoreexpert.relation_exp_app.application.link_archiv }}</a></div>
+    <div class="p-2 ml-1"><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_expert' %}" target="_blank" class="text-info"> Критерии экспертной комиссии </a></div>
 </div>
 {% load crispy_forms_tags %}
 
