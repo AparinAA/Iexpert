@@ -33,7 +33,7 @@ class ScoreCommon(models.Model):
     comment = models.TextField(default=None, verbose_name=mark_safe(data_score['common']['comment']),
                                blank=True, null=True,
                                max_length=1000,
-                               help_text=""
+                               help_text="",
                                )
     check = models.BooleanField(default=False, verbose_name='Готово')
     is_active = models.BooleanField(default=True, verbose_name='Активное')
@@ -98,9 +98,9 @@ class ScoreExpert(models.Model):
     score = models.FloatField(default=None, verbose_name='Оценка эксперта',
                               blank=True, null=True)
 
-    comment = models.TextField(default=None, verbose_name="",
+    comment = models.TextField(default=None, verbose_name=mark_safe(data_score['expert']['comment']),
                                max_length=1000, blank=True, null=True,
-                               help_text=mark_safe(data_score['expert']['comment'])
+                               help_text=""
                                )
     check = models.BooleanField(default=False, verbose_name='Готово')
     is_active = models.BooleanField(default=True, verbose_name='Активное')
