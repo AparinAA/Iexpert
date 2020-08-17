@@ -19,21 +19,21 @@ class ScoreCommon(models.Model):
     """
     with open(os.path.join(BASE_DIR, 'score/info.json'), 'r', encoding='utf-8') as file:
         data_score = json.load(file)
-    can_score = ((1, 1), (2, 2), (3, 3), (4, 4), (5, 5),
+    can_score = ((0,0), (1, 1), (2, 2), (3, 3), (4, 4), (5, 5),
                  (6, 6), (7, 7), (8, 8), (9, 9), (10, 10))
     relation_exp_app = models.ForeignKey(RelationExpertApplication,
                                          verbose_name='Эксперт - заявка',
                                          on_delete=models.CASCADE, default=None,
                                          limit_choices_to={'common_commission': True}
                                          )
-    score = models.IntegerField(default=None, verbose_name='Оценка',
+    score = models.IntegerField(default=None, verbose_name=mark_safe(data_score['common']['score']),
                                 choices=can_score, blank=True, null=True,
-                                help_text=mark_safe(data_score['common']['score'])
+                                help_text="",
                                 )
-    comment = models.TextField(default=None, verbose_name='Комментарий по заявке',
+    comment = models.TextField(default=None, verbose_name=mark_safe(data_score['common']['comment']),
                                blank=True, null=True,
                                max_length=1000,
-                               help_text=mark_safe(data_score['common']['comment'])
+                               help_text=""
                                )
     check = models.BooleanField(default=False, verbose_name='Готово')
     is_active = models.BooleanField(default=True, verbose_name='Активное')
@@ -43,6 +43,7 @@ class ScoreCommon(models.Model):
     class Meta:
         verbose_name_plural = 'Оценки экспертов ОК по заявке'
         verbose_name = 'Оценка эксперта ОК по заявке'
+
 
     def get_absolute_url(self):
         return reverse('score_common_detail', args=[str(self.id)])
@@ -61,44 +62,43 @@ class ScoreCommon(models.Model):
         self.is_active = rel.is_active
         super(ScoreCommon, self).save(*args, **kwargs)
 
-
 class ScoreExpert(models.Model):
     """
     Оценки общей комиссии в связке с экспертами и заявками (самая подробная информация)
     """
     with open(os.path.join(BASE_DIR, 'score/info.json'), 'r', encoding='utf-8') as file:
         data_score = json.load(file)
-    can_score = ((1, 1), (2, 2), (3, 3), (4, 4), (5, 5),
+    can_score = ((0,0), (1, 1), (2, 2), (3, 3), (4, 4), (5, 5),
                  (6, 6), (7, 7), (8, 8), (9, 9), (10, 10))
     relation_exp_app = models.ForeignKey(RelationExpertApplication,
                                          verbose_name='Эксперт - заявка',
                                          on_delete=models.CASCADE, default=None,
                                          limit_choices_to={'common_commission': False}
                                          )
-    score1 = models.IntegerField(default=None, verbose_name='Критерий №1',
+    score1 = models.IntegerField(default=None, verbose_name=mark_safe(data_score['expert']['score1']),
                                  choices=can_score, blank=True, null=True,
-                                 help_text=mark_safe(data_score['expert']['score1'])
+                                 help_text=""
                                  )
-    score2 = models.IntegerField(default=None, verbose_name='Критерий №2',
+    score2 = models.IntegerField(default=None, verbose_name=mark_safe(data_score['expert']['score2']),
                                  choices=can_score, blank=True, null=True,
-                                 help_text=mark_safe(data_score['expert']['score2'])
+                                 help_text=""
                                  )
-    score3 = models.IntegerField(default=None, verbose_name='Критерий №3',
+    score3 = models.IntegerField(default=None, verbose_name=mark_safe(data_score['expert']['score3']),
                                  choices=can_score, blank=True, null=True,
-                                 help_text=mark_safe(data_score['expert']['score3'])
+                                 help_text=""
                                  )
-    score4 = models.IntegerField(default=None, verbose_name='Критерий №4',
+    score4 = models.IntegerField(default=None, verbose_name=mark_safe(data_score['expert']['score4']),
                                  choices=can_score, blank=True, null=True,
-                                 help_text=mark_safe(data_score['expert']['score4'])
+                                 help_text=""
                                  )
-    score5 = models.IntegerField(default=None, verbose_name='Критерий №5',
+    score5 = models.IntegerField(default=None, verbose_name=mark_safe(data_score['expert']['score5']),
                                  choices=can_score, blank=True, null=True,
-                                 help_text=mark_safe(data_score['expert']['score5'])
+                                 help_text=""
                                  )
     score = models.FloatField(default=None, verbose_name='Оценка эксперта',
                               blank=True, null=True)
 
-    comment = models.TextField(default=None, verbose_name='Комментарий по заявке',
+    comment = models.TextField(default=None, verbose_name="",
                                max_length=1000, blank=True, null=True,
                                help_text=mark_safe(data_score['expert']['comment'])
                                )

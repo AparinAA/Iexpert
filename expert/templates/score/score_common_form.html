@@ -16,8 +16,10 @@
         {% csrf_token %} {# {{ form.as_table }} class="fieldWrapper"#}
 
         {{ form.score.errors }}
-        {{ form.score|as_crispy_field }}
+        <h4 class="bg-light rounded p-1"> Оценка </h4>
+        {{ form.score|as_crispy_field}}
 
+        <h4 class="bg-light rounded p-1"> Комментарий по заявке </h4>
         {{ form.comment.errors }}
         {{ form.comment|as_crispy_field }}
         <!--

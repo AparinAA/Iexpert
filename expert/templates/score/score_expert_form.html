@@ -15,21 +15,26 @@
 <form action="" method="post" class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
     {% csrf_token %} {# {{ form.as_table }} class="fieldWrapper"#}
     
+    <h5 class="bg-light rounded p-1"> Критерий №1 </h5>
     {{ form.score1.errors }}
     {{ form.score1|as_crispy_field }}
 
+    <h5 class="bg-light rounded p-1"> Критерий №2 </h5>
     {{ form.score2.errors }}
     {{ form.score2|as_crispy_field }}
 
+    <h5 class="bg-light rounded p-1"> Критерий №3 </h5>
     {{ form.score3.errors }}
     {{ form.score3|as_crispy_field }}
 
+    <h5 class="bg-light rounded p-1"> Критерий №4 </h5>
     {{ form.score4.errors }}
     {{ form.score4|as_crispy_field }}
-
+    <h5 class="bg-light rounded p-1"> Критерий №5 </h5>
     {{ form.score5.errors }}
     {{ form.score5|as_crispy_field }}
 
+    <h5 class="bg-light rounded p-1"> Комментарий эксперта по заявке</h5>
     {{ form.comment.errors }}
     {{ form.comment|as_crispy_field }}
     <!--<p style='font-size:15px'><b> Критерий №1 </b> <b style="color:#B22222; font-size:15px"> * </b> </p>
