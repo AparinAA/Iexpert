@@ -60,8 +60,9 @@
 	{% if scoreexpert.comment %}
 		<ul>{{ scoreexpert.comment }}</ul>
 	{% else %}
-		<ul> <font color="#B22222"> Вы не оставили комментарий к заявке </font></ul>
+		<ul> <span class="text-danger"> Вы не оставили комментарий к заявке </span></ul>
 	{% endif %}
+
 
 	{% if scoreexpert.check %}
 	<br/>

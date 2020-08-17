@@ -12,7 +12,7 @@
             <div class="m-auto">
                 <b> {{ item.relation_exp_app.application }} </b>
                 {% if not checkexpertscore.check_exp %}
-                    - <a href="{% url 'score_expert_form' item.pk %}" class="btn btn-light btn-sm"> Изменить оценки </a>
+                    - <a href="{% url 'score_expert_form' item.pk %}" class="btn btn-secondary btn-sm"> Изменить оценки </a>
                 {% endif %}
             </div>
             <br/>
@@ -74,7 +74,7 @@
             <div class="m-auto">
                 <b> {{ item.relation_exp_app.application }} </b>
                 {% if not checkexpertscore.check_exp %}
-                    - <a href="{% url 'score_common_form' item.pk %}" class="btn btn-light btn-sm"> Изменить оценки </a>
+                    - <a href="{% url 'score_common_form' item.pk %}" class="btn btn-secondary btn-sm "> Изменить оценки </a>
                 {% endif %}
             </div>
             <br/>

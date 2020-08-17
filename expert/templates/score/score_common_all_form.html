@@ -44,12 +44,12 @@
     <p><i> Оставьте небольшой общий комментарий по заявке </i></p>
     {% load crispy_forms_tags %}
 
-    <form action="" method="post">
+    <form action="" method="post" class="">
         {% csrf_token %}
         {{ form.comment_master.errors }}
         {{ form|crispy }}
         <p><i> Проверьте ваш комментарий перед отправкой, после отправки редактирование будет недоступно </i></p>
-        <input type="submit" value="Отправить" class="btn btn-light">
+        <input type="submit" value="Отправить" class="btn btn-secondary">
     </form>
 </div>
 

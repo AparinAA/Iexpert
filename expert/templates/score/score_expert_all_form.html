@@ -78,10 +78,10 @@
     <form action="" method="post">
         {% csrf_token %} {# {{ form.as_table }} class="fieldWrapper"#}
         {{ form.comment_master.errors }}
-        {{ form | crispy }}   
+        {{ form|crispy }}   
 
         <p><i> Проверьте ваш комментарий перед отправкой, после отправки редактирование будет недоступно </i></p>
-        <input type="submit" value="Отправить" class="btn btn-light">
+        <input type="submit" value="Отправить" class="btn btn-secondary">
     </form>
 </div>
 {% endblock %}

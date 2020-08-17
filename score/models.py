@@ -131,7 +131,6 @@ class ScoreExpert(models.Model):
         self.is_active = rel.is_active
         super(ScoreExpert, self).save(*args, **kwargs)
 
-
 class ScoreCommonAll(models.Model):
     """
     Оценки общей комиссии по заявкам (Уже средние)

@@ -38,6 +38,9 @@ body {
     background-color: rgba(53, 160, 187, 0.0);
 
 }
+#menu_fix{
+    position: fixed;
+}
 #menu {
     position: fixed;
     left: 0.5%;
