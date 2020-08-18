@@ -44,7 +44,7 @@ git push origin master
 ```
    git pull
 ```
-+ Если ругается при слияние (работает только из папки сайта ~/www/expert-olymp.ru/Iexpert)
++ Если ругается при слияние (работает только из папки проекта ~/www/expert-olymp.ru/Iexpert)
 ```
    git fetch --all
    git reset --hard origin/master
