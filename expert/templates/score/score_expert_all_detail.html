@@ -3,148 +3,159 @@
 {% block content %}
 <h1 class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded d-flex"><small>Оценки по заявке</small></h1>
 
-<ul><b> Заявка: </b> {{ score_all.application.name.name }} - {{ score_all.application.vuz.short_name }}</ul>
-<ul><b> Ссылка на документы заявки: </b> <a href="{{ score_all.application.link_archiv }}"  target="_blank" >{{ score_all.application.link_archiv }} </a> </ul>
-
-{% if result_master.status == 'w' %}
-    <h4> Оценки и комментарии экспертов </h4>
-{% else %}
-    <h4> Готовность оценок и комментариев экспертов </h4>
-{% endif %}
-{% for expert, score_and_comment in score_all.get_all_comments_and_scores.items %}
-<ul>
-    <li>
-        <i> {{ expert }} </i>
-    </li>
-    <ul type="None">
-        <table border="1" cellpadding="0.1" width="750">
-            <tr>
-                <td align="center"><i> <b> Итоговая оценка эксперта </b> </i></td>
-                <td align="center"><i> Оценка по критерию №1 </i></td>
-                <td align="center"><i> Оценка по критерию №2</i></td>
-                <td align="center"><i> Оценка по критерию №3 </i></td>
-                <td align="center"><i> Оценка по критерию №4 </i></td>
-                <td align="center"><i> Оценка по критерию №5 </i></td>
-            </tr>
-            <tr>
-                <td align="center">
-                    {% if score_and_comment.score is None %}
-                        <font color="#B22222"> <b> отстутствует </b> </font>
-                    {% else %}
-                        {% if result_master.status == 'w' %}
-                            <b> {{ score_and_comment.score }}</b>
-                        {% else %}
-                            <b>  &#9989; </b>
-                        {% endif %}
-
-                    {% endif %}
-                </td>
-                <td align="center">
-                    {% if score_and_comment.score1 is None %}
-                        <font color="#B22222"> отсутствует </font>
-                    {% else %}
-                        {% if result_master.status == 'w' %}
-                            {{ score_and_comment.score1 }}
-                        {% else %}
-                            &#9989;
-                        {% endif %}
-
-                    {% endif %}
-                </td>
-                <td align="center">
-                    {% if score_and_comment.score2 is None %}
-                        <font color="#B22222"> отстутствует </font>
-                    {% else %}
-                        {% if result_master.status == 'w' %}
-                            {{ score_and_comment.score2 }}
-                        {% else %}
-                             &#9989;
-                        {% endif %}
-
-                    {% endif %}
-                </td>
-                <td align="center">
-                    {% if score_and_comment.score3 is None %}
-                        <font color="#B22222"> отстутствует </font>
-                    {% else %}
-                        {% if result_master.status == 'w' %}
-                            {{ score_and_comment.score3 }}
-                        {% else %}
-                             &#9989;
-                        {% endif %}
-
-                    {% endif %}
-                </td>
-                <td align="center">
-                    {% if score_and_comment.score4 is None %}
-                        <font color="#B22222">  отстутствует </font>
-                    {% else %}
-                        {% if result_master.status == 'w' %}
-                            {{ score_and_comment.score4 }}
-                        {% else %}
-                             &#9989;
-                        {% endif %}
-
-                    {% endif %}
-                </td>
-                <td align="center">
-                    {% if score_and_comment.score5 is None %}
-                        <font color="#B22222"> отстутствует </font>
-                    {% else %}
-                        {% if result_master.status == 'w' %}
-                            {{ score_and_comment.score5 }}
-                        {% else %}
-                            &#9989;
-                        {% endif %}
-
-                    {% endif %}
-                </td>
-
-            </tr>
-        </table>
-        <li><i>Комментарий: </i>
-            {% if score_and_comment.comment is None or score_and_comment.comment == ''%}
-                 <font color="#B22222"> отстутствует </font>
-            {% else %}
-                {% if result_master.status == 'w' %}
-                    {{ score_and_comment.comment }}
-            {% else %}
-                &#9989;
-            {% endif %}
-            {%endif%}
-        </li>
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+    <ul class="list-unstyled ml-2">
+        <li class="p-1"><b> Заявка: </b> {{ score_all.application.name.name }} - {{ score_all.application.vuz.short_name }}</li>
+        <li class="p-1"><b> Ссылка на документы заявки: </b> <a href="{{ score_all.application.link_archiv }}"  target="_blank" class="text-info">{{ score_all.application.link_archiv }} </a> </li>
     </ul>
-</ul>
-{% endfor %}
-<hr/>
-{% if result_master.status == 'w' %}
+</div>
 
-    <h4>Итоговые оценки и комментарий по заявке:</h4>
-    <ul><b> <i> Итоговая оценка: </i> </b> {% if score_all.score is None %} <font color="#B22222"><b>  отстутствует </b> </font>  {% else %} <b> {{ score_all.score }} </b> {% endif %} </ul>
-    <ul> <i> Критерий №1: </i> {% if score_all.score1 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score1 }} {% endif %}  </ul>
-    <ul> <i> Критерий №2: </i> {% if score_all.score2 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score2 }} {% endif %}  </ul>
-    <ul> <i> Критерий №3: </i> {% if score_all.score3 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score3 }} {% endif %}  </ul>
-    <ul> <i> Критерий №4: </i> {% if score_all.score4 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score4 }} {% endif %}  </ul>
-    <ul> <i> Критерий №5: </i> {% if score_all.score5 is None %} <font color="#B22222"> отстутствует </font>  {% else %} {{ score_all.score5 }} {% endif %}  </ul>
-    <ul> <i> <b>  Комментарий ответственного секретаря:</b>  </i> {% if score_all.comment_master is None or score_all.comment_master == '' %}
-        <font color="#B22222"> отстутствует </font>  {% else %} <br/> <ul> {{ score_all.comment_master }} {% endif %}  </ul></ul>
-    <hr/>
-
-    {% if score_all.check %}
-        Ваш комментарий сохранен. Экспертиза заявки завершена. Просмотр всех заявок доступен на <a href="{% url 'index' %}"> странице </a>
-        <br/>
-        Если вы хотите внести изменения в комментарий, то напишите на почту <a href="mailto:support@iproficlub.ru"> support@iproficlub.ru </a>
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+    {% if result_master.status == 'w' %}
+        <h4> Оценки и комментарии экспертов </h4>
     {% else %}
-        {% if not score_all.comment_master %}
-        Вы не закончили оценивать заявку, пожалуйста, перейдите по ссылке и закончите экспертизу:
-        <a href="{% url 'score_expert_all_form' score_all.pk%}"> форма оценки заявки </a>
+        <h4> Готовность оценок и комментариев экспертов </h4>
+    {% endif %}
+    {% for expert, score_and_comment in score_all.get_all_comments_and_scores.items %}
+    <ul class="list-unstyled ml-3">
+        <li class="font-italic p-2 lead">
+            <i> {{ expert }} </i>
+        </li>
+        <ul type="None" class="mr-5 ml-4 p-2">
+            <table class="table table-sm table-responsive-lg">
+                <thead class="bg-light">
+                <tr>
+                    <td scope="col" class="text-center"><i> <b> Итоговая оценка эксперта </b> </i></td>
+                    <td scope="col" class="text-center"><i> Оценка по критерию №1 </i></td>
+                    <td scope="col" class="text-center"><i> Оценка по критерию №2</i></td>
+                    <td scope="col" class="text-center"><i> Оценка по критерию №3 </i></td>
+                    <td scope="col" class="text-center"><i> Оценка по критерию №4 </i></td>
+                    <td scope="col" class="text-center"><i> Оценка по критерию №5 </i></td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="{% if score_and_comment.score is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                        {% if score_and_comment.score is None %}
+                            <b>отстутствует </b>
+                        {% else %}
+                            {% if result_master.status == 'w' %}
+                                <b> {{ score_and_comment.score }}</b>
+                            {% else %}
+                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
+                            {% endif %}
+
+                        {% endif %}
+                    </td>
+                    <td class="{% if score_and_comment.score is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                        {% if score_and_comment.score1 is None %}
+                            отсутствует
+                        {% else %}
+                            {% if result_master.status == 'w' %}
+                                {{ score_and_comment.score1 }}
+                            {% else %}
+                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
+                            {% endif %}
+
+                        {% endif %}
+                    </td>
+                    <td class="{% if score_and_comment.score is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                        {% if score_and_comment.score2 is None %}
+                            отстутствует
+                        {% else %}
+                            {% if result_master.status == 'w' %}
+                                {{ score_and_comment.score2 }}
+                            {% else %}
+                                 <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
+                            {% endif %}
+
+                        {% endif %}
+                    </td>
+                    <td class="{% if score_and_comment.score is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                        {% if score_and_comment.score3 is None %}
+                            отстутствует
+                        {% else %}
+                            {% if result_master.status == 'w' %}
+                                {{ score_and_comment.score3 }}
+                            {% else %}
+                                 <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
+                            {% endif %}
+
+                        {% endif %}
+                    </td>
+                    <td class="{% if score_and_comment.score is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                        {% if score_and_comment.score4 is None %}
+                            отстутствует
+                        {% else %}
+                            {% if result_master.status == 'w' %}
+                                {{ score_and_comment.score4 }}
+                            {% else %}
+                                 <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
+                            {% endif %}
+
+                        {% endif %}
+                    </td>
+                    <td class="{% if score_and_comment.score is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                        {% if score_and_comment.score5 is None %}
+                            отстутствует
+                        {% else %}
+                            {% if result_master.status == 'w' %}
+                                {{ score_and_comment.score5 }}
+                            {% else %}
+                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
+                            {% endif %}
+
+                        {% endif %}
+                    </td>
+
+                </tr>
+            </table>
+            <li><i>Комментарий: </i>
+                {% if score_and_comment.comment is None or score_and_comment.comment == ''%}
+                     <span class="text-danger"> отстутствует </span>
+                {% else %}
+                    {% if result_master.status == 'w' %}
+                        {{ score_and_comment.comment }}
+                {% else %}
+                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
+                {% endif %}
+                {%endif%}
+            </li>
+        </ul>
+    </ul>
+    {% endfor %}
+</div>
+
+<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+    {% if result_master.status == 'w' %}
+
+        <h4>Итоговые оценки и комментарий по заявке:</h4>
+        <ul><b> <i> Итоговая оценка: </i> </b> {% if score_all.score is None %} <font color="#B22222"><b>  отстутствует </b> </font>  {% else %} <b> {{ score_all.score }} </b> {% endif %} </ul>
+        <ul> <i> Критерий №1: </i> {% if score_all.score1 is None %} отстутствует  {% else %} {{ score_all.score1 }} {% endif %}  </ul>
+        <ul> <i> Критерий №2: </i> {% if score_all.score2 is None %} отстутствует  {% else %} {{ score_all.score2 }} {% endif %}  </ul>
+        <ul> <i> Критерий №3: </i> {% if score_all.score3 is None %} отстутствует  {% else %} {{ score_all.score3 }} {% endif %}  </ul>
+        <ul> <i> Критерий №4: </i> {% if score_all.score4 is None %} отстутствует  {% else %} {{ score_all.score4 }} {% endif %}  </ul>
+        <ul> <i> Критерий №5: </i> {% if score_all.score5 is None %} отстутствует  {% else %} {{ score_all.score5 }} {% endif %}  </ul>
+        <ul> <i> <b>  Комментарий ответственного секретаря:</b>  </i> {% if score_all.comment_master is None or score_all.comment_master == '' %}
+            отстутствует  {% else %} <br/> <ul> {{ score_all.comment_master }} {% endif %}  </ul></ul>
+        <hr/>
+
+        {% if score_all.check %}
+            Ваш комментарий сохранен. Экспертиза заявки завершена. Просмотр всех заявок доступен на <a href="{% url 'index' %}" class="text-info"> странице </a>
+            <br/>
+            Если вы хотите внести изменения в комментарий, то напишите на почту <a href="mailto:support@iproficlub.ru" class="text-info"> support@iproficlub.ru </a>
         {% else %}
-        Эксперты назначенные на заявку не закончили экспертизу.
-        <br/>
-        Вы можете перейти в <a href="{% url 'score_expert_all_form' score_all.pk%}"> форму </a> для того чтобы оставить комментарий по заявке
+            {% if not score_all.comment_master %}
+            Вы не закончили оценивать заявку, пожалуйста, перейдите по ссылке и закончите экспертизу:
+            <a href="{% url 'score_expert_all_form' score_all.pk%}" class="text-info"> форма оценки заявки </a>
+            {% else %}
+            Эксперты назначенные на заявку не закончили экспертизу.
+            <br/>
+            Вы можете перейти в <a href="{% url 'score_expert_all_form' score_all.pk%}" class="text-info"> форму </a> для того чтобы оставить комментарий по заявке
+            {% endif %}
+
         {% endif %}
 
     {% endif %}
-
-{% endif %}
+</div>
 {% endblock %}

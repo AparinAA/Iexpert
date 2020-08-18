@@ -11,29 +11,19 @@
 </div>
 {% load crispy_forms_tags %}
 
-<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
-    <form action="" method="post" class="ml-2">
-        {% csrf_token %} {# {{ form.as_table }} class="fieldWrapper"#}
+<form action="" method="post" class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
 
-        {{ form.score.errors }}
-        <h4 class="bg-light rounded p-1"> Оценка </h4>
-        {{ form.score|as_crispy_field}}
+    {% csrf_token %}
+    {% for f in form %}
+    <div class="mb-4">
+        <h4 class="bg-light rounded p-1"> {{f.label}} </h4>
+        {{f.help_text}}
+        {{f}}
+    </div>
+    {% endfor %}
 
-        <h4 class="bg-light rounded p-1"> Комментарий по заявке </h4>
-        {{ form.comment.errors }}
-        {{ form.comment|as_crispy_field }}
-        <!--
-        <p> {{ form.score.help_text }} </p>
-        {{ form.score.errors }}
-        <p> <b> Оценка заявки </b>  <b style="color:#B22222; font-size:15px"> * </b>   {{ form.score }} </p>
-        <p style='font-size:14px'><b> Комментарий по заявке: </b> <b style="color:#B22222; font-size:14px"> * </b> </p>
-        <p> {{ form.comment.help_text }} </p>
-        {{ form.comment.errors }}
-        <p> {{ form.comment }} </p>
-    	-->
-        <input type="submit" value="Отправить" class="btn btn-secondary">
+    <input type="submit" value="Отправить" class="btn btn-secondary">
 
-    </form>
-</div>
+</form>
 
 {% endblock %}

@@ -26,14 +26,14 @@ class ScoreCommon(models.Model):
                                          on_delete=models.CASCADE, default=None,
                                          limit_choices_to={'common_commission': True}
                                          )
-    score = models.IntegerField(default=None, verbose_name=mark_safe(data_score['common']['score']),
+    score = models.IntegerField(default=None, verbose_name="Оценка",
                                 choices=can_score, blank=True, null=True,
-                                help_text="",
+                                help_text=mark_safe(data_score['common']['score']),
                                 )
-    comment = models.TextField(default=None, verbose_name=mark_safe(data_score['common']['comment']),
+    comment = models.TextField(default=None, verbose_name="Комментарий эксперта общей комиссии",
                                blank=True, null=True,
                                max_length=1000,
-                               help_text="",
+                               help_text=mark_safe(data_score['common']['comment']),
                                )
     check = models.BooleanField(default=False, verbose_name='Готово')
     is_active = models.BooleanField(default=True, verbose_name='Активное')
@@ -75,32 +75,32 @@ class ScoreExpert(models.Model):
                                          on_delete=models.CASCADE, default=None,
                                          limit_choices_to={'common_commission': False}
                                          )
-    score1 = models.IntegerField(default=None, verbose_name=mark_safe(data_score['expert']['score1']),
+    score1 = models.IntegerField(default=None, verbose_name="Критерий №1",
                                  choices=can_score, blank=True, null=True,
-                                 help_text=""
+                                 help_text=mark_safe(data_score['expert']['score1'])
                                  )
-    score2 = models.IntegerField(default=None, verbose_name=mark_safe(data_score['expert']['score2']),
+    score2 = models.IntegerField(default=None, verbose_name="Критерий №2",
                                  choices=can_score, blank=True, null=True,
-                                 help_text=""
+                                 help_text=mark_safe(data_score['expert']['score2'])
                                  )
-    score3 = models.IntegerField(default=None, verbose_name=mark_safe(data_score['expert']['score3']),
+    score3 = models.IntegerField(default=None, verbose_name="Критерий №3",
                                  choices=can_score, blank=True, null=True,
-                                 help_text=""
+                                 help_text=mark_safe(data_score['expert']['score3'])
                                  )
-    score4 = models.IntegerField(default=None, verbose_name=mark_safe(data_score['expert']['score4']),
+    score4 = models.IntegerField(default=None, verbose_name="Критерий №4",
                                  choices=can_score, blank=True, null=True,
-                                 help_text=""
+                                 help_text=mark_safe(data_score['expert']['score4'])
                                  )
-    score5 = models.IntegerField(default=None, verbose_name=mark_safe(data_score['expert']['score5']),
+    score5 = models.IntegerField(default=None, verbose_name="Критерий №5",
                                  choices=can_score, blank=True, null=True,
-                                 help_text=""
+                                 help_text=mark_safe(data_score['expert']['score5'])
                                  )
     score = models.FloatField(default=None, verbose_name='Оценка эксперта',
                               blank=True, null=True)
 
-    comment = models.TextField(default=None, verbose_name=mark_safe(data_score['expert']['comment']),
+    comment = models.TextField(default=None, verbose_name="Комментарий эксперта по заявке",
                                max_length=1000, blank=True, null=True,
-                               help_text=""
+                               help_text=mark_safe(data_score['expert']['comment'])
                                )
     check = models.BooleanField(default=False, verbose_name='Готово')
     is_active = models.BooleanField(default=True, verbose_name='Активное')
@@ -220,7 +220,7 @@ class ScoreExpertAll(models.Model):
     score = models.FloatField(default=None, verbose_name='Оценка заявки',
                               blank=True, null=True)
     comment_master = models.TextField(default=None, verbose_name='Комментарий ответственного секретаря',
-                                      max_length=2000, blank=True, null=True
+                                      max_length=2000, blank=True, null=True, help_text="Проверьте ваш комментарий перед отправкой, после отправки редактирование будет недоступно"
                                       )
     check = models.BooleanField(default=False, verbose_name='Готово')
     date_last = models.DateField(default=None, verbose_name='Последнее обновление', null=True, blank=True)

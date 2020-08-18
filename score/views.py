@@ -1,5 +1,5 @@
 from django.core.exceptions import ImproperlyConfigured, PermissionDenied
-from django.forms import Textarea
+from django.forms import Textarea,Select
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -19,7 +19,10 @@ class ScoreCommonOne(PermissionRequiredMixin, UpdateView):
     template_name = 'score/score_common_form.html'
     # fields = ['score', 'comment']
     form_class = modelform_factory(ScoreCommon, fields=['score', 'comment'],
-                                   widgets={"comment": Textarea(attrs={'rows': 6, 'cols': 80})})
+                                   widgets={
+                                   "comment": Textarea(attrs={'rows': 6, 'cols': 80, 'class' : 'col-md-12 form-control'}),
+                                    "score" : Select(attrs={'class' : 'col-md-12 form-control'}),
+                                   })
     permission_required = ['score.change_scorecommon']
 
     def has_permission(self, *args, **kwargs):
@@ -60,7 +63,14 @@ class ScoreExpertOne(PermissionRequiredMixin, UpdateView):
     template_name = 'score/score_expert_form.html'
 
     form_class = modelform_factory(ScoreExpert, fields=['score1', 'score2', 'score3', 'score4', 'score5', 'comment'],
-                                   widgets={"comment": Textarea(attrs={'rows': 6, 'cols': 80})})
+                                   widgets={
+                                   "comment": Textarea(attrs={'rows': 6, 'cols': 80, 'class' : 'col-md-12 form-control'}),
+                                   "score1" : Select(attrs={'class' : 'col-md-12 form-control'}),
+                                   "score2" : Select(attrs={'class' : 'col-md-12 form-control'}),
+                                   "score3" : Select(attrs={'class' : 'col-md-12 form-control'}),
+                                   "score4" : Select(attrs={'class' : 'col-md-12 form-control'}),
+                                   "score5" : Select(attrs={'class' : 'col-md-12 form-control'}),
+                                   })
 
     # widgets = {"comment": Textarea(attrs={'rows': 2, 'cols': 80})}
 
