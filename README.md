@@ -37,8 +37,6 @@ git push origin master
 ```
    rm ~/www/expert-olymp.ru/tmp/restart.txt
    vi ~/www/expert-olymp.ru/tmp/restart.txt
-   ИЛИ
-   ~/./reboot
 ```
 + Загрузить обновления из git 
 ```
