@@ -130,14 +130,69 @@
     {% if result_master.status == 'w' %}
 
         <h4>Итоговые оценки и комментарий по заявке:</h4>
-        <ul><b> <i> Итоговая оценка: </i> </b> {% if score_all.score is None %} <font color="#B22222"><b>  отстутствует </b> </font>  {% else %} <b> {{ score_all.score }} </b> {% endif %} </ul>
-        <ul> <i> Критерий №1: </i> {% if score_all.score1 is None %} отстутствует  {% else %} {{ score_all.score1 }} {% endif %}  </ul>
-        <ul> <i> Критерий №2: </i> {% if score_all.score2 is None %} отстутствует  {% else %} {{ score_all.score2 }} {% endif %}  </ul>
-        <ul> <i> Критерий №3: </i> {% if score_all.score3 is None %} отстутствует  {% else %} {{ score_all.score3 }} {% endif %}  </ul>
-        <ul> <i> Критерий №4: </i> {% if score_all.score4 is None %} отстутствует  {% else %} {{ score_all.score4 }} {% endif %}  </ul>
-        <ul> <i> Критерий №5: </i> {% if score_all.score5 is None %} отстутствует  {% else %} {{ score_all.score5 }} {% endif %}  </ul>
-        <ul> <i> <b>  Комментарий ответственного секретаря:</b>  </i> {% if score_all.comment_master is None or score_all.comment_master == '' %}
-            отстутствует  {% else %} <br/> <ul> {{ score_all.comment_master }} {% endif %}  </ul></ul>
+        <ul type="None" class="mr-5 ml-4 p-2">
+            <table class="table table-sm table-responsive-lg">
+                <thead class="bg-light">
+                <tr>
+                    <td scope="col" class="text-center"><i> <b> Итоговая оценка </b> </i></td>
+                    <td scope="col" class="text-center"><i> Оценка по критерию №1 </i></td>
+                    <td scope="col" class="text-center"><i> Оценка по критерию №2</i></td>
+                    <td scope="col" class="text-center"><i> Оценка по критерию №3 </i></td>
+                    <td scope="col" class="text-center"><i> Оценка по критерию №4 </i></td>
+                    <td scope="col" class="text-center"><i> Оценка по критерию №5 </i></td>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="{% if score_all.score is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                            {% if score_all.score is None %}
+                                отстутствует
+                            {% else %}
+                                {{ score_all.score1 }}
+                            {% endif %}
+                        </td>
+                        <td class="{% if score_all.score1 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                            {% if score_all.score1 is None %}
+                                отстутствует
+                            {% else %}
+                                {{ score_all.score1 }}
+                            {% endif %}
+                        </td>
+                        <td class="{% if score_all.score2 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                            {% if score_all.score2 is None %}
+                                отстутствует
+                            {% else %}
+                                {{ score_all.score2 }}
+                            {% endif %}
+                        </td>
+                        <td class="{% if score_all.score3 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                            {% if score_all.score3 is None %}
+                                отстутствует
+                            {% else %}
+                                {{ score_all.score3 }}
+                            {% endif %}
+                        </td>
+                        <td class="{% if score_all.score4 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                            {% if score_all.score4 is None %}
+                                отстутствует
+                            {% else %}
+                                {{ score_all.score4 }}
+                            {% endif %}
+                        </td>
+                        <td class="{% if score_all.score5 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                            {% if score_all.score5 is None %}
+                                отстутствует
+                            {% else %}
+                                {{ score_all.score5 }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <i> <b>  Комментарий ответственного секретаря:</b>  </i> {% if score_all.comment_master is None or score_all.comment_master == '' %}
+            отстутствует  {% else %} <br/> <ul> {{ score_all.comment_master }} {% endif %}  </ul>
+        </ul>
+        
         <hr/>
 
         {% if score_all.check %}

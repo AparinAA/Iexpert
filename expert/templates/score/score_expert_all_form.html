@@ -69,18 +69,17 @@
     </ul>
     {% endfor %}
 </div>
-<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+
+<form action="" method="post" class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
     <h4> Комментарий ответственного секретаря по заявке  <b class="text-danger"> * </b></h4>
-
-    {% load crispy_forms_tags %}
     <p><i> Оставьте общий комментарий по заявке (не более 2000 символов) </i></p>
-        
-    <form action="" method="post">
-        {% csrf_token %} {# {{ form.as_table }} class="fieldWrapper"#}
-        {{ form.comment_master.errors }}
-        {{ form|crispy }}   
 
+    {% csrf_token %}
+    <div class="mb-4">
+        {{ form.comment_master.errors }}
+        {{ form.comment_master }}
+        <p><i> Проверьте ваш комментарий перед отправкой, после отправки редактирование будет недоступно </i></p>
         <input type="submit" value="Отправить" class="btn btn-secondary">
-    </form>
-</div>
+    </div>
+</form>
 {% endblock %}

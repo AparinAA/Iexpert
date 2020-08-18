@@ -11,46 +11,46 @@
     <h4> Оценки и комментарии экспертов </h4>
     {% for expert, score_and_comment in scorecommonall.get_all_comments_and_scores.items %}
     <ul class="list-unstyled ml-3">
-        <li class="p-2 mb-1">
-            <i> {{ expert }} </i>
-        </li>
+        <p class="p-2 font-italic"> {{ expert }} </p>
         <ul type="None" class="">
-        <div class="row">
-            <div class="col-md-2 font-italic bg-light text-center"> Оценка: </div> 
-            {% if score_and_comment.score is None %} 
-                <div class="table-danger col-md-2 text-center "> отстутствует </div>  
-            {% else %}
-                <div class="table-success col-md-2 text-center "><b>{{ score_and_comment.score }}</b></div>
-            {% endif %}
-        </div>
-        <div class="row">
-            <div class="col-md-2 font-italic bg-light text-center ">
-            Комментарий:
-            </div> 
-            {% if score_and_comment.comment is None or score_and_comment.comment == "" %}
-                <div class="table-danger col-md-2 text-center">
-                    отстутствует
-                </div>
-            {% else %}
-                <div class="col-md-10 text-left">
-                    <b>{{ score_and_comment.comment }}</b>
+            <div class="row">
+                <div class="col-md-2 font-italic bg-light text-center"> Оценка: </div> 
+                {% if score_and_comment.score is None %} 
+                    <div class="table-danger col-md-2 text-center "> отстутствует </div>  
+                {% else %}
+                    <div class="table-success col-md-2 text-center "><b>{{ score_and_comment.score }}</b></div>
+                {% endif %}
+            </div>
+            <div class="row">
+                <div class="col-md-2 font-italic bg-light text-center ">
+                Комментарий:
                 </div> 
-            {% endif %}
-        </div>
+                {% if score_and_comment.comment is None or score_and_comment.comment == "" %}
+                    <div class="table-danger col-md-2 text-center">
+                        отстутствует
+                    </div>
+                {% else %}
+                    <div class="col-md-10 text-left">
+                        <b>{{ score_and_comment.comment }}</b>
+                    </div> 
+                {% endif %}
+            </div>
+        </ul>
     {% endfor %}
 </div>
-<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+
+<form action="" method="post" class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
     <h4> Комментарий ответственного секретаря по заявке  <b class="text-danger"> * </b></h4>
     <p><i> Оставьте небольшой общий комментарий по заявке </i></p>
-    {% load crispy_forms_tags %}
 
-    <form action="" method="post" class="">
-        {% csrf_token %}
+    {% csrf_token %}
+    <div class="mb-4">
         {{ form.comment_master.errors }}
-        {{ form|crispy }}
+        {{ form.comment_master }}
         <p><i> Проверьте ваш комментарий перед отправкой, после отправки редактирование будет недоступно </i></p>
         <input type="submit" value="Отправить" class="btn btn-secondary">
-    </form>
-</div>
+    </div>
+</form>
+
 
 {% endblock %}

@@ -17,6 +17,7 @@
     {% csrf_token %}
     {% for f in form %}
     <div class="mb-4">
+        {{f.errors}}
         <h5 class="bg-light rounded p-1"> {{f.label}} </h5>
         {{f.help_text}}
         {{f}}
