@@ -37,7 +37,7 @@
                 <tr>
                     <td class="{% if score_and_comment.score is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
                         {% if score_and_comment.score is None %}
-                            <b>отстутствует </b>
+                            отстутствует
                         {% else %}
                             {% if result_master.status == 'w' %}
                                 <b> {{ score_and_comment.score }}</b>
@@ -47,7 +47,7 @@
 
                         {% endif %}
                     </td>
-                    <td class="{% if score_and_comment.score is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                    <td class="{% if score_and_comment.score1 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
                         {% if score_and_comment.score1 is None %}
                             отсутствует
                         {% else %}
@@ -59,7 +59,7 @@
 
                         {% endif %}
                     </td>
-                    <td class="{% if score_and_comment.score is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                    <td class="{% if score_and_comment.score2 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
                         {% if score_and_comment.score2 is None %}
                             отстутствует
                         {% else %}
@@ -71,7 +71,7 @@
 
                         {% endif %}
                     </td>
-                    <td class="{% if score_and_comment.score is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                    <td class="{% if score_and_comment.score3 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
                         {% if score_and_comment.score3 is None %}
                             отстутствует
                         {% else %}
@@ -83,7 +83,7 @@
 
                         {% endif %}
                     </td>
-                    <td class="{% if score_and_comment.score is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                    <td class="{% if score_and_comment.score4 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
                         {% if score_and_comment.score4 is None %}
                             отстутствует
                         {% else %}
@@ -95,7 +95,7 @@
 
                         {% endif %}
                     </td>
-                    <td class="{% if score_and_comment.score is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                    <td class="{% if score_and_comment.score5 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
                         {% if score_and_comment.score5 is None %}
                             отстутствует
                         {% else %}
