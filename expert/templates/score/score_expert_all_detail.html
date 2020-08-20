@@ -148,7 +148,7 @@
                             {% if score_all.score is None %}
                                 отстутствует
                             {% else %}
-                                {{ score_all.score1 }}
+                                <b>{{ score_all.score }}</b>
                             {% endif %}
                         </td>
                         <td class="{% if score_all.score1 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
