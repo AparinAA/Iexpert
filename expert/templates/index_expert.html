@@ -11,41 +11,38 @@
     <hr/>
     <h4>Персональная информация</h4>
     <i> <p>Если вы хотите исправить персональную информацию, напишите нам: <a href="mailto:support@iproficlub.ru" class="text-info"> support@iproficlub.ru </a></p> </i>
-    <ul>
+    <div class="mr-2 ml-2">    
         <b style='font-size:15px'> Данные о месте работы </b>
-        <ul><p><i> Должность: </i> {{expert.position}}</p></ul>
-        <ul><p><i> Место работы: </i> {{expert.company.full_name}} </p></ul>
+        <p><i> Должность: </i> {{expert.position}}</p>
+        <p><i> Место работы: </i> {{expert.company.full_name}} </p>
 
         <b style='font-size:15px'> Контакты: </b>
-        <ul><p><i> Почта: </i> {{expert.email}}</p></ul>
-        <ul><p><i> Телефон: </i> {% if expert.phone is None or expert.phone == '-'%} <span class="text-danger">
-            отстутствует </span> {% else %} {{ expert.phone }} {% endif %}</p></ul>
-    </ul>
+        <p><i> Почта: </i> {{expert.email}}</p>
+        <p><i> Телефон: </i> {% if expert.phone is None or expert.phone == '-'%} <span class="text-danger">
+            отстутствует </span> {% else %} {{ expert.phone }} {% endif %}</p>
+    </div>
 </div>
 
 <div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
     <h4> Информация об экспертных комиссиях</h4>
 
-    <ul class="list-unstyled ml-4">
+    <div class="list-unstyled ml-2 mr-2">
         {% for com in commissions %}
 
-        <li><b> {{com}} </b></li>
-        {% if com.master %}
-        <ul><i> Ответственный секретарь:</i>
-            {{com.master}}
-        </ul>
-        <ul><i> Почта ответственного секретаря:</i>
-            <a href="mailto:{{com.master.email}}" class="text-info"> {{com.master.email}}</a></ul>
-        {% else %}
-        <ul><i> Ответственный секретарь пока не назначен </i></ul>
-        {% endif %}
+            <li><b> {{com}} </b></li>
+            {% if com.master %}
+                <li><i> Ответственный секретарь:</i> {{com.master}} </li>
+                <li><i> Почта ответственного секретаря:</i> <a href="mailto:{{com.master.email}}" class="text-info"> {{com.master.email}}</a> </li>
+            {% else %}
+                <li> <i> Ответственный секретарь пока не назначен </i></li>
+            {% endif %}
         {% endfor %}
-    </ul>
+    </div>
 </div>
 
 <div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
     <h4>Экспертиза заявок</h4>
-    <ul>
+    <ul class="list-unstyled ml-4">
         {% if check_score.check_exp %}
         <b style='font-size:15px'>Экспертиза завершена </b>
 
@@ -54,31 +51,31 @@
         <br/>
 
         {% for com, scores in dict_score.items %}
-        <ul>
-            <i> {{com}}</i>
+        <ul class="list-unstyled ml-3">
+            <i>{{com}}</i>
             {% if scores %}
                 {% if com.common_commission %}
-                <ul type="None">
+                
                     {% for score_form in scores %}
-                    <li><a href="{% url 'score_common_form' score_form.pk %}" class="text-info"> {{score_form.relation_exp_app.application}} </a>
+                    <li><a href="{% url 'score_common_form' score_form.pk %}" class="text-info" style="overflow-wrap: break-word"> {{score_form.relation_exp_app.application}} </a>
                     </li>
                     {% endfor %}
-                </ul>
+                
 
                 {% else %}
-                <ul type="None">
+                
                     {% for score_form in scores %}
                     {% if score_form.relation_exp_app.application.name.commission == com %}
-                    <li><a href="{% url 'score_expert_form' score_form.pk %}" class="text-info"> {{score_form.relation_exp_app.application}} </a>
+                    <li><a href="{% url 'score_expert_form' score_form.pk %}" class="text-info" style="overflow-wrap: break-word"> {{score_form.relation_exp_app.application}} </a>
                     </li>
                     {% endif %}
                     {% endfor %}
-                </ul>
+                
                 {% endif %}
             {% else %}
-            <ul type="None">
+            
             <li> Нет назначенных заявок в этой комиссии </li>
-            </ul>
+            
             {% endif %}
         </ul>
         {% endfor %}
@@ -89,31 +86,25 @@
 
         <b style='font-size:15px'>Завершенные экспертные оценки </b>
         {% for com, check in dict_check.items %}
-        <ul>
+        <ul class="list-unstyled ml-3">
             <i> {{com}}</i>
             {% if check %}
                 {% if com.common_commission %}
-                <ul type="None">
                     {% for score_form in  check %}
                     <li><a href="{% url 'score_common_detail' score_form.pk %}" class="text-info">
                         {{score_form.relation_exp_app.application}} </a></li>
                     {% endfor %}
-                </ul>
 
                 {% else %}
-                <ul type="None">
                     {% for score_form in check %}
                     {% if score_form.relation_exp_app.application.name.commission == com %}
                     <li><a href="{% url 'score_expert_detail' score_form.pk %}" class="text-info">
                         {{score_form.relation_exp_app.application}} </a></li>
                     {% endif %}
                     {% endfor %}
-                </ul>
                 {% endif %}
             {% else %}
-            <ul type="None">
             <li> Экспертиза заявок не завершена </li>
-            </ul>
             {% endif %}
         </ul>
         {% endfor %}

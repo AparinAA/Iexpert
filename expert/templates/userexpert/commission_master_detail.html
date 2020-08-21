@@ -91,15 +91,26 @@
         {% endif %}
     {% endif %}
     <br/>
-    <form action="" method="POST" class="mt-0">
-        {% csrf_token %}
-        <input type="submit" name='pers_data'  value="Скачать контакты экспертов" class="btn btn-secondary">
-        {% if result_master.status != 'b'  %}
-            <input type="submit" name='realtion'  value="Скачать распределение экспертов по заявкам" class="btn btn-secondary">
-        {% endif %}
-        {% if result_master.status == 'w' %}
-            <input type="submit" name='all_result' value="Скачать подробный рейтинг заявок" class="btn btn-secondary">
-        {% endif %}
+    <form action="" method="POST" class="mt-0 d-flex justify-content-lg-center">
+        {% csrf_token %} 
+        <div class="btn-group-vertical btn-group-sm d-block d-lg-none" role="group">
+            <input type="submit" name='pers_data'  value="Скачать контакты экспертов" class="btn btn-secondary rounded-top">
+            {% if result_master.status != 'b'  %}
+                <input type="submit" name='realtion'  value="Скачать распределение экспертов по заявкам" class="btn btn-secondary">
+            {% endif %}
+            {% if result_master.status == 'w' %}
+                <input type="submit" name='all_result' value="Скачать подробный рейтинг заявок" class="btn btn-secondary">
+            {% endif %}
+        </div>
+        <div class="btn-group btn-group d-none d-lg-block" role="group">
+            <input type="submit" name='pers_data'  value="Скачать контакты экспертов" class="btn btn-secondary rounded">
+            {% if result_master.status != 'b'  %}
+                <input type="submit" name='realtion'  value="Скачать распределение экспертов по заявкам" class="btn btn-secondary rounded">
+            {% endif %}
+            {% if result_master.status == 'w' %}
+                <input type="submit" name='all_result' value="Скачать подробный рейтинг заявок" class="btn btn-secondary rounded">
+            {% endif %}
+        </div>        
     </form>
 </div>
 

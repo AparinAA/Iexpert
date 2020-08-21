@@ -6,7 +6,7 @@
 <div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
     <ul class="list-unstyled ml-2">
         <li class="p-1"><b> Заявка: </b> {{ score_all.application.name.name }} - {{ score_all.application.vuz.short_name }}</li>
-        <li class="p-1"><b> Ссылка на документы заявки: </b> <a href="{{ score_all.application.link_archiv }}"  target="_blank" class="text-info">{{ score_all.application.link_archiv }} </a> </li>
+        <li class="p-1"><b> Ссылка на документы заявки: </b> <a href="{{ score_all.application.link_archiv }}"  target="_blank" class="text-info" style="overflow-wrap: break-word">{{ score_all.application.link_archiv }} </a> </li>
     </ul>
 </div>
 
@@ -17,181 +17,180 @@
         <h4> Готовность оценок и комментариев экспертов </h4>
     {% endif %}
     {% for expert, score_and_comment in score_all.get_all_comments_and_scores.items %}
-    <ul class="list-unstyled ml-3">
-        <li class="font-italic p-2 lead">
-            <i> {{ expert }} </i>
-        </li>
-        <ul type="None" class="mr-5 ml-4 p-2">
+        <div class="list-unstyled hoverDiv">
+            <p class="font-italic lead"> {{ expert }} </p>     
             <table class="table table-sm table-responsive-lg">
                 <thead class="bg-light">
-                <tr>
-                    <td scope="col" class="text-center"><i> <b> Итоговая оценка эксперта </b> </i></td>
-                    <td scope="col" class="text-center"><i> Оценка по критерию №1 </i></td>
-                    <td scope="col" class="text-center"><i> Оценка по критерию №2</i></td>
-                    <td scope="col" class="text-center"><i> Оценка по критерию №3 </i></td>
-                    <td scope="col" class="text-center"><i> Оценка по критерию №4 </i></td>
-                    <td scope="col" class="text-center"><i> Оценка по критерию №5 </i></td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="{% if score_and_comment.score is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
-                        {% if score_and_comment.score is None %}
-                            отстутствует
-                        {% else %}
-                            {% if result_master.status == 'w' %}
-                                <b> {{ score_and_comment.score }}</b>
-                            {% else %}
-                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
-                            {% endif %}
-
-                        {% endif %}
-                    </td>
-                    <td class="{% if score_and_comment.score1 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
-                        {% if score_and_comment.score1 is None %}
-                            отсутствует
-                        {% else %}
-                            {% if result_master.status == 'w' %}
-                                {{ score_and_comment.score1 }}
-                            {% else %}
-                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
-                            {% endif %}
-
-                        {% endif %}
-                    </td>
-                    <td class="{% if score_and_comment.score2 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
-                        {% if score_and_comment.score2 is None %}
-                            отстутствует
-                        {% else %}
-                            {% if result_master.status == 'w' %}
-                                {{ score_and_comment.score2 }}
-                            {% else %}
-                                 <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
-                            {% endif %}
-
-                        {% endif %}
-                    </td>
-                    <td class="{% if score_and_comment.score3 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
-                        {% if score_and_comment.score3 is None %}
-                            отстутствует
-                        {% else %}
-                            {% if result_master.status == 'w' %}
-                                {{ score_and_comment.score3 }}
-                            {% else %}
-                                 <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
-                            {% endif %}
-
-                        {% endif %}
-                    </td>
-                    <td class="{% if score_and_comment.score4 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
-                        {% if score_and_comment.score4 is None %}
-                            отстутствует
-                        {% else %}
-                            {% if result_master.status == 'w' %}
-                                {{ score_and_comment.score4 }}
-                            {% else %}
-                                 <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
-                            {% endif %}
-
-                        {% endif %}
-                    </td>
-                    <td class="{% if score_and_comment.score5 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
-                        {% if score_and_comment.score5 is None %}
-                            отстутствует
-                        {% else %}
-                            {% if result_master.status == 'w' %}
-                                {{ score_and_comment.score5 }}
-                            {% else %}
-                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
-                            {% endif %}
-
-                        {% endif %}
-                    </td>
-
-                </tr>
-            </table>
-            <li><i>Комментарий: </i>
-                {% if score_and_comment.comment is None or score_and_comment.comment == ''%}
-                     <span class="text-danger"> отстутствует </span>
-                {% else %}
-                    {% if result_master.status == 'w' %}
-                        {{ score_and_comment.comment }}
-                {% else %}
-                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
-                {% endif %}
-                {%endif%}
-            </li>
-        </ul>
-    </ul>
-    {% endfor %}
-</div>
-
-<div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
-    {% if result_master.status == 'w' %}
-
-        <h4>Итоговые оценки и комментарий по заявке:</h4>
-        <ul type="None" class="mr-5 ml-4 p-2">
-            <table class="table table-sm table-responsive-lg">
-                <thead class="bg-light">
-                <tr>
-                    <td scope="col" class="text-center"><i> <b> Итоговая оценка </b> </i></td>
-                    <td scope="col" class="text-center"><i> Оценка по критерию №1 </i></td>
-                    <td scope="col" class="text-center"><i> Оценка по критерию №2</i></td>
-                    <td scope="col" class="text-center"><i> Оценка по критерию №3 </i></td>
-                    <td scope="col" class="text-center"><i> Оценка по критерию №4 </i></td>
-                    <td scope="col" class="text-center"><i> Оценка по критерию №5 </i></td>
-                </tr>
+                    <tr>
+                        <td scope="col" class="text-center"><i> <b> Итоговая оценка эксперта </b> </i></td>
+                        <td scope="col" class="text-center"><i> Оценка по критерию №1 </i></td>
+                        <td scope="col" class="text-center"><i> Оценка по критерию №2</i></td>
+                        <td scope="col" class="text-center"><i> Оценка по критерию №3 </i></td>
+                        <td scope="col" class="text-center"><i> Оценка по критерию №4 </i></td>
+                        <td scope="col" class="text-center"><i> Оценка по критерию №5 </i></td>
+                    </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="{% if score_all.score is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
-                            {% if score_all.score is None %}
-                                отстутствует
+                        <td class="{% if score_and_comment.score is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                            {% if score_and_comment.score is None %}
+                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
                             {% else %}
-                                <b>{{ score_all.score }}</b>
+                                {% if result_master.status == 'w' %}
+                                    <b> {{ score_and_comment.score }}</b>
+                                {% else %}
+                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
+                                {% endif %}
+
                             {% endif %}
                         </td>
-                        <td class="{% if score_all.score1 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
-                            {% if score_all.score1 is None %}
-                                отстутствует
+                        <td class="{% if score_and_comment.score1 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                            {% if score_and_comment.score1 is None %}
+                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
                             {% else %}
-                                {{ score_all.score1 }}
+                                {% if result_master.status == 'w' %}
+                                    {{ score_and_comment.score1 }}
+                                {% else %}
+                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
+                                {% endif %}
+
                             {% endif %}
                         </td>
-                        <td class="{% if score_all.score2 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
-                            {% if score_all.score2 is None %}
-                                отстутствует
+                        <td class="{% if score_and_comment.score2 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                            {% if score_and_comment.score2 is None %}
+                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
                             {% else %}
-                                {{ score_all.score2 }}
+                                {% if result_master.status == 'w' %}
+                                    {{ score_and_comment.score2 }}
+                                {% else %}
+                                     <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
+                                {% endif %}
+
                             {% endif %}
                         </td>
-                        <td class="{% if score_all.score3 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
-                            {% if score_all.score3 is None %}
-                                отстутствует
+                        <td class="{% if score_and_comment.score3 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                            {% if score_and_comment.score3 is None %}
+                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
                             {% else %}
-                                {{ score_all.score3 }}
+                                {% if result_master.status == 'w' %}
+                                    {{ score_and_comment.score3 }}
+                                {% else %}
+                                     <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
+                                {% endif %}
+
                             {% endif %}
                         </td>
-                        <td class="{% if score_all.score4 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
-                            {% if score_all.score4 is None %}
-                                отстутствует
+                        <td class="{% if score_and_comment.score4 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                            {% if score_and_comment.score4 is None %}
+                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
                             {% else %}
-                                {{ score_all.score4 }}
+                                {% if result_master.status == 'w' %}
+                                    {{ score_and_comment.score4 }}
+                                {% else %}
+                                     <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
+                                {% endif %}
+
                             {% endif %}
                         </td>
-                        <td class="{% if score_all.score5 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
-                            {% if score_all.score5 is None %}
-                                отстутствует
+                        <td class="{% if score_and_comment.score5 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                            {% if score_and_comment.score5 is None %}
+                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
                             {% else %}
-                                {{ score_all.score5 }}
+                                {% if result_master.status == 'w' %}
+                                    {{ score_and_comment.score5 }}
+                                {% else %}
+                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
+                                {% endif %}
+
                             {% endif %}
                         </td>
+
                     </tr>
                 </tbody>
             </table>
-            <i> <b>  Комментарий ответственного секретаря:</b>  </i> {% if score_all.comment_master is None or score_all.comment_master == '' %}
-            отстутствует  {% else %} <br/> <ul> {{ score_all.comment_master }} {% endif %}  </ul>
-        </ul>
+            <b>Комментарий: </b>
+            {% if score_and_comment.comment is None or score_and_comment.comment == ''%}
+                 <span class="text-danger"> отстутствует </span>
+            {% else %}
+                {% if result_master.status == 'w' %}
+                    <p style="overflow-wrap: break-word"> {{ score_and_comment.comment }} </p>
+            {% else %}
+                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
+            {% endif %}
+            {%endif%}
+        </div>
+        <hr/>
+    {% endfor %}
+</div>
+
+{% if result_master.status == 'w' %}
+    <div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
+        <h4>Итоговые оценки и комментарий по заявке:</h4>
+        <table class="table table-sm table-responsive-lg">
+            <thead class="bg-light">
+            <tr>
+                <td scope="col" class="text-center"><i> <b> Итоговая оценка </b> </i></td>
+                <td scope="col" class="text-center"><i> Оценка по критерию №1 </i></td>
+                <td scope="col" class="text-center"><i> Оценка по критерию №2</i></td>
+                <td scope="col" class="text-center"><i> Оценка по критерию №3 </i></td>
+                <td scope="col" class="text-center"><i> Оценка по критерию №4 </i></td>
+                <td scope="col" class="text-center"><i> Оценка по критерию №5 </i></td>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="{% if score_all.score is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                        {% if score_all.score is None %}
+                            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
+                        {% else %}
+                            <b>{{ score_all.score }}</b>
+                        {% endif %}
+                    </td>
+                    <td class="{% if score_all.score1 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                        {% if score_all.score1 is None %}
+                            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
+                        {% else %}
+                            {{ score_all.score1 }}
+                        {% endif %}
+                    </td>
+                    <td class="{% if score_all.score2 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                        {% if score_all.score2 is None %}
+                            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
+                        {% else %}
+                            {{ score_all.score2 }}
+                        {% endif %}
+                    </td>
+                    <td class="{% if score_all.score3 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                        {% if score_all.score3 is None %}
+                            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
+                        {% else %}
+                            {{ score_all.score3 }}
+                        {% endif %}
+                    </td>
+                    <td class="{% if score_all.score4 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                        {% if score_all.score4 is None %}
+                            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
+                        {% else %}
+                            {{ score_all.score4 }}
+                        {% endif %}
+                    </td>
+                    <td class="{% if score_all.score5 is None %} table-danger text-danger {% else %} table-success {% endif %}  text-center">
+                        {% if score_all.score5 is None %}
+                            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
+                        {% else %}
+                            {{ score_all.score5 }}
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <b>  Комментарий ответственного секретаря:</b>
+        {% if score_all.comment_master is None or score_all.comment_master == '' %}
+            <span class="text-danger">отстутствует</span>  
+        {% else %} 
+            <br/> 
+            <p style="overflow-wrap: break-word"> {{ score_all.comment_master }} </p>
+        {% endif %}
         
         <hr/>
 
@@ -210,7 +209,7 @@
             {% endif %}
 
         {% endif %}
+    </div>
+{% endif %}
 
-    {% endif %}
-</div>
 {% endblock %}

@@ -6,7 +6,7 @@
 <div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
     <ul><b> Эксперт: </b> {{ scorecommon.relation_exp_app.expert }}</ul>
     <ul><b> Заявка: </b> {{ scorecommon.relation_exp_app.application }}</ul>
-    <ul><b> Ссылка на документы заявки: </b>  <a href="{{ scorecommon.relation_exp_app.application.link_archiv }}" target="_blank" class="text-info"> {{ scorecommon.relation_exp_app.application.link_archiv }} </a></ul>
+    <ul><b> Ссылка на документы заявки: </b>  <a href="{{ scorecommon.relation_exp_app.application.link_archiv }}" target="_blank" class="text-info" style="overflow-wrap: break-word"> {{ scorecommon.relation_exp_app.application.link_archiv }} </a></ul>
     <ul><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_common' %}" target="_blank" class="text-info"> Критерии общей комиссии </a></ul>
 </div>
 {% load crispy_forms_tags %}

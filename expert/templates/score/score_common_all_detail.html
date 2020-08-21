@@ -6,7 +6,7 @@
 <div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
     <ul class="list-unstyled ml-2">
         <li class="p-1"><b> Заявка: </b> {{ score_all.application }}</li>
-        <li class="p-1"><b> Ссылка на документы заявки: </b> <a href="{{ score_all.application.link_archiv }}"  target="_blank" class="text-info">{{ score_all.application.link_archiv }} </a> </li>
+        <li class="p-1"><b> Ссылка на документы заявки: </b> <a href="{{ score_all.application.link_archiv }}"  target="_blank" class="text-info" style="overflow-wrap: break-word">{{ score_all.application.link_archiv }} </a> </li>
     </ul>
 </div>
 
@@ -17,42 +17,45 @@
         <h4> Готовность оценок и комментариев экспертов </h4>
     {% endif %}
     {% for expert, score_and_comment in score_all.get_all_comments_and_scores.items %}
-    <ul class="list-unstyled ml-3" >
-        <li class="font-italic p-2 lead">
+    <div class="list-unstyled ml-1 hoverDiv" >
+        <span class="font-italic lead">
             <i> {{ expert }} </i>
-        </li>
-        <ul type="None" class="p-0 ml-5 mr-5">
-            <div class="row">
-                <div class="col-md-2 font-italic bg-light text-center"> Оценка: </div> 
-                {% if score_and_comment.score is None %}
-                    <div class="table-danger col-md-2 text-center "> отстутствует </div>  
+        </span>
+        <div class="row ml-1 mr-1">
+            <div class="col-md-2 font-italic bg-light text-center"> Оценка: </div> 
+            {% if score_and_comment.score is None %}
+                <div class="table-danger col-md-2 text-center ">
+                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
+                </div>  
+            {% else %}
+                {% if result_master.status == 'w' %}
+                    <div class="table-success col-md-2 text-center ">{{ score_and_comment.score }}</div>
                 {% else %}
-                    {% if result_master.status == 'w' %}
-                        <div class="table-success col-md-2 text-center "><b>{{ score_and_comment.score }}</b></div>
-                    {% else %}
-                        <div class="table-success col-md-2 text-center">
-                            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
-                        </div>
-                    {% endif %}
+                    <div class="table-success col-md-2 text-center">
+                        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
+                    </div>
                 {% endif %}
-            </div>
-            <div class="row">
-                <div class="col-md-2 font-italic bg-light text-center ">Комментарий:</div>
+            {% endif %}
+        </div>
+        <div class="row ml-1 mr-1">
+            <div class="col-md-2 font-italic bg-light text-center ">Комментарий:</div>
 
-                {% if score_and_comment.comment is None or score_and_comment.comment == ''%}
-                    <div class="table-danger col-md-2 text-center">отстутствует</div>
+            {% if score_and_comment.comment is None or score_and_comment.comment == ''%}
+                <div class="table-danger col-md-2 text-center">
+                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
+                </div>
+            {% else %}
+                {% if result_master.status == 'w' %}
+                    <div class="col-md-10 text-left" style="overflow-wrap: break-word">{{ score_and_comment.comment }}</div>
                 {% else %}
-                    {% if result_master.status == 'w' %}
-                        <div class="col-md-10 text-left">{{ score_and_comment.comment }}</div>
-                    {% else %}
-                        <div class="table-success col-md-2 text-center">
-                            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
-                        </div>
-                    {% endif %}
+                    <div class="table-success col-md-2 text-center">
+                        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/></svg>
+                    </div>
                 {% endif %}
-            </div>
-        </ul>
-    </ul>
+            {% endif %}
+        </div>
+    </div>
+    <hr/>
     {% endfor %}
 </div>
 
@@ -72,7 +75,7 @@
         {% if score_all.comment_master is None or score_all.comment_master == ''%}
             <span class="text-danger"> отстутствует </span>
         {% else %}
-            <br/>{{ score_all.comment_master }} 
+            <p style="overflow-wrap: break-word">{{ score_all.comment_master }} </p>
         {%endif%}</ul>
 
     <hr/>

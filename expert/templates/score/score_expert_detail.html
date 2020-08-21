@@ -7,14 +7,14 @@
 	<ul class="list-unstyled ml-2">
 		<li class="p-1"><b> Эксперт: </b> {{ scoreexpert.relation_exp_app.expert }}</li>
 		<li class="p-1"><b> Заявка: </b> {{ scoreexpert.relation_exp_app.application.name.name }} - {{ scoreexpert.relation_exp_app.application.vuz.short_name }}</li>
-		<li class="p-1"><b> Ссылка на документы заявки: </b> <a href="{{ scoreexpert.relation_exp_app.application.link_archiv }}" target="_blank" class="text-info">  {{ scoreexpert.relation_exp_app.application.link_archiv }}</a></li>
+		<li class="p-1"><b> Ссылка на документы заявки: </b> <a href="{{ scoreexpert.relation_exp_app.application.link_archiv }}" target="_blank" class="text-info" style="overflow-wrap: break-word">  {{ scoreexpert.relation_exp_app.application.link_archiv }}</a></li>
 		<li class="p-1"><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_expert' %}" target="_blank" class="text-info"> Критерии экспертной комиссии </a> </li>
 	</ul>
 </div>
 
 <div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
 	<h4>Оценки</h4>
-    <ul type="None" class="mr-5">
+    
 	    <table class="table table-sm table-responsive-lg">
 		    <thead class="bg-light">
 		    <tr>
@@ -28,37 +28,46 @@
 		    <tbody>
 		    <tr>
 		        {% if scoreexpert.score1 is None %} 
-		            <td class="table-danger text-white text-center"> отстутствует </font> </td>
+                    <td class="table-danger text-danger text-center">
+                        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
+                    </td>
 		        {% else %} 
 		            <td class="table-success text-center"> <b>{{ scoreexpert.score1 }}</b></td> 
 		        {% endif %}
 		        {% if scoreexpert.score2 is None %} 
-		            <td class="table-danger text-white text-center"> отстутствует </font> </td>
+                    <td class="table-danger text-danger text-center">
+                        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
+                    </td>
 		        {% else %} 
 		            <td class="table-success text-center"> <b>{{ scoreexpert.score2 }}</b></td> 
 		        {% endif %}
 		        {% if scoreexpert.score3 is None %} 
-		            <td class="table-danger text-white text-center"> отстутствует </font> </td>
+                    <td class="table-danger text-danger text-center">
+                        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
+                    </td>
 		        {% else %} 
 		            <td class="table-success text-center"> <b>{{ scoreexpert.score3 }}</b></td> 
 		        {% endif %}
 		        {% if scoreexpert.score4 is None %} 
-		            <td class="table-danger text-white text-center"> отстутствует </font> </td>
+                    <td class="table-danger text-danger text-center">
+                        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
+                    </td>
 		        {% else %} 
 		            <td class="table-success text-center"> <b>{{ scoreexpert.score4 }}</b></td> 
 		        {% endif %}
 		        {% if scoreexpert.score5 is None %} 
-		            <td class="table-danger text-white text-center"> отстутствует </font> </td>
+                    <td class="table-danger text-danger text-center">
+                        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
+                    </td>
 		        {% else %} 
 		            <td class="table-success text-center"> <b>{{ scoreexpert.score5 }}</b></td> 
 		        {% endif %}
 		    </tr>
 		    </tbody>
 		</table>
-	</ul>
 	<h4>Комментарий</h4>
 	{% if scoreexpert.comment %}
-		<ul>{{ scoreexpert.comment }}</ul>
+		<p class="" style="overflow-wrap: break-word">{{ scoreexpert.comment }}</p>
 	{% else %}
 		<ul> <span class="text-danger"> Вы не оставили комментарий к заявке </span></ul>
 	{% endif %}

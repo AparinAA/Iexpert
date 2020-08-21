@@ -12,61 +12,75 @@
 <div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
     <h4> Оценки и комментарии экспертов </h4>
     {% for expert, score_and_comment in scoreexpertall.get_all_comments_and_scores.items %}
-    <ul class="list-unstyled">
-        <p class="p-2 font-italic"> {{ expert }} </p>
-        <div class="mr-5 ml-4">
-            <table class="table table-sm table-responsive-lg">
-                <thead class="bg-light">
-                <tr>
-                    <td scope="col" class="text-center"><i> Итоговая оценка эксперта </i></td>                
-                    <td scope="col" class="text-center"><i> Оценка по критерию №1 </i></td>
-                    <td scope="col" class="text-center"><i> Оценка по критерию №2 </i></td>
-                    <td scope="col" class="text-center"><i> Оценка по критерию №3 </i></td>
-                    <td scope="col" class="text-center"><i> Оценка по критерию №4 </i></td>
-                    <td scope="col" class="text-center"><i> Оценка по критерию №5 </i></td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    {% if score_and_comment.score is None %} 
-                        <td class="table-danger text-white text-center"> отстутствует </font> </td>
-                    {% else %} 
-                        <td class="table-success text-center"> <b>{{ score_and_comment.score }}</b></td> 
-                    {% endif %}
-                    {% if score_and_comment.score1 is None %} 
-                        <td class="table-danger text-white text-center"> отстутствует </font> </td>
-                    {% else %} 
-                        <td class="table-success text-center"> <b>{{ score_and_comment.score1 }}</b></td> 
-                    {% endif %}
-                    {% if score_and_comment.score2 is None %} 
-                        <td class="table-danger text-white text-center"> отстутствует </font> </td>
-                    {% else %} 
-                        <td class="table-success text-center"> <b>{{ score_and_comment.score2 }}</b></td> 
-                    {% endif %}
-                    {% if score_and_comment.score3 is None %} 
-                        <td class="table-danger text-white text-center"> отстутствует </font> </td>
-                    {% else %} 
-                        <td class="table-success text-center"> <b>{{ score_and_comment.score3 }}</b></td> 
-                    {% endif %}
-                    {% if score_and_comment.score4 is None %} 
-                        <td class="table-danger text-white text-center"> отстутствует </font> </td>
-                    {% else %} 
-                        <td class="table-success text-center"> <b>{{ score_and_comment.score4 }}</b></td> 
-                    {% endif %}
-                    {% if score_and_comment.score5 is None %} 
-                        <td class="table-danger text-white text-center"> отстутствует </font> </td>
-                    {% else %} 
-                        <td class="table-success text-center"> <b>{{ score_and_comment.score5 }}</b></td> 
-                    {% endif %}
-                </tr>
-                </tbody>
-            </table>
-            <p><span class="font-italic">Комментарий:</span>  {% if score_and_comment.comment is None or score_and_comment.comment == ''%}
-                <span class="text-danger"> отстутствует </span>
-                {% else %}{{ score_and_comment.comment }} {%endif%} </p>
+        <div class="list-unstyled hoverDiv">
+            <p class="font-italic lead"> {{ expert }} </p>
+                <table class="table table-sm table-responsive-lg">
+                    <thead class="bg-light">
+                        <tr>
+                            <td scope="col" class="text-center"><i> Итоговая оценка эксперта </i></td>                
+                            <td scope="col" class="text-center"><i> Оценка по критерию №1 </i></td>
+                            <td scope="col" class="text-center"><i> Оценка по критерию №2 </i></td>
+                            <td scope="col" class="text-center"><i> Оценка по критерию №3 </i></td>
+                            <td scope="col" class="text-center"><i> Оценка по критерию №4 </i></td>
+                            <td scope="col" class="text-center"><i> Оценка по критерию №5 </i></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {% if score_and_comment.score is None %} 
+                                <td class="table-danger text-danger text-center">
+                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
+                                </td>
+                            {% else %} 
+                                <td class="table-success text-center"> <b>{{ score_and_comment.score }}</b></td> 
+                            {% endif %}
+                            {% if score_and_comment.score1 is None %} 
+                                <td class="table-danger text-danger text-center">
+                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
+                                </td>
+                            {% else %} 
+                                <td class="table-success text-center"> <b>{{ score_and_comment.score1 }}</b></td> 
+                            {% endif %}
+                            {% if score_and_comment.score2 is None %} 
+                                <td class="table-danger text-danger text-center">
+                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
+                                </td>
+                            {% else %} 
+                                <td class="table-success text-center"> <b>{{ score_and_comment.score2 }}</b></td> 
+                            {% endif %}
+                            {% if score_and_comment.score3 is None %} 
+                                <td class="table-danger text-danger text-center">
+                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
+                                </td>
+                            {% else %} 
+                                <td class="table-success text-center"> <b>{{ score_and_comment.score3 }}</b></td> 
+                            {% endif %}
+                            {% if score_and_comment.score4 is None %} 
+                                <td class="table-danger text-danger text-center">
+                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
+                                </td>
+                            {% else %} 
+                                <td class="table-success text-center"> <b>{{ score_and_comment.score4 }}</b></td> 
+                            {% endif %}
+                            {% if score_and_comment.score5 is None %} 
+                                <td class="table-danger text-danger text-center">
+                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
+                                </td>
+                            {% else %} 
+                                <td class="table-success text-center"> <b>{{ score_and_comment.score5 }}</b></td> 
+                            {% endif %}
+                        </tr>
+                    </tbody>
+                </table>
+                <b>Комментарий:</b>  
+                {% if score_and_comment.comment is None or score_and_comment.comment == ''%}
+                    <span class="text-danger"> отстутствует </span>
+                {% else %}
+                    <br/>
+                    <span style="overflow-wrap: break-word">{{ score_and_comment.comment }} </span>
+                {%endif%}
         </div>
-        
-    </ul>
+        <hr/>
     {% endfor %}
 </div>
 

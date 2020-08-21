@@ -4,38 +4,40 @@
 <h1 class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded d-flex"> <small> Форма оценки заявки </small></h1>
 <div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
     <div class="p-2 ml-1"><b> Заявка: </b> {{ scorecommonall.application }}</div>
-    <div class="p-2 ml-1"><b> Ссылка на документы заявки: </b> <a href="{{ scorecommonall.application.link_archiv }}"  target="_blank" class="text-info">{{ scorecommonall.application.link_archiv }} </a> </div>
+    <div class="p-2 ml-1"><b> Ссылка на документы заявки: </b> <a href="{{ scorecommonall.application.link_archiv }}"  target="_blank" class="text-info" style="overflow-wrap: break-word">{{ scorecommonall.application.link_archiv }} </a> </div>
     <div class="p-2 ml-1"><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_common' %}" target="_blank" class="text-info"> Критерии общей комиссии </a></div>
 </div>
 <div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
     <h4> Оценки и комментарии экспертов </h4>
     {% for expert, score_and_comment in scorecommonall.get_all_comments_and_scores.items %}
-    <ul class="list-unstyled ml-3">
-        <p class="p-2 font-italic"> {{ expert }} </p>
-        <ul type="None" class="">
-            <div class="row">
-                <div class="col-md-2 font-italic bg-light text-center"> Оценка: </div> 
-                {% if score_and_comment.score is None %} 
-                    <div class="table-danger col-md-2 text-center "> отстутствует </div>  
-                {% else %}
-                    <div class="table-success col-md-2 text-center "><b>{{ score_and_comment.score }}</b></div>
-                {% endif %}
-            </div>
-            <div class="row">
-                <div class="col-md-2 font-italic bg-light text-center ">
-                Комментарий:
+    <div class="list-unstyled ml-1 hoverDiv">
+        <p class="font-italic lead"> {{ expert }} </p>
+        <div class="row ml-1 mr-1">
+            <div class="col-md-2 font-italic bg-light text-center"> Оценка: </div> 
+            {% if score_and_comment.score is None %} 
+                <div class="table-danger col-md-2 text-center ">
+                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
+                </div>  
+            {% else %}
+                <div class="table-success col-md-2 text-center "><b>{{ score_and_comment.score }}</b></div>
+            {% endif %}
+        </div>
+        <div class="row ml-1 mr-1">
+            <div class="col-md-2 font-italic bg-light text-center ">
+            Комментарий:
+            </div> 
+            {% if score_and_comment.comment is None or score_and_comment.comment == "" %}
+                <div class="table-danger col-md-2 text-center">
+                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
+                </div>
+            {% else %}
+                <div class="col-md-10 text-left" style="overflow-wrap: break-word">
+                    {{ score_and_comment.comment }}
                 </div> 
-                {% if score_and_comment.comment is None or score_and_comment.comment == "" %}
-                    <div class="table-danger col-md-2 text-center">
-                        отстутствует
-                    </div>
-                {% else %}
-                    <div class="col-md-10 text-left">
-                        <b>{{ score_and_comment.comment }}</b>
-                    </div> 
-                {% endif %}
-            </div>
-        </ul>
+            {% endif %}
+        </div>
+    </div>
+    <hr/>
     {% endfor %}
 </div>
 

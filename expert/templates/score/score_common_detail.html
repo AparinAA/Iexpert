@@ -6,16 +6,18 @@
 <div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
 	<ul><b> Эксперт: </b> {{ scorecommon.relation_exp_app.expert }}</ul>
 	<ul><b> Заявка: </b> {{ scorecommon.relation_exp_app.application }}</ul>
-	<ul><b> Ссылка на документы заявки: </b>  <a href="{{ scorecommon.relation_exp_app.application.link_archiv }}" target="_blank" class="text-info"> {{ scorecommon.relation_exp_app.application.link_archiv }} </a></ul>
+	<ul><b> Ссылка на документы заявки: </b>  <a href="{{ scorecommon.relation_exp_app.application.link_archiv }}" target="_blank" class="text-info" style="overflow-wrap: break-word"> {{ scorecommon.relation_exp_app.application.link_archiv }} </a></ul>
 	<ul><b> Ссылка на подробные критерии: </b> <a href="{% url 'criteria_common' %}" target="_blank" class="text-info"> Критерии общей комиссии </a></ul>
 
-	<ul type="None" class="p-0 ml-5 mr-5">
+	<ul type="None" class="p-2 ml-5 mr-5">
         <div class="row">
             <div class="col-md-2 font-italic bg-light text-center"> Оценка: </div> 
             {% if scorecommon.score is None %} 
-                <div class="table-danger col-md-2 text-center "> отстутствует </div>  
+                <div class="table-danger text-danger col-md-2 text-center ">
+                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
+                </div>  
             {% else %}
-                <div class="table-success col-md-2 text-center "><b>{{ scorecommon.score }}</b></div>
+                <div class="table-success col-md-2 text-center" ><b>{{ scorecommon.score }}</b></div>
             {% endif %}
         </div>
         <div class="row">
@@ -23,33 +25,32 @@
             Комментарий:
             </div> 
             {% if scorecommon.comment is None or scorecommon.comment == "" %}
-                <div class="table-danger col-md-2 text-center">
-                    отстутствует
+                <div class="table-danger text-danger col-md-2 text-center">
+                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>
                 </div>
             {% else %}
-                <div class="col-md-10 text-left">
-                    <b>{{ scorecommon.comment }}</b>
+                <div class="col-md-10 text-left" style="overflow-wrap: break-word">
+                    {{ scorecommon.comment }}
                 </div> 
             {% endif %}
         </div>
     </ul>
 	{% if scorecommon.comment is None or scorecommon.comment == "" %}
-	    <ul class="ml-4"><span class="text-danger pl-2"><b>Вы не оставили комментарий к заявке </b></span></ul>
+	    <ul><span class="text-danger"><b>Вы не оставили комментарий к заявке </b></span></ul>
 	{% endif %}
 
 
 	{% if scorecommon.check %}
 	<br/>
-	{% if not check_exp.check_exp %}
-	Вы успешно оценили заявку.<br/>
-	Если вы хотите изменить оценки по критериям и/или текст комментария, перейдите по ссылке в <a href="{% url 'score_common_form' scorecommon.pk%}" class="text-info"> форму оценки заявки </a><br/>
-	<b> Также вам необходимо подтвердить свои оценки на <a href="{% url 'check_score' %}" class="text-info"> странице подтверждения</a>  после окончания экспертизы всех заявок </b>
-	{% else %}
-	Вы подтвердили окончание экспертизы. Если вы хотите внести измнения в оценки, то напишите на почту <a href="mailto:support@iproficlub.ru" class="text-info"> support@iproficlub.ru </a>
-	{% endif %}
-	{% else %}
-	<p class="ml-5"> Вы не закончили оценивание заявки. Пожалуйста, перейдите по ссылке и закончите экспертизу:
-	<a href="{% url 'score_common_form' scorecommon.pk%}" class="text-info"> форма оценки заявки </a> </p>
+    	{% if not check_exp.check_exp %}
+            Вы успешно оценили заявку.<br/>
+            Если вы хотите изменить оценки по критериям и/или текст комментария, перейдите по ссылке в <a href="{% url 'score_common_form' scorecommon.pk%}" class="text-info"> форму оценки заявки </a><br/><b> Также вам необходимо подтвердить свои оценки на <a href="{% url 'check_score' %}" class="text-info"> странице подтверждения</a>  после окончания экспертизы всех заявок </b>
+    	{% else %}
+    	   Вы подтвердили окончание экспертизы. Если вы хотите внести измнения в оценки, то напишите на почту <a href="mailto:support@iproficlub.ru" class="text-info"> support@iproficlub.ru </a>
+    	{% endif %}
+    {% else %}
+    	<p class="ml-3"> Вы не закончили оценивание заявки. Пожалуйста, перейдите по ссылке и закончите экспертизу:
+    	<a href="{% url 'score_common_form' scorecommon.pk%}" class="text-info"> форма оценки заявки </a> </p>
 	{% endif %}
 </div>
 {% endblock %}

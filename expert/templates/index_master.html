@@ -8,21 +8,21 @@
     <hr/>
     <h4> Персональная информация </h4>
     <i> <p>Если вы хотите исправить персональную информацию, напишите нам: <a href="mailto:support@iproficlub.ru" class="text-info"> support@iproficlub.ru </a></p> </i>
-    <ul>
+    <div class="ml-2 mr-2">
         <b style='font-size:15px'> Данные о месте работы </b>
-        <ul><p><i> Должность: </i> {{expert.position}}</p></ul>
-        <ul><p><i> Место работы: </i> {{expert.company.full_name}} </p></ul>
+        <p><i> Должность: </i> {{expert.position}} </p>
+        <p><i> Место работы: </i> {{expert.company.full_name}} </p>
 
-        <b style='font-size:15px'> Контакты: </b>
-        <ul><p><i> Почта: </i> {{expert.email}}</p></ul>
-        <ul><p><i> Телефон: </i> 
+        <b style='font-size:15px'> Контакты </b>
+        <p><i> Почта: </i> {{expert.email}}</p>
+        <p><i> Телефон: </i> 
         {% if expert.phone is None or expert.phone == '-'%}
             <span class="text-danger">отстутствует</span> 
         {% else %} 
             {{ expert.phone }}
         {% endif %}
-        </p></ul>
-    </ul>
+        </p>
+    </div>
 </div>
 
 <div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
@@ -64,8 +64,11 @@
             {% for score_form, counts in dict_score.items %}
             <ul class="list-unstyled">
                 <li>
-                    <a href="{% url 'score_common_all_form' score_form.pk %}" class="text-info"> {{score_form.application}} </a>
-                     (экспертизу провел(-и) <b> {{counts.0}} </b> из <b> {{counts.1}} </b>  экспертов)
+                    <a href="{% url 'score_common_all_form' score_form.pk %}" class="text-info" style="overflow-wrap: break-word"> {{score_form.application}} </a>
+                    <div class="d-none d-sm-block d-md-none">
+                        <br/>
+                    </div>
+                    (экспертизу провел(-и) <b> {{counts.0}} </b> из <b> {{counts.1}} </b>  экспертов)
                 </li>
             </ul>
             {% endfor %}
@@ -76,7 +79,10 @@
                 {% for score_form, counts in dict_score.items %}
                 <ul class="list-unstyled">
                     <li>
-                    <a href="{% url 'score_expert_all_form' score_form.pk %}" class="text-info"> {{score_form.application}} </a>
+                        <a href="{% url 'score_expert_all_form' score_form.pk %}" class="text-info" style="overflow-wrap: break-word"> {{score_form.application}} </a>
+                        <div class="d-none d-sm-block d-md-none">
+                            <br/>
+                        </div>
                         (экспертизу провел(-и) <b> {{counts.0}} </b> из <b> {{counts.1}} </b> экспертов)
                     </li>
                 </ul>
