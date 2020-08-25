@@ -80,7 +80,7 @@
 			Если вы хотите изменить оценки по критериям и/или текст комментария, перейдите по ссылке в <a href="{% url 'score_expert_form' scoreexpert.pk%}" class="text-info"> форму оценки заявки </a> <br/>
 			<b> Также вам необходимо подтвердить свои оценки на <a href="{% url 'check_score' %}" class="text-info"> странице подтверждения</a>  после окончания экспертизы всех заявок </b>
 		{% else %}
-			Вы подтвердили окончание экспертизы. Если вы хотите внести изменения в оценки, то напишите на почту <a href="mailto:support@iproficlub.ru"> support@iproficlub.ru </a>
+			Вы подтвердили окончание экспертизы. Если вы хотите внести изменения в оценки, то напишите на почту <a href="mailto:support@iproficlub.ru" class="text-info"> support@iproficlub.ru </a>
 		{% endif %}
 	{% else %}
 		Вы не закончили оценивание заявки. Пожалуйста, перейдите по ссылке и закончите экспертизу: <b><a href="{% url 'score_expert_form' scoreexpert.pk%}" class="text-info">форма оценки заявки </a></b>
