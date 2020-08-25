@@ -5,9 +5,11 @@ body {
 }
 .hoverDiv {
     background: #fff;
+    padding: 0.4rem;
 }
 .hoverDiv:hover {
-    background: #f8f9fa; padding: 0.05rem;
+    background: #f8f9fa;
+    border-radius: 0.4rem;
 }
 
 .sidebar-nav {

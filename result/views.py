@@ -62,7 +62,7 @@ def AllScoreForExpertIndex(request):
                 # data = form.save(commit=False)
                 check_exp_sc = CheckExpertScore.objects.all().get(expert=request.user)
                 check_exp_sc.check_exp = form.cleaned_data['check_exp']
-
+                check_exp_sc.save()
                 return render(request, 'result/score_all_for_expert.html',
                               context={'checkexpertscore': check_exp_sc,
                                        'form': form})

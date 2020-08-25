@@ -29,7 +29,7 @@ except (IOError, TypeError):
     SECRET_KEY = "sadsfz#$#@_231dsfs&#$^123_1"
     url = False
 
-DEBUG = False
+DEBUG = True
 # bool(os.environ.get('DJANGO_DEBUG', False))
 ALLOWED_HOSTS = ['127.0.0.1', 'expert-olymp.ru', 'www.expert-olymp.ru']
 
@@ -77,7 +77,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'result.checkExpert.checkexpertscore_almost',
                 'result.checkExpert.checkscore_com',
 
             ],
