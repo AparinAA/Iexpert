@@ -6,10 +6,14 @@ body {
 .hoverDiv {
     background: #fff;
     padding: 0.4rem;
+    transition-property: transform;
+    transition-duration: 0.2s;
+    transition-timing-function: linear; 
 }
 .hoverDiv:hover {
     background: #f8f9fa;
     border-radius: 0.4rem;
+    transform: scale(1.002,1);
 }
 
 .sidebar-nav {

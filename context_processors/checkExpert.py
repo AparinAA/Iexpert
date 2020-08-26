@@ -3,7 +3,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from score.models import ScoreExpert, ScoreCommon
 from app.models import RelationExpertApplication
 
-def checkscore_everywhere(request):
+#контекстный процессор передает переменные во все шаблоны
+def context_checkscore_everywhere(request):
 	count_all = 0
 	count_ok = 0
 	ready_score = False
