@@ -11,8 +11,8 @@ body {
     transition-timing-function: linear; 
 }
 .hoverDiv:hover {
-    background: #f8f9fa;
-    border-radius: 0.4rem;
+    box-shadow: 0 0 .8rem .4rem rgba(0,0,0,.09) !important;
+    border-radius: .4rem;
     transform: scale(1.002,1);
 }
 
