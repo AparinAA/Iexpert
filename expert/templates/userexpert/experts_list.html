@@ -10,7 +10,7 @@
     <ul class="p-0" id="listExpert">
         {% for commission in all_group %}
             {% if commission.common_commission == False%}
-                <li class="list-group-item p-1 border-0"><a href="{% url 'commission-detail' commission.pk%}" class="text-dark" style="text-decoration: none;"> {{ commission.name }} </a></li>
+                <a href="{% url 'commission-detail' commission.pk%}" class="list-group-item p-1 border-0 text-dark" style="text-decoration: none;"> {{ commission.name }} </a>
                 {% for expert in all_expert%}
                     {% if commission.group in expert.get_commission%}
                         <li class="list-group-item p-1 border-0"><a href="{% url 'expert-detail' expert.pk%}" class="text-info ml-3"> {{expert}} </a></li>
@@ -21,7 +21,7 @@
 
         {% for commission in all_group %}
             {% if commission.common_commission == True%}
-                <li class="list-group-item p-1 border-0"> <a href="{% url 'commission-detail' commission.pk%}" class="text-dark" style="text-decoration: none;"> {{ commission.name }} </a></li>
+                <a href="{% url 'commission-detail' commission.pk%}" class="list-group-item p-1 border-0 text-dark" style="text-decoration: none;"> {{ commission.name }} </a>
                 {% for expert in all_expert%}
                     {% if commission.group in expert.get_commission%}
                         <li class="list-group-item p-1 border-0"><a href="{% url 'expert-detail' expert.pk%}" class="text-info ml-3"> {{expert}} </a></li>
