@@ -6,30 +6,41 @@
 <div class="list-group drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
 
 {% if all_group %}
-    
-    {% for commission in all_group %}
-    {% if commission.common_commission == False%}
-        <a href="{% url 'commission-detail' commission.pk%}" class="list-group-item text-dark border-0 p-1" style="text-decoration: none;"> {{ commission.name }} </a>
-        {% for expert in all_expert%}
-            {% if commission.group in expert.get_commission%}
-                <a href="{% url 'expert-detail' expert.pk%}" class="list-group-item text-info ml-3 border-0 p-1"> {{expert}} </a>
+    <input class="form-control mb-1" id="myInput" type="text" placeholder="Поиск...">
+    <ul class="p-0" id="listExpert">
+        {% for commission in all_group %}
+            {% if commission.common_commission == False%}
+                <li class="list-group-item p-1 border-0"><a href="{% url 'commission-detail' commission.pk%}" class="text-dark" style="text-decoration: none;"> {{ commission.name }} </a></li>
+                {% for expert in all_expert%}
+                    {% if commission.group in expert.get_commission%}
+                        <li class="list-group-item p-1 border-0"><a href="{% url 'expert-detail' expert.pk%}" class="text-info ml-3"> {{expert}} </a></li>
+                    {% endif %}
+                {% endfor %}
             {% endif %}
         {% endfor %}
-    {% endif %}
-    {% endfor %}
 
-    {% for commission in all_group %}
-    {% if commission.common_commission == True%}
-        <a href="{% url 'commission-detail' commission.pk%}" class="list-group-item text-dark border-0 p-1" style="text-decoration: none;"> {{ commission.name }} </a>
-        {% for expert in all_expert%}
-            {% if commission.group in expert.get_commission%}
-                <a href="{% url 'expert-detail' expert.pk%}" class="list-group-item text-info ml-3 border-0 p-1"> {{expert}} </a>
+        {% for commission in all_group %}
+            {% if commission.common_commission == True%}
+                <li class="list-group-item p-1 border-0"> <a href="{% url 'commission-detail' commission.pk%}" class="text-dark" style="text-decoration: none;"> {{ commission.name }} </a></li>
+                {% for expert in all_expert%}
+                    {% if commission.group in expert.get_commission%}
+                        <li class="list-group-item p-1 border-0"><a href="{% url 'expert-detail' expert.pk%}" class="text-info ml-3"> {{expert}} </a></li>
+                    {% endif %}
+                {% endfor %}
             {% endif %}
         {% endfor %}
-    {% endif %}
-    {% endfor %}
 
-
+    </ul>
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $('#listExpert li').filter( function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1 )
+                });
+            });
+        });
+    </script>
 {% else %}
         <div class="p-2 mb-4 mt-0">
             <p class="text-muted">Нет экспертных групп</p>
