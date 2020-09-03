@@ -31,8 +31,9 @@ class ExpertScoreAdmin(MyScoreBaseAdmin):
                            )}),
         # ('Эксперты', {'fields': ('experts', )})
     )
-    search_fields = ['expert__first_name', 'expert__second_name', 'expert__last_name', ]
-    ordering = ('expert',)
+    search_fields = ['expert__first_name', 'expert__last_name',
+                     'expert__middle_name']
+    ordering = ('expert__last_name',)
     change_form_template = 'admin/change_expert_score_admin.html'
 
     def load_from_relation(self, request):
@@ -59,7 +60,7 @@ class ResultMasterAdmin(MyScoreBaseAdmin):
         ('Примичание', {'fields': ('comment',
                                    )}),
     )
-    search_fields = ['master__first_name', 'master__second_name', 'master__last_name', ]
+    search_fields = ['master__first_name', 'master__middle_name', 'master__last_name', ]
     ordering = ('master__first_name',)
     change_form_template = 'admin/change_result_master.html'
 

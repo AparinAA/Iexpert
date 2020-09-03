@@ -84,7 +84,7 @@ def export_personal_info_commission(commission):
             ar.append(exp.phone)
             ar.append(exp.email)
             res.append(ar)
-    df = pd.DataFrame(res, columns=head)
+    df = pd.DataFrame(res, columns=head).sort_values('Эксперт')
     return df
 
 
@@ -491,7 +491,7 @@ from result.models import CheckExpertScore
 def export_svod_commission(commission):
     all_expert = Expert.objects.filter(groups=commission.group)
     head = ["ФИО эксперта", "Login", "Комиссия", "Сколько заявок сделано", "Сколько заявок распрделили",
-            "Закончил экспертизу (предыдущие столбцы равны)", "Подтвердил готовность оценок",
+            "Подтвердил готовность оценок", "Закончил экспертизу (предыдущие столбцы равны)",
             "Организация эксперта", "ФО", "Должность", "Почта", "Телефон", "Комментарий в системе"]
     table = []
     for exp in all_expert:

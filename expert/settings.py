@@ -29,8 +29,8 @@ except (IOError, TypeError):
     SECRET_KEY = "sadsfz#$#@_231dsfs&#$^123_1"
     url = False
 
-DEBUG = False
-# bool(os.environ.get('DJANGO_DEBUG', False))
+
+DEBUG = False #TODO
 ALLOWED_HOSTS = ['127.0.0.1', 'expert-olymp.ru', 'www.expert-olymp.ru']
 
 # Application definition

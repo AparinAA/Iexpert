@@ -11,7 +11,7 @@ def is_float(val):
 
 
 def scalar_product_exp_scores(scores):
-    mass = [0.3, 0.2, 0.1, 0.2, 0.1]
+    mass = [0.3, 0.3, 0.1, 0.2, 0.1]
     result = 0.0
     if len(scores) != 5:
         return 'NO len scores != 5'

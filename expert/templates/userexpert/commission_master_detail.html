@@ -59,8 +59,8 @@
             {% for check in experts_null %}
                 {% if not check.expert.master_group %}
                 <tr>
-                    <td class="text-center w-50 align-middle"><a href="{% url 'expert-detail' check.expert.pk%}" class="text-info"> {{check.expert}}</a></td>
-                    <td class="text-center w-50 align-middle"> {{check.expert.company}}</td>
+                    <td class="text-left w-50 align-middle"><a href="{% url 'expert-detail' check.expert.pk%}" class="text-info"> {{check.expert}}</a></td>
+                    <td class="text-left w-50 align-middle"> {{check.expert.company}}</td>
                 </tr>
                 {% endif %}
             {% endfor %}
