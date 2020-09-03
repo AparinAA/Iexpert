@@ -31,7 +31,8 @@ class ExpertScoreAdmin(MyScoreBaseAdmin):
                            )}),
         # ('Эксперты', {'fields': ('experts', )})
     )
-    search_fields = ['expert__first_name', ]
+    search_fields = ['expert__first_name', 'expert__last_name',
+                     'expert__second_name']
     ordering = ('expert__last_name',)
     change_form_template = 'admin/change_expert_score_admin.html'
 
