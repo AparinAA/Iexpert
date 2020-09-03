@@ -35,7 +35,7 @@
     {% if application_all %}
     <ul class="list-unstyled">
         {% for application in application_all %}
-            <li style="word-break: break-all;"><a href="{% url 'application-detail' application.pk%}" class="text-info ml-4"> {{application.name}} - {{application.vuz.full_name}} </a></li>
+            <li><a href="{% url 'application-detail' application.pk%}" class="text-info"> {{application.name}} - {{application.vuz.full_name}} </a></li>
         {% endfor %}
     </ul>
     {% else %}
@@ -44,50 +44,50 @@
 </div>
 
 <div class="drop-shadow p-2 mb-4 mt-0 ml-0 rounded">
-    <h4>Экспертиза заявок </h4>
-    <ul> <h5> <b> Нерассмотренные заявки </b></h5></ul>
+    <h5> <b> Нерассмотренные заявки </b></h5>
         {% if scores_common%}
             <ul class="list-unstyled">
                 <b>Общая комиссия: </b>
                 {% for score_form in scores_common %}
-                    <li><a href="{% url 'score_common_form' score_form.pk %}" class="text-info ml-4"> {{score_form.relation_exp_app.application}} </a></li>
+                    <li class="ml-4"><a href="{% url 'score_common_form' score_form.pk %}" class="text-info text-truncate d-block"> {{score_form.relation_exp_app.application}} </a></li>
                 {#  #}
                 {% endfor %}
             </ul>
         {% else %}
             {% if scores_expert %}
                 <ul class="list-unstyled">
-                    <<b>Экспертная комиссия: </b>
+                    <b>Экспертная комиссия: </b>
                     {% for score_form in scores_expert %}
-                        <li><a href="{% url 'score_expert_form' score_form.pk %}" class="text-info ml-4"> {{score_form.relation_exp_app.application}} </a></li>
+                        <li class="ml-4"><a href="{% url 'score_expert_form' score_form.pk %}" class="text-info text-truncate d-block" > {{score_form.relation_exp_app.application}} </a></li>
                     {% endfor %}
                 </ul>
             {% else %}
-                <ul> <span class="ml-5">Нет назначенных заявок для оценки </span> </ul>
+                Нет назначенных заявок для оценки
             {% endif %}
         {% endif %}
 
-    <ul> <h5><b> Завершенные экспертные оценки </b></h5> </ul>
+    <h5><b> Завершенные экспертные оценки </b></h5>
     <ul>
         {% if check_common %}
             <ul class="list-unstyled">
                 <b>Общая комиссия: </b>
                 {% for score_form in check_common %}
-                    <li><a href="{% url 'score_common_detail' score_form.pk %}" class="text-info ml-4"> {{score_form.relation_exp_app.application}} </a></li>
+                    <li class="ml-4"><a href="{% url 'score_common_detail' score_form.pk %}" class="text-info text-truncate d-block"> {{score_form.relation_exp_app.application}} </a></li>
                 {% endfor %}
             </ul>
         {% else %}
+            <ul class="list-unstyled">
             {% if check_expert %}
-                <ul class="list-unstyled">
+                
                     <b>Экспертная комиссия: </b>
                     {% for score_form in check_expert %}
-                    <li><a href="{% url 'score_expert_detail' score_form.pk %}" class="text-info ml-4"> {{score_form.relation_exp_app.application}} </a></li>
-                    {#  #}
+                        <li class="ml-4"><a href="{% url 'score_expert_detail' score_form.pk %}" class="text-info text-truncate d-block"> {{score_form.relation_exp_app.application}} </a></li>
                     {% endfor %}
-                </ul>
+                
             {% else %}
-                <span class="ml-5">Нет готовых заявок эксперта </span>
+                Нет готовых заявок эксперта
             {% endif %}
+            </ul>
         {% endif %}
     </ul>
 </div>
