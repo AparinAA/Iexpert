@@ -35,11 +35,11 @@
     {% if application_all %}
     <ul class="list-unstyled">
         {% for application in application_all %}
-            <li><a href="{% url 'application-detail' application.pk%}" class="text-info ml-4"> {{application.name}} - {{application.vuz.full_name}} </a></li>
+            <li style="word-break: break-all;"><a href="{% url 'application-detail' application.pk%}" class="text-info ml-4"> {{application.name}} - {{application.vuz.full_name}} </a></li>
         {% endfor %}
     </ul>
     {% else %}
-    Нет назначенных заявок для оценки
+        Нет назначенных заявок для оценки
     {% endif %}
 </div>
 
@@ -57,7 +57,7 @@
         {% else %}
             {% if scores_expert %}
                 <ul class="list-unstyled">
-                    <b>Экспертная комиссия: </b>
+                    <<b>Экспертная комиссия: </b>
                     {% for score_form in scores_expert %}
                         <li><a href="{% url 'score_expert_form' score_form.pk %}" class="text-info ml-4"> {{score_form.relation_exp_app.application}} </a></li>
                     {% endfor %}
@@ -93,10 +93,11 @@
 </div>
 
 {% if check_score %}
-{% if check_score.check_exp %}
-    Эксперт подтвердил все свои оценки. Экспретиза окончена.
-{% endif %}
-    <a href="{% url 'all_score_for_expert_form' check_score.pk %}" class="btn btn-light">Форма подтверждения оценок</a>
+    {% if check_score.check_exp %}
+        Эксперт подтвердил все свои оценки. Экспретиза окончена.
+    {% endif %}
+
+    <a href="{% url 'all_score_for_expert_form' check_score.pk %}" class="btn btn-secondary mb-2">Форма подтверждения оценок</a>
 {% endif %}
 
 
