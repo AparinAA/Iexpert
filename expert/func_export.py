@@ -84,7 +84,7 @@ def export_personal_info_commission(commission):
             ar.append(exp.phone)
             ar.append(exp.email)
             res.append(ar)
-    df = pd.DataFrame(res, columns=head)
+    df = pd.DataFrame(res, columns=head).sort_values('Эксперт')
     return df
 
 
