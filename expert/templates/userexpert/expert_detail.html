@@ -13,8 +13,8 @@
 
         <b style='font-size:15px'> Контакты: </b>
         <ul><p><i> Почта: </i> {{expert.email}}</p></ul>
-        <ul><p><i> Телефон: </i> {% if expert.phone is None or expert.phone == '-'%} <font color="#B22222">
-            отстутствует </font> {% else %} {{ expert.phone }} {% endif %}</p></ul>
+        <ul><p><i> Телефон: </i> {% if expert.phone is None or expert.phone == '-'%} <span class="text-danger">
+            отстутствует </span> {% else %} {{ expert.phone }} {% endif %}</p></ul>
     </ul>
 </div>
 

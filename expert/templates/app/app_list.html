@@ -13,25 +13,27 @@
             {% if commission.common_commission == False%}
                 <div class="card border-0 flex-fill p-1 ml-3 mr-3">
 
-                    <a href="#collapse_{{ commission.id }}" class="card-header border-0 text-dark d-flex" style="text-decoration: none" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample">{{ commission.name }}<span class="ml-auto remov_{{ commission.id }}"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 12.796L4.519 8 10 3.204v9.592zm-.659.753l-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/></svg></span>
+                    <a href="#collapse_{{ commission.id }}" class="card-header border-0 text-dark d-flex" style="text-decoration: none" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" id="click_download">
+                        {{ commission.name }}<span class="ml-auto remov_{{ commission.id }}"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 12.796L4.519 8 10 3.204v9.592zm-.659.753l-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/></svg></span>
                     </a>
 
                     <div class="collapse collapse_list_{{ commission.id }}" id="collapse_{{ commission.id }}">
-                        <!-- тут работает скрипт и подгружаются заявки -->
+                        <!-- тут работает скрипт -->
                     </div>
                 </div>
 
                 <script>
                     $(document).ready(function($){
-                      $("#collapse_{{ commission.id }}").on("hide.bs.collapse", function(){
-                        $(".remov_{{ commission.id }}").html('<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 12.796L4.519 8 10 3.204v9.592zm-.659.753l-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/></svg>');
-                        $(".collapse_list_{{ commission.id }}").html('');
-                      });
-                      $("#collapse_{{ commission.id }}").on("show.bs.collapse", function(){
-                        $(".remov_{{ commission.id }}").html('<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.204 5L8 10.481 12.796 5H3.204zm-.753.659l4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z"/></svg>');
-                        $(".collapse_list_{{ commission.id }}").html('{% for application in all_application %}{% if application.name.commission == commission %}<a href="{% url "application-detail" application.pk%}" class="list-group-item border-0 list-group-item-action"> {{application.name}} - {{application.vuz.short_name}} </a>{% endif %}{% endfor %}');
-                      });
+                        $("#collapse_{{ commission.id }}").on("hide.bs.collapse", function(){
+                            $(".remov_{{ commission.id }}").html('<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 12.796L4.519 8 10 3.204v9.592zm-.659.753l-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/></svg>');
+                            $(".collapse_list_{{ commission.id }}").html('<!-- тут работает скрипт  -->');
+                        });
+                        $("#collapse_{{ commission.id }}").on("show.bs.collapse", function(){
+                            $(".remov_{{ commission.id }}").html('<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.204 5L8 10.481 12.796 5H3.204zm-.753.659l4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z"/></svg>');
+                            $(".collapse_list_{{ commission.id }}").html('{% for application in all_application %}{% if application.name.commission == commission %}<a href="{% url "application-detail" application.pk%}" class="list-group-item border-0 list-group-item-action"> {{application.name}} - {{application.vuz.short_name}} </a>{% endif %}{% endfor %}');
+                        });
                     });
+
                 </script>
             {% endif %}
         {% endif %}
