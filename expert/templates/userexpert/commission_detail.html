@@ -26,7 +26,7 @@
                 <thead class="bg-light">
                 <tr>
                     <th scope="col" class="text-left text-wrap align-middle">  ФИО </th>
-                    <th scope="col" class="text-center align-middle">  Место работы </th>
+                    <th scope="col" class="text-left align-middle">  Место работы </th>
                     <th scope="col" class="text-center text-wrap w-25align-middle ">  Эксперт подтвердил  оценки всех заявок </th>
                     <th scope="col" class="text-center text-wrap w-25 align-middle">  Количество готовых заявок </th>
                     <th scope="col" class="text-center align-middle">  Всего заявок </th>
@@ -59,16 +59,16 @@
                 <table class="table table-hover table-sm table-responsive-lg">
                     <thead class="bg-light">
                     <tr>
-                        <th scope="col"> ФИО </th>
-                        <th scope="col"> Место работы </th>
+                        <th scope="col" class="text-left text-wrap align-middle">  ФИО </th>
+                        <th scope="col" class="text-left align-middle">  Место работы </th>
                     </tr>
                     </thead>
                     {% for check in experts_null %}
                     {% if not check.expert.master_group %}
                         <tbody>
                         <tr>
-                            <td><a href="{% url 'expert-detail' check.expert.pk%}" class="text-info"> {{check.expert}}</a></td>
-                            <td> {{check.expert.company}}</td>
+                            <td class="text-left text-wrap align-middle"><a href="{% url 'expert-detail' check.expert.pk%}" class="text-info"> {{check.expert}}</a></td>
+                            <td class="text-left text-wrap align-middle"> {{check.expert.company}}</td>
                         </tr>
                         </tbody>
                     {% endif %}
