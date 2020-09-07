@@ -1,19 +1,16 @@
 .iw-modal-btn {
-background:#013C74; /*цвет фона кнопки*/
-color:#fff; /*цвет шрифта*/
-text-align:center;
-display:inline-block;
-padding:10px 20px; /*внутренние отступы*/
-text-decoration:none;
-font-size:17px; /*размер шрифта*/
-margin-top:30px;
-transition: all 0.5s ease;
+	position: absolute;
+	top: 53%;
+	left: 63%;
+	background: #79aec8;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
 }
 .iw-modal-btn:hover {
--webkit-transform: scale(1.1);
--moz-transform: scale(1.1);
--o-transform: scale(1.1);
-background:#439DE0; /*цвет фона при наведении*/
+background:#609ab6; /*цвет фона при наведении*/
 }
 /*CSS-свойства для заднего фона*/
 .iw-modal {

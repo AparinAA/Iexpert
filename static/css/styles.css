@@ -1,3 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+body {
+    font-family: Roboto;
+}
+.hoverDiv {
+    background: #fff;
+    padding: 0.4rem;
+    transition-property: transform;
+    transition-duration: 0.2s;
+    transition-timing-function: linear; 
+}
+.hoverDiv:hover {
+    box-shadow: 0 0 .8rem .4rem rgba(0,0,0,.09) !important;
+    border-radius: .4rem;
+    transform: scale(1.002,1);
+}
+
 .sidebar-nav {
     margin-top: 20px;
     padding: 0;
@@ -34,11 +52,14 @@
     background-color: rgba(53, 160, 187, 0.0);
 
 }
+#menu_fix{
+    position: fixed;
+}
 #menu {
     position: fixed;
-    left: 0;
-    top: 0;
-    width: 200px;
+    left: 0.5%;
+    top: 8%;
+    width: 15%;
     font-size: 95%;
     padding: 5px;
     padding-bottom: 35px;
@@ -47,6 +68,10 @@
 #content {
     margin: 10px 10px 30px 200px; /* Значения отступов */
     padding: 5px; /* Поля вокруг текста */
+    position: absolute;
+    top: 8%;
+    left: 2%;
+    width: 69.5%;
 }
 #menu a {
     display: block; /* Отображать ссылку как блок */
