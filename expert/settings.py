@@ -30,7 +30,7 @@ except (IOError, TypeError):
     url = False
 
 
-DEBUG = True #TODO
+DEBUG = False #TODO
 ALLOWED_HOSTS = ['127.0.0.1', 'expert-olymp.ru', 'www.expert-olymp.ru']
 
 # Application definition
