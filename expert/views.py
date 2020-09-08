@@ -14,7 +14,6 @@ def index(request):
     num_expert = Expert.objects.all().filter(is_admin=False).count()
     num_visits = request.session.get('num_visits', 0)
     request.session['num_visits'] = num_visits + 1
-
     if request.user.is_authenticated:  # Если человек авторизован
         if request.user.is_master_group:  # Отправляем на страницу ответственного секретаря
             expert = Expert.objects.all().filter(id=request.user.pk)[0]
@@ -137,8 +136,8 @@ def index(request):
                     sc = ScoreCommon.objects.all().filter(relation_exp_app__in=all_rel)
                 else:
                     sc = ScoreExpert.objects.all().filter(relation_exp_app__in=all_rel)
-                score = sc.filter(check=False)
-                check = sc.filter(check=True)
+                score = sc.filter(check=False).order_by('relation_exp_app__application__name__name', 'relation_exp_app__application__vuz__short_name',)
+                check = sc.filter(check=True).order_by('relation_exp_app__application__name__name', 'relation_exp_app__application__vuz__short_name',)
                 dict_score[com] = score
                 dict_check[com] = check
 
