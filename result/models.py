@@ -47,14 +47,16 @@ class CheckExpertScore(models.Model):
     @property
     def get_all_score(self):
         rel_exp_app = RelationExpertApplication.objects.all().filter(expert=self.expert).filter(is_active=True)
-        exp_scores = ScoreExpert.objects.filter(relation_exp_app__in=rel_exp_app)
+        exp_scores = ScoreExpert.objects.filter(relation_exp_app__in=rel_exp_app).order_by('relation_exp_app__application__name__name',
+                                                                                           'relation_exp_app__application__vuz__short_name')
         self.save()
         return exp_scores
 
     @property
     def get_all_score_common(self):
         rel_exp_app = RelationExpertApplication.objects.all().filter(expert=self.expert).filter(is_active=True)
-        exp_scores = ScoreCommon.objects.filter(relation_exp_app__in=rel_exp_app)
+        exp_scores = ScoreCommon.objects.filter(relation_exp_app__in=rel_exp_app).order_by('relation_exp_app__application__name__name',
+                                                                                           'relation_exp_app__application__vuz__short_name')
         self.save()
         return exp_scores
 
