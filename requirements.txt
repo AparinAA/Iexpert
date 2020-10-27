@@ -1,6 +1,6 @@
 asgiref==3.2.7
 cffi==1.14.0
-cryptography==2.9.2
+cryptography==3.2
 defusedxml==0.6.0
 deliver==1.0.0
 diff-match-patch==20181111
